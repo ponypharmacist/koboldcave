@@ -1,0 +1,22 @@
+$color-pack: false
+@import '~vuetify/src/styles/main.sass'
+
+@import "settings/settings"
+@import "settings/fonts"
+@import "settings/variables"
+@import "settings/mixins"
+@import "settings/base"
+
+.v-application
+  font-family: 'Inconsolata', 'Lucida Console', Monaco, sans-serif!important
+  font-weight: 400!important
+
+.v-application .primary--text
+  color: $text-color !important
+  caret-color: $text-color !important
+
+.v-application .theme--light.v-btn.v-btn--disabled
+  color: #666 !important
+
+  .v-icon
+    color: #666 !important

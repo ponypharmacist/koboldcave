@@ -1,0 +1,18 @@
+//RESPONSIVE
+$mobile: 375px
+$tablet: 800px
+$desktop: 1200px
+$desktop-medium: 1440px
+
+/*************** RESPONSIVE **********************/
+=desktop-medium
+  @media screen and (max-width: $desktop-medium)
+    @content
+
+=tablet
+  @media screen and (max-width: $desktop)
+    @content
+
+=mobile
+  @media screen and (max-width: $tablet)
+    @content
