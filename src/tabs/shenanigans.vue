@@ -1,6 +1,7 @@
 <template lang="pug">
 
 .shenanigans
+  // My comment
   // Actions
   actions
 
