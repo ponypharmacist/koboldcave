@@ -1,12 +1,6 @@
 <template lang="pug">
 
 .shenanigans
-  v-btn.upgrade-button(
-    color="#ECEFF1"
-    outlined
-    small
-  ) So: {{ resources.shrooms.count }}
-  
   // Actions
   actions
 
