@@ -8,7 +8,7 @@ export default {
         count: 0,
         countRound: 0,
         rate: 0,
-        cap: 100
+        cap: 1000
       },
       batshit: {
         title: 'Bat Shit',
@@ -16,7 +16,7 @@ export default {
         count: 0,
         countRound: 0,
         rate: 0,
-        cap: 100
+        cap: 1000
       },
       insight: {
         title: 'Insight',
@@ -36,6 +36,11 @@ export default {
   },
 
   mutations: {
+    remember_resources(state, payload) {
+      state.resources = payload
+      console.log(state.resources.shrooms.count)
+    },
+
     addResource(state, payload) {
       let resource = state.resources[payload.resource]
 

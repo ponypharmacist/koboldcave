@@ -58,6 +58,10 @@ export default {
       }
     },
 
+    loadSave({ state, commit }, saveData) {
+      commit('remember_resources', saveData.resources)
+    },
+
     round({ state }, value) {
       return Number(Math.round(value + 'e4') + 'e-4')
     }

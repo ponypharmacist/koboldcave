@@ -4,9 +4,7 @@
   p
     span.font-bold To Do
     br
-    | - Autosave, load object on start, then run loop
-    br
-    | - Unlocks: Contemplate -> insight -> unlock shoveling batshit
+    | - Autosave
     br
     | - tooltip for upgrades, what unlocks (+ multiple unlocks)
     br

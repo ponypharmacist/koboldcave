@@ -20,7 +20,7 @@
         .resource-title {{ res.title }}
         .resource-amount
           span.amount-current {{ res.count }} 
-          span.amount-current / {{ res.countRound }} 
+          // span.amount-current / {{ res.countRound }} 
           span.amount-max /{{ res.cap }}
 
     div
