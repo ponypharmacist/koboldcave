@@ -3,7 +3,7 @@
 .producers
   .section-title Producers and consumers
 
-  .producer(v-for="(producer, key) in producersList" :key="'producer_' + key")
+  .producer(v-for="(producer, key) in producers" :key="'producer_' + key")
     v-tooltip(content-class="button-tooltip" right)
       template(#activator="tooltip")
         .producer-title(v-on="tooltip.on") Shroom plot ({{ producer.number }})
@@ -44,7 +44,7 @@ export default Vue.component('producers', {
   name: 'producers',
 
   computed: {
-    ...mapGetters(['producersList'])
+    ...mapGetters(['producers'])
   },
 
   methods: {

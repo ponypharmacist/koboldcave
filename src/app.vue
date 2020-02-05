@@ -1,8 +1,11 @@
 <template lang="pug">
 
 v-app
-  .app-content
+  .loader(v-if="isLoading" @click="isLoading = !isLoading") Is loading...
+
+  .app-content(v-if="!isLoading")
     .caveorama  Cave-o-Rama
+      v-btn.ml-2(@click="saveGame" x-small) Save Game
 
     .interface
       resources
@@ -19,8 +22,8 @@ v-app
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-//import { readLocalStorage } from './plugins/helpers'
+import { mapGetters, mapActions } from 'vuex'
+import { readLocalStorage, updateLocalStorage } from './plugins/helpers'
 import MainLoop from './plugins/mainloop'
 //import sidebarComponent from './sidebar'
 
@@ -29,15 +32,27 @@ export default {
     //sidebarComponent
   },
 
-  mounted() {
-    // Read local storage
-    // readLocalStorage('coboldCave')
-    // https://github.com/ponypharmacist/dnd-charsheet-vue/blob/master/src/components/tavern.vue
-
-    // Set default tab as active
-    if (this.$route.name != 'shenanigans') {
-      this.$router.replace({ name: 'shenanigans' })
+  data: () => {
+    return {
+      isLoading: true
     }
+  },
+
+  mounted() {
+    // Set first tab as active
+    if (this.$route.name != 'shenanigans') this.$router.replace({ name: 'shenanigans' })
+
+    // Read local storage
+    let saveData = readLocalStorage('koboldCave')
+
+    // Load existing save
+    if (saveData) {
+      this.loadSave(saveData)
+      console.log(saveData.resources)
+    }
+
+    // Hide loader
+    this.isLoading = false
 
     // Start the main loop.
     MainLoop.setUpdate(this.updateStuff)
@@ -46,14 +61,26 @@ export default {
       .start()
   },
 
+  computed: {
+    ...mapGetters(['resources'])
+  },
+
   methods: {
-    ...mapActions(['updateStuff']),
+    ...mapActions(['updateStuff', 'loadSave']),
 
     endLoop(fps, panic) {
       if (panic) {
         let discardedTime = Math.round(MainLoop.resetFrameDelta())
         console.warn('Main loop panicked, probably because the browser tab was put in the background. Discarding ' + discardedTime + 'ms')
       }
+    },
+
+    saveGame() {
+      let saveData = {
+        resources: this.resources
+      }
+      updateLocalStorage(saveData, 'koboldCave')
+      console.log(saveData)
     }
   }
 }
@@ -62,6 +89,10 @@ export default {
 <style lang="sass">
 $border-color: #455A64
 $cave-height: 200px
+
+.loader
+  text-align: center
+  margin: auto
 
 .theme--light.v-application
   background-color: $background-color !important
