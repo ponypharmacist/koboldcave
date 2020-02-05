@@ -47,6 +47,10 @@ export default {
   },
 
   mutations: {
+    remember_upgrades(state, payload) {
+      state.upgrades = payload
+    },
+
     upgradeAvailable(state, payload) {
       state.upgrades[payload].available = true
     },

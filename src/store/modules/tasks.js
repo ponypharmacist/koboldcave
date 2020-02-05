@@ -33,6 +33,10 @@ export default {
       state.activeTask = state.activeTask == payload ? null : payload
     },
 
+    remember_tasks(state, payload) {
+      state.tasks = payload
+    },
+
     modify_tasks(state, item) {
       // item = {
       //  link: String,

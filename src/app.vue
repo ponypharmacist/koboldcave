@@ -60,7 +60,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['resources', 'plotPoint'])
+    ...mapGetters(['plotPoint', 'resources', 'tasks', 'activeTask', 'upgrades'])
   },
 
   methods: {
@@ -77,7 +77,10 @@ export default {
 
     saveGame() {
       let saveData = {
-        resources: this.resources
+        resources: this.resources,
+        tasks: this.tasks,
+        activeTask: this.activeTask,
+        upgrades: this.upgrades
       }
       updateLocalStorage(saveData, 'koboldCave')
     },
