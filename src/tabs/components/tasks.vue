@@ -1,8 +1,6 @@
 <template lang="pug">
 
 .tasks
-  .section-title Tasks
-
   v-tooltip(
     v-for="(task, key) in tasks"
     :key="'task_' + key"

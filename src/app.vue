@@ -4,34 +4,28 @@ v-app
   .loader(v-if="isLoading" @click="isLoading = !isLoading") Is loading...
 
   .app-content(v-if="!isLoading")
-    .caveorama  Cave-o-Rama
-      v-btn.ml-2(@click="saveGame" x-small) Save Game
+    caveorama
 
-    .interface
+    .interface(v-show="plotPoint >= 2")
       resources
 
       .main
         navigation
-        //keep-alive ? should i use ?
+
         router-view
 
       logs
 
-  // sidebar-component
+  plot-modals
 
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { readLocalStorage, updateLocalStorage } from './plugins/helpers'
+import { readLocalStorage, updateLocalStorage, clearLocalStorage } from './plugins/helpers'
 import MainLoop from './plugins/mainloop'
-//import sidebarComponent from './sidebar'
 
 export default {
-  components: {
-    //sidebarComponent
-  },
-
   data: () => {
     return {
       isLoading: true
@@ -39,22 +33,26 @@ export default {
   },
 
   mounted() {
-    // Set first tab as active
-    if (this.$route.name != 'shenanigans') this.$router.replace({ name: 'shenanigans' })
+    // Uncomment this if you need to reset save
+    clearLocalStorage('koboldCave')
 
-    // Read local storage
+    // On Launch
+    // 1. Read local storage
     let saveData = readLocalStorage('koboldCave')
 
-    // Load existing save
-    if (saveData) {
-      this.loadSave(saveData)
-      console.log(saveData.resources)
-    }
+    // 2. If save exists, load saveData
+    if (saveData) this.loadSave(saveData)
 
-    // Hide loader
+    // 3. Or start a new cave
+    if (!saveData) this.newGame()
+
+    // 4. Set first tab as active
+    if (this.$route.name != 'shenanigans') this.$router.replace({ name: 'shenanigans' })
+
+    // 5. Hide the loader
     this.isLoading = false
 
-    // Start the main loop.
+    // Finally. Start the main loop
     MainLoop.setUpdate(this.updateStuff)
       .setSimulationTimestep(500)
       .setEnd(this.endLoop)
@@ -62,16 +60,18 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['resources'])
+    ...mapGetters(['resources', 'plotPoint'])
   },
 
   methods: {
-    ...mapActions(['updateStuff', 'loadSave']),
+    ...mapActions(['updateStuff', 'loadSave', 'advancePlot']),
 
     endLoop(fps, panic) {
       if (panic) {
         let discardedTime = Math.round(MainLoop.resetFrameDelta())
-        console.warn('Main loop panicked, probably because the browser tab was put in the background. Discarding ' + discardedTime + 'ms')
+        console.warn(
+          'Main loop panicked, probably because the browser tab was put in the background. Discarding ' + discardedTime / 60000 + ' minutes'
+        )
       }
     },
 
@@ -80,7 +80,11 @@ export default {
         resources: this.resources
       }
       updateLocalStorage(saveData, 'koboldCave')
-      console.log(saveData)
+    },
+
+    newGame() {
+      console.log('New game started!')
+      this.advancePlot()
     }
   }
 }
@@ -88,27 +92,15 @@ export default {
 
 <style lang="sass">
 $border-color: #455A64
-$cave-height: 200px
+$cave-height: 240px
 
 .loader
   text-align: center
   margin: auto
 
-.theme--light.v-application
-  background-color: $background-color !important
-  color: $text-color !important
-
 .app-content
   margin: 1rem auto
   font-size: 14px
-  border: 1px solid $border-color
-
-.caveorama
-  width: 100%
-  height: $cave-height
-  line-height: $cave-height
-  text-align: center
-  border-bottom: 1px solid $border-color
 
 .interface
   display: flex
@@ -117,6 +109,4 @@ $cave-height: 200px
 
 .main
   width: 800px
-  border-left: 1px solid $border-color
-  border-right: 1px solid $border-color
 </style>

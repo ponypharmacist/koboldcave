@@ -1,8 +1,6 @@
 <template lang="pug">
 
 .actions
-  .section-title Actions
-
   v-tooltip(
     v-for="(action, key) in actions"
     :key="'action_' + key"

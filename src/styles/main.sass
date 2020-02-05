@@ -2,10 +2,33 @@ $color-pack: false
 @import '~vuetify/src/styles/main.sass'
 
 @import "settings/settings"
-@import "settings/fonts"
 @import "settings/variables"
 @import "settings/mixins"
-@import "settings/base"
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap')
+
+.font-bold
+  font-weight: 700
+
+
+.block
+  background-color: rgba(34, 177, 152, 0.05)
+  padding: 2rem 3rem
+
+/* Don't highlight anything on click-and-drag. */
+:not(input):not(textarea)
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+// Restyling vuetify components
+.theme--light.v-application
+  background-color: $background-color !important
+  color: $text-color !important
 
 .v-application
   font-family: 'Inconsolata', 'Lucida Console', Monaco, sans-serif!important
@@ -20,3 +43,10 @@ $color-pack: false
 
   .v-icon
     color: #666 !important
+
+.v-card__text
+  padding-top: 16px
+
+.v-card__actions
+  justify-content: center
+  padding: 0 8px 12px !important

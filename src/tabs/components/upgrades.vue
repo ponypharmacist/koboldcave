@@ -1,8 +1,6 @@
 <template lang="pug">
 
 .upgrades
-  .section-title Upgrades
-
   v-tooltip(
     v-for="(upgrade, key) in upgrades"
     :key="'upgrade_' + key"

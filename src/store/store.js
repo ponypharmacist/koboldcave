@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import global from './modules/global'
+import plot from './modules/plot'
 
 import resources from './modules/resources'
 import producers from './modules/producers'
@@ -14,6 +15,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     global,
+    plot,
+
     resources,
     producers,
     actions,

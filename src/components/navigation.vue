@@ -1,36 +1,37 @@
 <template lang="pug">
 
-v-tabs.navigation-tabs(
-  v-model="tab"
-  height="32px"
-  background-color="rgba(255,255,255,0)"
-  color="#FFF8E1"
-  slider-size="1"
-  centered
-)
-  //v-tabs-slider
-
-  v-tab(
+.navigation-tabs
+  .tab(
     v-for="(item, key) in tabs"
-    :to="{ name: item.name }"
     :key="'tab_' + item.name"
-    :ripple="false"
-    replace
+    @click="switchTab(item.name)"
+    :class="{ current: tab === item.name }"
   ) {{ item.title }}
 
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default Vue.component('navigation', {
   name: 'navigation',
 
   data() {
     return {
-      tab: 'shenanigans',
-      tabs: [
-        { name: 'shenanigans', title: 'Shenanigans' },
-        { name: 'shelter', title: 'Shelter' }
-      ]
+      tab: 'shenanigans'
+    }
+  },
+
+  computed: {
+    ...mapGetters(['tabs'])
+  },
+
+  methods: {
+    switchTab(name) {
+      if (this.tab !== name) {
+        this.tab = name
+        this.$router.push({ name: name })
+      }
     }
   }
 })
@@ -38,15 +39,25 @@ export default Vue.component('navigation', {
 
 <style lang="sass">
 .navigation-tabs
+  display: flex
+  justify-content: center
+  align-items: center
   margin: 0 0
+  color: #FFF8E1
+  text-align: center
 
-  .v-tab
-    padding: 0
-    margin: 0 8px
-    min-width: auto
+  .tab
+    display: inline-block
+    font-size: 16px
+    padding: 6px 8px
+    border-radius: 5px
+    cursor: pointer
+    transition: $transition-all
 
-.theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active),
-.theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-icon,
-.theme--light.v-tabs > .v-tabs-bar .v-tab--disabled
-  color: $text-color !important
+    &:hover
+      background-color: rgb(255, 224, 130, 0.1)
+
+    &.current
+      font-weight: bold
+      color: rgb(255, 224, 130)
 </style>
