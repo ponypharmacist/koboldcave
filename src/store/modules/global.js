@@ -59,7 +59,10 @@ export default {
     },
 
     loadSave({ state, commit }, saveData) {
-      commit('remember_resources', saveData.resources)
+      commit('remember_resources', saveData.resources),
+        commit('remember_tasks', saveData.tasks),
+        commit('toggleTask', saveData.activeTask),
+        commit('remember_upgrades', saveData.upgrades)
     },
 
     round({ state }, value) {

@@ -6,6 +6,7 @@ v-app
   .app-content(v-if="!isLoading")
     .caveorama  Cave-o-Rama
       v-btn.ml-2(@click="saveGame" x-small) Save Game
+      v-btn.ml-2(@click="newGame" x-small) Clear Data
 
     .interface
       resources
@@ -23,7 +24,7 @@ v-app
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { readLocalStorage, updateLocalStorage } from './plugins/helpers'
+import { readLocalStorage, updateLocalStorage, clearLocalStorage } from './plugins/helpers'
 import MainLoop from './plugins/mainloop'
 //import sidebarComponent from './sidebar'
 
@@ -48,7 +49,7 @@ export default {
     // Load existing save
     if (saveData) {
       this.loadSave(saveData)
-      console.log(saveData.resources)
+      console.log(saveData)
     }
 
     // Hide loader
@@ -62,7 +63,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['resources'])
+    ...mapGetters(['resources', 'tasks', 'activeTask', 'upgrades'])
   },
 
   methods: {
@@ -77,10 +78,17 @@ export default {
 
     saveGame() {
       let saveData = {
-        resources: this.resources
+        resources: this.resources,
+        tasks: this.tasks,
+        activeTask: this.activeTask,
+        upgrades: this.upgrades
       }
       updateLocalStorage(saveData, 'koboldCave')
       console.log(saveData)
+    },
+    newGame() {
+      clearLocalStorage('koboldCave')
+      document.location.reload(true)
     }
   }
 }
