@@ -19,7 +19,9 @@ export default {
             amount: 4
           }
         ],
-        tooltipText: '4 times more effective.'
+        tooltipText: '4 times more effective.',
+        availableMessage: 'You come up with a better design for your shovel.',
+        unlockedMessage: 'Now your can shovel more effectively.'
       },
       shroomPlots: {
         title: 'Shroom Plots',
@@ -35,7 +37,9 @@ export default {
             type: 'unlock'
           }
         ],
-        tooltipText: 'A way to fertilize cave walls with moisture and guano.'
+        tooltipText: 'A way to fertilize cave walls with moisture and guano.',
+        availableMessage: 'Maybe shrooms will grow better that way...',
+        unlockedMessage: 'Upgrade unlocked'
       }
     }
   },
@@ -67,8 +71,14 @@ export default {
 
         if (!up.available && rootGetters.resources[up.trigger.resource].countRound >= up.trigger.amount) {
           commit('upgradeAvailable', upgrade)
+          commit('pushLog', up.availableMessage)
         }
       }
+    },
+
+    unlock_upgrades({ state, commit }, link) {
+      commit('unlock_upgrades', link)
+      commit('pushLog', state.upgrades[link].unlockedMessage)
     },
 
     runUpgrade({ state, commit, dispatch, rootGetters }, targets) {
@@ -83,7 +93,7 @@ export default {
             //   type: 'unlock'
             // }
             commit('unlock_' + target.category, target.link)
-            commit('unlock_upgrades', target.upgrade)
+            dispatch('unlock_upgrades', target.upgrade)
             break
           case 'modifier':
             // target: {
@@ -105,7 +115,7 @@ export default {
                 })
               }
             }
-            commit('unlock_upgrades', target.upgrade)
+            dispatch('unlock_upgrades', target.upgrade)
             break
           default:
             console.log('No applicable upgrade target in runUpgrade()')
