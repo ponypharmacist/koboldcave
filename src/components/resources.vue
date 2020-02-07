@@ -52,7 +52,7 @@ export default Vue.component('resources', {
 <style lang="sass">
 .resources
   min-width: 200px
-  padding: 4px 8px
+  padding: 45px 8px 4px
 
 .resource
   display: flex

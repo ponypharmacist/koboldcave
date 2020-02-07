@@ -13,6 +13,11 @@ let routes = [
         name: 'shenanigans'
       },
       {
+        path: 'self',
+        component: require('~/tabs/self').default,
+        name: 'self'
+      },
+      {
         path: 'shelter',
         component: require('~/tabs/shelter').default,
         name: 'shelter'
