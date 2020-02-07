@@ -21,10 +21,6 @@
       .message ToDo: tooltip for upgrades, what unlocks (+ multiple unlocks)
       .message ToDo: типы эффектов сделать лучше, сейчас это только ресурсы
 
-  //p Ideas
-    | - Resources: shards, sharp stones, shinies, insight
-    | - Tabs: venture, shelter, brews?, Scholars, shamans
-
 </template>
 
 <script>

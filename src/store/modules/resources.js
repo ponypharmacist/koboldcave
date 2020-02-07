@@ -2,6 +2,12 @@
 export default {
   state: {
     resources: {
+      // ToDo
+      // shekels
+      // shards,
+      // sharp stones,
+      // shinies
+
       shrooms: {
         title: 'Shrooms',
         unlocked: true,

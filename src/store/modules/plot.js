@@ -5,9 +5,11 @@ export default {
     disableControls: false,
 
     tabs: [
-      { name: 'shenanigans', title: 'Shenanigans' },
-      { name: 'self', title: 'Self' },
-      { name: 'shelter', title: 'Shelter' }
+      { name: 'shenanigans', title: 'Shenanigans', unlockPoint: 0 },
+      { name: 'self', title: 'Self', unlockPoint: 3 },
+      { name: 'shelter', title: 'Shelter', unlockPoint: 0 }
+      // ToDo
+      // Tabs: venture, scholars, shamans
     ]
   },
 

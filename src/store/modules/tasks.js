@@ -120,6 +120,8 @@ export default {
         newProgress = 0
         // apply final task effect
         dispatch('applyEffects', { category: 'tasks', link: link })
+        // Check if it unlocks resources
+        dispatch('checkEventUnlocksResource', { category: 'tasks', link: link })
         // push log if needed
         // TODO
       }

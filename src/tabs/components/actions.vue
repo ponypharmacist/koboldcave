@@ -2,8 +2,8 @@
 
 .actions
   v-tooltip(
-    v-for="(action, key) in actions"
-    :key="'action_' + key"
+    v-for="action in actionsActive"
+    :key="`action-${action.link}`"
     content-class="button-tooltip"
     right
   )
@@ -35,21 +35,22 @@ export default Vue.component('actions', {
   name: 'actions',
 
   computed: {
-    ...mapGetters(['resources', 'actions'])
+    ...mapGetters(['resources', 'actions', 'actionsActive'])
   },
 
   methods: {
     ...mapActions(['runAction']),
 
     actionCheckDisabled(link) {
-      if (this.actions[link].cost) {
-        for (let i = 0; i < this.actions[link].cost.length; i++) {
-          let price = this.actions[link].cost[i]
-          if (this.resources[price.resource].countRound < price.amount) {
-            return true
-          }
+      console.log('Actions rerender!')
+      const action = this.actions[link]
+      if (action.cost) {
+        for (let i = 0; i < action.cost.length; i++) {
+          let price = action.cost[i]
+          if (this.resources[price.resource].countRound < price.amount) return true
         }
       }
+
       return false
     }
   }

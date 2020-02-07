@@ -6,7 +6,7 @@ v-app
   .app-content(v-if="!isLoading")
     caveorama
 
-    .interface(v-show="plotPoint >= 2")
+    .interface(v-show="plotPoint >= 3")
       resources
 
       .main
