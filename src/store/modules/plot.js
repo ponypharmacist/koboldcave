@@ -6,6 +6,7 @@ export default {
 
     tabs: [
       { name: 'shenanigans', title: 'Shenanigans' },
+      { name: 'self', title: 'Self' },
       { name: 'shelter', title: 'Shelter' }
     ]
   },
@@ -39,7 +40,7 @@ export default {
   },
 
   actions: {
-    advancePlot({ state, commit }, link) {
+    advancePlot({ commit }) {
       commit('disableControls')
       commit('incrementPlotPoint')
     }

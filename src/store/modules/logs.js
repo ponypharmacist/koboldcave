@@ -14,12 +14,5 @@ export default {
     pushLog(state, text) {
       state.logs.unshift({ text: text })
     }
-  },
-
-  actions: {
-    advancePlot({ state, commit }, link) {
-      commit('disableControls')
-      commit('incrementPlotPoint')
-    }
   }
 }

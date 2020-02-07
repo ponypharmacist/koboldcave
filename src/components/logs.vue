@@ -3,9 +3,23 @@
 .logs
   .istone
     .scrollbox
+      v-progress-linear.current-progress(
+        v-if="activeTaskTitle"
+        :indeterminate="activeTaskType === 'indefinite'"
+        color="rgba(255, 213, 79, 0.25)"
+        background-opacity="0.4"
+        height="20"
+        :value="activeTaskType === 'timed' ? activeTaskProgress : null"
+        reactive
+      )
+        .current-progress-title
+          span {{ activeTaskTitle }}
+          span.percent(v-if="activeTaskType === 'timed'") {{ activeTaskProgress ? activeTaskProgress + '%' : '0%' }}
+
       .message(v-for="(message, key) in logs" :key="'message_' + key") {{ message.text }}
       .message ToDo: Autosave
       .message ToDo: tooltip for upgrades, what unlocks (+ multiple unlocks)
+      .message ToDo: типы эффектов сделать лучше, сейчас это только ресурсы
 
   //p Ideas
     | - Resources: shards, sharp stones, shinies, insight
@@ -20,7 +34,7 @@ export default Vue.component('logs', {
   name: 'logs',
 
   computed: {
-    ...mapGetters(['logs'])
+    ...mapGetters(['logs', 'activeTaskTitle', 'activeTaskType', 'activeTaskProgress'])
   }
 })
 </script>
@@ -35,7 +49,7 @@ export default Vue.component('logs', {
   .istone
     position: absolute
     width: 291px
-    height: 578px
+    height: 538px
     padding: 56px 36px 72px 12px
     background: transparent url('~@/assets/istone.png') no-repeat 0 0 / 100% 100%
 
@@ -51,6 +65,23 @@ export default Vue.component('logs', {
 
       &::-webkit-scrollbar
         display: none
+
+      .current-progress
+        width: 100%
+        margin-bottom: 6px
+        border-radius: 0 0 10px 10px
+
+        .v-progress-linear__background,
+        .v-progress-linear__determinate
+          transition: all 0.5s linear !important
+
+        .current-progress-title
+          color: #f1f1f1
+
+          .percent
+            display: inline-block
+            width: 30px
+            padding-left: 5px
 
       .message
         position: relative

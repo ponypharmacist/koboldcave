@@ -1,17 +1,17 @@
 <template lang="pug">
 
-.shelter
-  p Shelter
+.self
+  p Self
 
 </template>
 
 <script>
 export default {
-  name: 'shelter'
+  name: 'self'
 }
 </script>
 
 <style lang="sass">
-.shelter
+.self
   padding: 8px 6px
 </style>

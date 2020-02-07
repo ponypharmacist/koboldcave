@@ -6,8 +6,8 @@ export default {
         title: 'Scavenge for Shrooms',
         link: 'scavengeShrooms',
         effect: [
-          { resource: 'shrooms', amount: 1 },
-          { resource: 'batshit', amount: 1 }
+          { resource: 'shrooms', amount: 100 },
+          { resource: 'batshit', amount: 100 }
         ],
         tooltipText: 'Gather juicy bulbs and budges.',
         tooltipFlavor: "'Juicy! Jummy!'"

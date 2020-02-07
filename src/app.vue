@@ -86,7 +86,6 @@ export default {
     },
 
     newGame() {
-      console.log('New game started!')
       this.advancePlot()
     }
   }
