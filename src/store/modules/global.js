@@ -21,8 +21,34 @@ export default {
       // Commit active task
       if (rootGetters.activeTask) dispatch('runActiveTask', rootGetters.activeTask)
 
-      // Check upgrade availability
-      dispatch('checkAvailableUpgrades')
+      // Check for unlocks
+      dispatch('checkForUnlocks')
+    },
+
+    checkForUnlocks({ state, commit, dispatch, rootGetters }) {
+      const categories = ['tasks', 'upgrades']
+
+      for (let category of categories) {
+        for (let item in rootGetters[category]) {
+          // Resource type trigger
+          if (
+            !rootGetters[category][item].unlocked &&
+            rootGetters[category][item].trigger &&
+            rootGetters[category][item].trigger.resource
+          ) {
+            let resource = rootGetters[category][item].trigger.resource
+            let amount = rootGetters[category][item].trigger.amount
+
+            if (rootGetters.resources[resource].countRound >= amount) {
+              commit('unlock_' + category, item)
+              // ToDo: make these logs more specific
+              dispatch('pushLogs', { category: category, link: item, type: 'unlock' })
+            }
+          }
+
+          // ToDo: Link type trigger
+        }
+      }
     },
 
     checkEventUnlocksResource({ state, commit, rootGetters }, event) {

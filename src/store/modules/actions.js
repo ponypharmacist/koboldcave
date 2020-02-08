@@ -6,7 +6,7 @@ export default {
         title: 'Make a Camp',
         link: 'makeCamp',
         type: 'plot',
-        locked: false,
+        unlocked: true,
         tooltipText: 'Clear a camping spot from stones and dust.'
       },
 
@@ -14,11 +14,8 @@ export default {
         title: 'Scavenge for Shrooms',
         link: 'scavengeShrooms',
         type: 'resource',
-        locked: false,
-        effect: [
-          { resource: 'shrooms', amount: 100 },
-          { resource: 'batshit', amount: 100 }
-        ],
+        unlocked: false,
+        effect: [{ resource: 'shrooms', amount: 10 }],
         tooltipText: 'Gather juicy bulbs and budges.',
         tooltipFlavor: "'Juicy! Jummy!'"
       },
@@ -27,7 +24,7 @@ export default {
         title: 'Seek Sticks',
         link: 'seekSticks',
         type: 'resource',
-        locked: false,
+        unlocked: false,
         effect: [{ resource: 'shrooms', amount: 1 }],
         cost: [{ resource: 'batshit', amount: 1 }],
         tooltipText: 'Prepare strong sticks.'
@@ -37,7 +34,7 @@ export default {
         title: 'Contemplate Cave Life',
         link: 'contemplate',
         type: 'resource',
-        locked: false,
+        unlocked: false,
         effect: [{ resource: 'insight', amount: 1 }],
         tooltipText: 'Stare into darkness, thinking about better living and quality-of-life improvements.'
       }
@@ -49,11 +46,11 @@ export default {
       return state.actions
     },
 
-    actionsActive(state) {
+    actionsUnlocked(state) {
       let arr = []
 
       for (let action in state.actions) {
-        if (!state.actions[action].locked) {
+        if (state.actions[action].unlocked) {
           arr.push(state.actions[action])
         }
       }
@@ -63,8 +60,12 @@ export default {
   },
 
   mutations: {
-    lockAction(state, link) {
-      state.actions[link].locked = true
+    lock_actions(state, link) {
+      state.actions[link].unlocked = false
+    },
+
+    unlock_actions(state, link) {
+      state.actions[link].unlocked = true
     }
   },
 
@@ -74,7 +75,8 @@ export default {
 
       if (action.type === 'plot') {
         dispatch('advancePlot')
-        commit('lockAction', link)
+        commit('lock_actions', link)
+        dispatch('actionUnlocks', link)
         return
       }
 
@@ -84,8 +86,23 @@ export default {
         // Check if it unlocks resources
         dispatch('checkEventUnlocksResource', { category: 'actions', link: link })
       }
+
       // Deduce action costs
       if (action.cost) dispatch('applyCosts', { category: 'actions', link: link })
+    },
+
+    actionUnlocks({ state, commit }, link) {
+      switch (link) {
+        // First actions unlocks
+        case 'makeCamp':
+          commit('unlock_actions', 'scavengeShrooms')
+          break
+        case 'two':
+          console.log('two')
+          break
+        default:
+          break
+      }
     }
   }
 }

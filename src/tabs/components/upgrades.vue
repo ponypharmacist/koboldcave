@@ -1,18 +1,17 @@
 <template lang="pug">
 
-.upgrades
+.upgrades(:class="{ 'justify-center': upgradesUnlocked.length <=3 }")
   v-tooltip(
-    v-for="(upgrade, key) in upgrades"
-    :key="'upgrade_' + key"
+    v-for="upgrade in upgradesUnlocked"
+    :key="`upgrade-${upgrade.link}`"
     content-class="button-tooltip"
     right
   )
     template(#activator="tooltip")
       span(v-on="tooltip.on")
         v-btn.upgrade-button(
-          v-show="upgrade.available && !upgrade.unlocked"
           @click="runUpgrade(upgrade.targets)"
-          :disabled="upgradeCheckDisabled(key)"
+          :disabled="upgradeCheckDisabled(upgrade.link)"
           color="#ECEFF1"
           retain-focus-on-click
           outlined
@@ -36,7 +35,7 @@ export default Vue.component('upgrades', {
   name: 'upgrades',
 
   computed: {
-    ...mapGetters(['resources', 'upgrades'])
+    ...mapGetters(['resources', 'upgrades', 'upgradesUnlocked'])
   },
 
   methods: {
@@ -57,4 +56,10 @@ export default Vue.component('upgrades', {
 })
 </script>
 
-<style lang="sass"></style>
+<style lang="sass">
+.upgrades
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  margin-bottom: 6px
+</style>

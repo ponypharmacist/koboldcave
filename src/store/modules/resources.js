@@ -10,7 +10,7 @@ export default {
 
       shrooms: {
         title: 'Shrooms',
-        unlocked: true,
+        unlocked: false,
         count: 0,
         countRound: 0,
         rate: 0,
@@ -18,7 +18,7 @@ export default {
       },
       batshit: {
         title: 'Bat Shit',
-        unlocked: true,
+        unlocked: false,
         count: 0,
         countRound: 0,
         rate: 0,

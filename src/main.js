@@ -12,4 +12,4 @@ new Vue({
   router,
   vuetify,
   store
-}).$mount('#app')
+}).$mount('#cave')

@@ -26,7 +26,7 @@
     .text-center
       v-card
         v-card-text
-          | Perhaps a wanderer, a lost soul? 
+          | Perhaps, a wanderer, a lost soul? 
           br
           | Of course only you would know better. 
           br
@@ -40,6 +40,23 @@
             :disabled="disableControls"
             @click="advancePlot"
           ) Right!
+
+  // 4. iStone
+  v-dialog(
+    :value="plotPoint === 4"
+    width="400"
+    dark persistent
+  )
+    .text-center
+      v-card
+        v-card-text
+          | While setting up camp you find a fancy shiny stone. It talks to you in symbols that you understand.
+        v-card-actions
+          v-btn(
+            depressed small
+            :disabled="disableControls"
+            @click="advancePlot"
+          ) Shiny!
 
 </template>
 

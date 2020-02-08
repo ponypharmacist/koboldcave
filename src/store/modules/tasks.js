@@ -3,29 +3,46 @@ export default {
   state: {
     activeTask: null,
     tasks: {
-      doNothing: {
-        title: 'Do Nothing',
+      chill: {
+        title: 'Snooze',
         link: null,
         type: 'indefinite',
-        tooltipText: 'Just chill.'
+        unlocked: true,
+        tooltipText: 'Just chill out and take a nap.'
       },
+
       shovelBatshit: {
         title: 'Shovel Bat Shit',
         link: 'shovelBatshit',
         type: 'indefinite',
-        effect: [{ resource: 'batshit', amount: 0.4 }],
+        unlocked: false,
+        trigger: { resource: 'shrooms', amount: 100 },
+        effect: [{ resource: 'batshit', amount: 1 }],
         cost: [{ resource: 'shrooms', amount: 0.1 }],
         tooltipText: 'Gather that precious guano.'
       },
+
+      cultivateShrooms: {
+        title: 'Cultivate Shrooms',
+        link: 'cultivateShrooms',
+        type: 'indefinite',
+        unlocked: false,
+        effect: [{ resource: 'shrooms', amount: 2 }],
+        cost: [{ resource: 'batshit', amount: 0.1 }],
+        tooltipText: "It's cave farming with fertilizers."
+      },
+
       contemplateLife: {
         title: 'Contemplate Life',
         link: 'contemplateLife',
         type: 'timed',
+        unlocked: false,
         duration: 20,
         progress: 0,
-        cost: [{ resource: 'shrooms', amount: 1 }],
+        trigger: { resource: 'shrooms', amount: 10 },
         effect: [{ resource: 'insight', amount: 1 }],
-        tooltipText: 'Gather that precious guano.'
+        tooltipText: "Maybe there's more to a kobold life than scavenging for shrooms and scraps?",
+        unlockMessage: "Now that food is not a concern, there's time to self-reflect."
       }
     }
   },
@@ -33,6 +50,18 @@ export default {
   getters: {
     tasks(state) {
       return state.tasks
+    },
+
+    tasksUnlocked(state) {
+      let arr = []
+
+      for (let task in state.tasks) {
+        if (state.tasks[task].unlocked) {
+          arr.push(state.tasks[task])
+        }
+      }
+
+      return arr
     },
 
     activeTask(state) {
@@ -72,6 +101,10 @@ export default {
       // }
       const target = state.tasks[item.link][item.attrType][item.attrIndex]
       target.amount = target.amount * item.amount
+    },
+
+    unlock_tasks(state, link) {
+      state.tasks[link].unlocked = true
     },
 
     setTaskProgress(state, task) {

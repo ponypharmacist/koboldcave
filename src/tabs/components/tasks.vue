@@ -1,9 +1,9 @@
 <template lang="pug">
 
-.tasks
+.tasks(:class="{ 'justify-center': tasksUnlocked.length <=3 }")
   v-tooltip(
-    v-for="(task, key) in tasks"
-    :key="'task_' + key"
+    v-for="task in tasksUnlocked"
+    :key="`task-${task.link}`"
     content-class="button-tooltip"
     right
   )
@@ -40,25 +40,19 @@ export default Vue.component('tasks', {
   name: 'tasks',
 
   computed: {
-    ...mapGetters(['tasks', 'activeTask'])
+    ...mapGetters(['tasks', 'tasksUnlocked', 'activeTask'])
   },
 
   methods: {
-    ...mapMutations(['toggleTask']),
-
-    actionCheckDisabled(link) {
-      if (this.actions[link].cost) {
-        for (let i = 0; i < this.actions[link].cost.length; i++) {
-          let price = this.actions[link].cost[i]
-          if (this.resources[price.resource].countRound < price.amount) {
-            return true
-          }
-        }
-      }
-      return false
-    }
+    ...mapMutations(['toggleTask'])
   }
 })
 </script>
 
-<style lang="sass"></style>
+<style lang="sass">
+.tasks
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  margin-bottom: 6px
+</style>

@@ -60,4 +60,5 @@ export default Vue.component('navigation', {
     &.current
       font-weight: bold
       color: rgb(255, 224, 130)
+      background-color: rgb(255, 224, 130, 0.1)
 </style>

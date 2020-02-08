@@ -4,8 +4,9 @@ export default {
     upgrades: {
       sturdyShovels: {
         title: 'Sturdy Shovels',
-        available: false,
+        link: 'sturdyShovels',
         unlocked: false,
+        bought: false,
         trigger: { resource: 'batshit', amount: 2 },
         cost: [{ resource: 'shrooms', amount: 10 }],
         targets: [
@@ -20,13 +21,15 @@ export default {
           }
         ],
         tooltipText: '4 times more effective.',
-        availableMessage: 'You come up with a better design for your shovel.',
-        unlockedMessage: 'Now your can shovel more effectively.'
+        unlockMessage: 'You come up with a better design for your shovel.',
+        boughtMessage: 'Now your can shovel more effectively.'
       },
+
       shroomPlots: {
         title: 'Shroom Plots',
-        available: false,
+        link: 'shroomPlots',
         unlocked: false,
+        bought: false,
         trigger: { resource: 'insight', amount: 5 },
         cost: [{ resource: 'shrooms', amount: 10 }],
         targets: [
@@ -38,8 +41,8 @@ export default {
           }
         ],
         tooltipText: 'A way to fertilize cave walls with moisture and guano.',
-        availableMessage: 'Maybe shrooms will grow better that way...',
-        unlockedMessage: 'Upgrade unlocked'
+        unlockMessage: 'Maybe shrooms will grow better that way...',
+        boughtMessage: 'Upgrade bought'
       }
     }
   },
@@ -47,6 +50,18 @@ export default {
   getters: {
     upgrades(state) {
       return state.upgrades
+    },
+
+    upgradesUnlocked(state) {
+      let arr = []
+
+      for (let upgrade in state.upgrades) {
+        if (!state.upgrades[upgrade].bought && state.upgrades[upgrade].unlocked) {
+          arr.push(state.upgrades[upgrade])
+        }
+      }
+
+      return arr
     }
   },
 
@@ -55,30 +70,19 @@ export default {
       state.upgrades = payload
     },
 
-    upgradeAvailable(state, payload) {
-      state.upgrades[payload].available = true
-    },
-
     unlock_upgrades(state, link) {
       state.upgrades[link].unlocked = true
+    },
+
+    buy_upgrades(state, link) {
+      state.upgrades[link].bought = true
     }
   },
 
   actions: {
-    checkAvailableUpgrades({ state, commit, rootGetters }) {
-      for (const upgrade in state.upgrades) {
-        let up = state.upgrades[upgrade]
-
-        if (!up.available && rootGetters.resources[up.trigger.resource].countRound >= up.trigger.amount) {
-          commit('upgradeAvailable', upgrade)
-          commit('pushLog', up.availableMessage)
-        }
-      }
-    },
-
-    unlock_upgrades({ state, commit }, link) {
-      commit('unlock_upgrades', link)
-      commit('pushLog', state.upgrades[link].unlockedMessage)
+    buy_upgrades({ state, commit }, link) {
+      commit('buy_upgrades', link)
+      commit('pushLog', state.upgrades[link].boughtMessage)
     },
 
     runUpgrade({ state, commit, dispatch, rootGetters }, targets) {
@@ -93,7 +97,7 @@ export default {
             //   type: 'unlock'
             // }
             commit('unlock_' + target.category, target.link)
-            dispatch('unlock_upgrades', target.upgrade)
+            dispatch('buy_upgrades', target.upgrade)
             break
           case 'modifier':
             // target: {
@@ -115,7 +119,7 @@ export default {
                 })
               }
             }
-            dispatch('unlock_upgrades', target.upgrade)
+            dispatch('buy_upgrades', target.upgrade)
             break
           default:
             console.log('No applicable upgrade target in runUpgrade()')

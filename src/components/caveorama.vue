@@ -1,13 +1,19 @@
 <template lang="pug">
 
 .caveorama
-  | Cave-o-Rama
+  | Cave-o-Rama. Plot Point: {{ plotPoint }}
 
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default Vue.component('caveorama', {
-  name: 'caveorama'
+  name: 'caveorama',
+
+  computed: {
+    ...mapGetters(['plotPoint'])
+  }
 })
 </script>
 

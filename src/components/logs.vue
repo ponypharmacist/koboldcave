@@ -3,23 +3,25 @@
 .logs
   .istone
     .scrollbox
-      v-progress-linear.current-progress(
-        v-if="activeTaskTitle"
-        :indeterminate="activeTaskType === 'indefinite'"
-        color="rgba(255, 213, 79, 0.25)"
-        background-opacity="0.4"
-        height="20"
-        :value="activeTaskType === 'timed' ? activeTaskProgress : null"
-        reactive
-      )
-        .current-progress-title
-          span {{ activeTaskTitle }}
-          span.percent(v-if="activeTaskType === 'timed'") {{ activeTaskProgress ? activeTaskProgress + '%' : '0%' }}
+      .progress-box
+        v-progress-linear.current-progress(
+          v-if="activeTaskTitle"
+          :indeterminate="activeTaskType === 'indefinite'"
+          color="rgba(255, 213, 79, 0.25)"
+          background-opacity="0.4"
+          height="20"
+          :value="activeTaskType === 'timed' ? activeTaskProgress : null"
+          reactive
+        )
+          .current-progress-title
+            span {{ activeTaskTitle }}
+            span.percent(v-if="activeTaskType === 'timed'") {{ activeTaskProgress ? activeTaskProgress + '%' : '0%' }}
 
       .message(v-for="(message, key) in logs" :key="'message_' + key") {{ message.text }}
       .message ToDo: Autosave
       .message ToDo: tooltip for upgrades, what unlocks (+ multiple unlocks)
       .message ToDo: типы эффектов сделать лучше, сейчас это только ресурсы
+      .message Пещера: лавовый выход, пятно света, озеро или водопады, гигантские грибы (shroomwood)
 
 </template>
 
@@ -62,9 +64,13 @@ export default Vue.component('logs', {
       &::-webkit-scrollbar
         display: none
 
+      .progress-box
+        width: 100%
+        height: 20px
+        margin-bottom: 6px
+
       .current-progress
         width: 100%
-        margin-bottom: 6px
         border-radius: 0 0 10px 10px
 
         .v-progress-linear__background,

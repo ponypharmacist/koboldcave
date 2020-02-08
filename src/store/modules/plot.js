@@ -6,8 +6,8 @@ export default {
 
     tabs: [
       { name: 'shenanigans', title: 'Shenanigans', unlockPoint: 0 },
-      { name: 'self', title: 'Self', unlockPoint: 3 },
-      { name: 'shelter', title: 'Shelter', unlockPoint: 0 }
+      { name: 'self', title: 'Self', unlockPoint: 4 },
+      { name: 'shelter', title: 'Shelter', unlockPoint: 5 }
       // ToDo
       // Tabs: venture, scholars, shamans
     ]
@@ -23,7 +23,7 @@ export default {
     },
 
     tabs(state) {
-      return state.tabs
+      return state.tabs.filter((tab) => state.plotPoint >= tab.unlockPoint)
     }
   },
 
@@ -33,11 +33,11 @@ export default {
     },
 
     disableControls(state) {
-      state.disableControls = false
+      state.disableControls = true
     },
 
     enableControls(state) {
-      state.disableControls = true
+      state.disableControls = false
     }
   },
 
@@ -45,6 +45,7 @@ export default {
     advancePlot({ commit }) {
       commit('disableControls')
       commit('incrementPlotPoint')
+      commit('enableControls')
     }
   }
 }

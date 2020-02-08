@@ -1,8 +1,8 @@
 <template lang="pug">
 
-.actions
+.actions(:class="{ 'justify-center': actionsUnlocked.length <=3 }")
   v-tooltip(
-    v-for="action in actionsActive"
+    v-for="action in actionsUnlocked"
     :key="`action-${action.link}`"
     content-class="button-tooltip"
     right
@@ -35,14 +35,13 @@ export default Vue.component('actions', {
   name: 'actions',
 
   computed: {
-    ...mapGetters(['resources', 'actions', 'actionsActive'])
+    ...mapGetters(['resources', 'actions', 'actionsUnlocked'])
   },
 
   methods: {
     ...mapActions(['runAction']),
 
     actionCheckDisabled(link) {
-      console.log('Actions rerender!')
       const action = this.actions[link]
       if (action.cost) {
         for (let i = 0; i < action.cost.length; i++) {
@@ -57,4 +56,10 @@ export default Vue.component('actions', {
 })
 </script>
 
-<style lang="sass"></style>
+<style lang="sass">
+.actions
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  margin-bottom: 6px
+</style>

@@ -14,7 +14,7 @@ v-app
 
         router-view
 
-      logs
+      logs(v-show="plotPoint >= 4")
 
   plot-modals
 
@@ -106,7 +106,6 @@ $cave-height: 240px
 
 .interface
   display: flex
-  min-height: calc(100vh - 200px - 3px - 2rem)
   justify-items: stretch
 
 .main
