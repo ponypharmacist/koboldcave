@@ -1,16 +1,28 @@
 /* eslint-disable no-unused-vars */
 export default {
   state: {
-    plotPoint: 0,
+    plotPoint: 5,
     disableControls: false,
 
-    tabs: [
-      { name: 'shenanigans', title: 'Shenanigans', unlockPoint: 0 },
-      { name: 'self', title: 'Self', unlockPoint: 4 },
-      { name: 'shelter', title: 'Shelter', unlockPoint: 5 }
+    tabs: {
+      shenanigans: {
+        name: 'shenanigans',
+        title: 'Shenanigans',
+        unlocked: true
+      },
+      self: {
+        name: 'self',
+        title: 'Self',
+        unlocked: false
+      },
+      shelter: {
+        name: 'shelter',
+        title: 'Shelter',
+        unlocked: false
+      }
       // ToDo
       // Tabs: venture, scholars, shamans
-    ]
+    }
   },
 
   getters: {
@@ -23,7 +35,13 @@ export default {
     },
 
     tabs(state) {
-      return state.tabs.filter((tab) => state.plotPoint >= tab.unlockPoint)
+      let arr = []
+
+      for (let tab in state.tabs) {
+        if (state.tabs[tab].unlocked) arr.push(state.tabs[tab])
+      }
+
+      return arr
     }
   },
 
@@ -38,6 +56,10 @@ export default {
 
     enableControls(state) {
       state.disableControls = false
+    },
+
+    unlock_tabs(state, link) {
+      state.tabs[link].unlocked = true
     }
   },
 

@@ -2,8 +2,8 @@
 
 .navigation-tabs
   .tab(
-    v-for="(item, key) in tabs"
-    :key="'tab_' + item.name"
+    v-for="item in tabs"
+    :key="`tab-${item.name}`"
     @click="switchTab(item.name)"
     :class="{ current: tab === item.name }"
   ) {{ item.title }}
@@ -50,15 +50,16 @@ export default Vue.component('navigation', {
     display: inline-block
     font-size: 16px
     padding: 6px 8px
+    margin: 0 2px
     border-radius: 5px
     cursor: pointer
     transition: $transition-all
 
     &:hover
-      background-color: rgb(255, 224, 130, 0.1)
+      background-color: rgb(255, 224, 130, 0.05)
 
     &.current
-      font-weight: bold
+      //font-weight: bold
       color: rgb(255, 224, 130)
-      background-color: rgb(255, 224, 130, 0.1)
+      background-color: rgb(255, 224, 130, 0.05)
 </style>

@@ -10,6 +10,7 @@
     template(#activator="tooltip")
       v-btn.task-button(
         @click="toggleTask(task.link)"
+        :disabled="checkTasksDisabled(task.link)"
         v-on="tooltip.on"
         color="#FFE082"
         :class="{ 'task-active': task.link == activeTask }"
@@ -25,7 +26,7 @@
     tooltip(
       :title="task.title"
       :text="task.tooltipText"
-      :type="'task'"
+      :type="task.type"
       :effect="task.effect"
       :cost="task.cost ? task.cost : null"
       :flavor="task.tooltipFlavor ? task.tooltipFlavor : null"
@@ -34,17 +35,33 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.component('tasks', {
   name: 'tasks',
 
   computed: {
-    ...mapGetters(['tasks', 'tasksUnlocked', 'activeTask'])
+    ...mapGetters(['resources', 'tasks', 'tasksUnlocked', 'activeTask'])
   },
 
   methods: {
-    ...mapMutations(['toggleTask'])
+    ...mapActions(['toggleTask']),
+
+    checkTasksDisabled(link) {
+      const task = this.tasks[link]
+
+      // Check if task effect is maxed
+      if ((task.type === 'indefinite' || task.type === 'timed') && task.effect) {
+        for (let item in task.effect) {
+          if (task.effect[item].resource) {
+            let resourceName = task.effect[item].resource
+            let resource = this.resources[resourceName]
+
+            if (resource.countRound === resource.cap) return true
+          }
+        }
+      }
+    }
   }
 })
 </script>

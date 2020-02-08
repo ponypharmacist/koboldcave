@@ -49,12 +49,10 @@ export default {
           // ToDo: Link type trigger
         }
       }
-    },
 
-    checkEventUnlocksResource({ state, commit, rootGetters }, event) {
-      for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
-        let effect = rootGetters[event.category][event.link].effect[i]
-        if (!rootGetters.resources[effect.resource].unlocked) commit('unlockResource', effect.resource)
+      // Check for resource unlocks
+      for (let item in rootGetters.resources) {
+        if (!rootGetters.resources[item].unlocked && rootGetters.resources[item].count) commit('unlock_resources', item)
       }
     },
 
@@ -81,6 +79,42 @@ export default {
       for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
         let effect = rootGetters[event.category][event.link].effect[i]
         commit('addResource', { resource: effect.resource, amount: effect.amount / divider })
+      }
+    },
+
+    applyEffectsOnce({ state, commit, rootGetters }, event) {
+      // event = {
+      //   category: String,
+      //   link: String
+      // }
+      for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
+        let effect = rootGetters[event.category][event.link].effect[i]
+        let effectType = null
+
+        // get type of effect
+        if (effect.resource) effectType = 'resource'
+        if (effect.unlock) effectType = 'unlock'
+        if (effect.modify) effectType = 'modify'
+
+        // Apply effect based on effect type
+        // Unlocks
+        if (effectType === 'unlock') {
+          // unlock target
+          commit('unlock_' + effect.category, effect.link)
+          // lock source event
+          commit('block_' + event.category, event.link)
+          // Stop running if it's a task
+          if (event.category === 'tasks') commit('toggleTask', 'snooze')
+          // Resource effects
+        } else if (effectType === 'resource') {
+          commit('addResource', { resource: effect.resource, amount: effect.amount })
+          // Modify
+        } else if (effectType === 'modify') {
+          console.log('ToDo: Modify effect type')
+          // Other
+        } else {
+          console.warn('applyEffectsOnce: unknown effect type!')
+        }
       }
     },
 

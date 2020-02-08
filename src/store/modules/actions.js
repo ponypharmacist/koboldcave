@@ -83,8 +83,6 @@ export default {
       // Apply action effects
       if (action.effect) {
         dispatch('applyEffects', { category: 'actions', link: link })
-        // Check if it unlocks resources
-        dispatch('checkEventUnlocksResource', { category: 'actions', link: link })
       }
 
       // Deduce action costs

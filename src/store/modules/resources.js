@@ -44,7 +44,6 @@ export default {
   mutations: {
     remember_resources(state, payload) {
       state.resources = payload
-      console.log(state.resources.shrooms.count)
     },
 
     addResource(state, payload) {
@@ -65,7 +64,7 @@ export default {
       state.resources[payload.resource].rate = payload.rate
     },
 
-    unlockResource(state, resource) {
+    unlock_resources(state, resource) {
       state.resources[resource].unlocked = true
     }
   },

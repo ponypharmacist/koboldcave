@@ -2,26 +2,22 @@
 
 .logs
   .istone
-    .scrollbox
-      .progress-box
-        v-progress-linear.current-progress(
-          v-if="activeTaskTitle"
-          :indeterminate="activeTaskType === 'indefinite'"
-          color="rgba(255, 213, 79, 0.25)"
-          background-opacity="0.4"
-          height="20"
-          :value="activeTaskType === 'timed' ? activeTaskProgress : null"
-          reactive
-        )
-          .current-progress-title
-            span {{ activeTaskTitle }}
-            span.percent(v-if="activeTaskType === 'timed'") {{ activeTaskProgress ? activeTaskProgress + '%' : '0%' }}
+    .progress-box
+      v-progress-linear.current-progress(
+        v-if="activeTaskTitle"
+        color="rgba(255, 213, 79, 0.25)"
+        background-opacity="0.4"
+        height="20"
+        :value="activeTaskType === 'timed' ? activeTaskProgress : 0"
+        reactive
+      )
+        .current-progress-title
+          span {{ activeTaskTitle }}
+          span.percent(v-if="activeTaskType === 'timed'") {{ activeTaskProgress ? activeTaskProgress + '%' : '0%' }}
 
+    .scrollbox
       .message(v-for="(message, key) in logs" :key="'message_' + key") {{ message.text }}
-      .message ToDo: Autosave
       .message ToDo: tooltip for upgrades, what unlocks (+ multiple unlocks)
-      .message ToDo: типы эффектов сделать лучше, сейчас это только ресурсы
-      .message Пещера: лавовый выход, пятно света, озеро или водопады, гигантские грибы (shroomwood)
 
 </template>
 
@@ -44,63 +40,63 @@ export default Vue.component('logs', {
   max-width: 200px
   padding: 4px 8px
 
-  .istone
-    position: absolute
-    width: 291px
-    height: 538px
-    padding: 56px 36px 72px 12px
-    background: transparent url('~@/assets/istone.png') no-repeat 0 0 / 100% 100%
+.istone
+  position: absolute
+  width: 291px
+  height: 538px
+  padding: 56px 36px 72px 12px
+  background: transparent url('~@/assets/istone.png') no-repeat 0 0 / 100% 100%
 
-    .scrollbox
-      display: flex
-      flex-direction: column
-      align-items: flex-start
-      overflow-y: auto
-      height: 100%
-      background: rgba(255,255,255,0.05)
-      border-radius: 10px
-      -ms-overflow-style: none
+  .scrollbox
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    overflow-y: auto
+    height: calc(100% - 26px)
+    background: rgba(255,255,255,0.05)
+    border-radius: 10px
+    -ms-overflow-style: none
 
-      &::-webkit-scrollbar
-        display: none
+    &::-webkit-scrollbar
+      display: none
 
-      .progress-box
-        width: 100%
-        height: 20px
-        margin-bottom: 6px
+    .message
+      position: relative
+      padding: 4px 10px
+      margin-bottom: 10px
+      font-size: 12px
+      background-color: #222
+      border-radius: 5px 5px 5px 0
 
-      .current-progress
-        width: 100%
-        border-radius: 0 0 10px 10px
+      &::after
+        position: absolute
+        content: ''
+        width: 0
+        height: 0
+        bottom: -5px
+        left: 0
+        border-style: solid
+        border-width:  5px 5px 0 0
+        border-color: #222 transparent transparent transparent
 
-        .v-progress-linear__background,
-        .v-progress-linear__determinate
-          transition: all 0.5s linear !important
+  .progress-box
+    width: 100%
+    height: 20px
+    margin-bottom: 6px
 
-        .current-progress-title
-          color: #f1f1f1
+  .current-progress
+    width: 100%
+    border-radius: 6px
 
-          .percent
-            display: inline-block
-            width: 30px
-            padding-left: 5px
+    .v-progress-linear__background,
+    .v-progress-linear__determinate
+      transition: all 0.5s linear !important
 
-      .message
-        position: relative
-        padding: 4px 10px
-        margin-bottom: 10px
-        font-size: 12px
-        background-color: #222
-        border-radius: 5px 5px 5px 0
+    .current-progress-title
+      color: #f1f1f1
 
-        &::after
-          position: absolute
-          content: ''
-          width: 0
-          height: 0
-          bottom: -5px
-          left: 0
-          border-style: solid
-          border-width:  5px 5px 0 0
-          border-color: #222 transparent transparent transparent
+      .percent
+        display: inline-block
+        width: 30px
+        padding-left: 5px
 </style>

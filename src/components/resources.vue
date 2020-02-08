@@ -3,7 +3,7 @@
 .resources  
   v-tooltip(
     v-for="(res, key) in resources"
-    :key="'res_' + key"
+    :key="`tab-${key}`"
     content-class="button-tooltip"
     right
   )
@@ -62,7 +62,7 @@ export default Vue.component('resources', {
   margin-left: auto
 
   .amount-max
-    color: #546E7A
+    color: #554a60
     padding-left: 1px
 
 .resource-image

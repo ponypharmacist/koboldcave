@@ -7,15 +7,15 @@
 
   .tooltip-text(v-if="effect") Effect: 
     .effect(
-      v-for="(resource, key) in effect"
-      :key="'tooltip_effect_' + key"
-      ) {{ resource.resource }} +{{ resource.amount }}{{ effectPostfix }}
+      v-for="(item, key) in effect"
+      :key="`tooltip-effect-${key}`"
+      ) {{ effectText(item) }}
 
   .tooltip-text(v-if="cost") Cost: 
     .cost(
-      v-for="(resource, key) in cost"
-      :key="'tooltip_cost_' + key"
-      ) {{ resource.resource }} -{{ resource.amount }}{{ effectPostfix }}
+      v-for="(item, key) in cost"
+      :key="`tooltip-cost-${key}`"
+      ) {{ item.resource }} {{ item.amount }} {{ effectPostfix }}
 
   .tooltip-flavor(v-if="flavor") {{ flavor }}
 
@@ -52,9 +52,16 @@ export default Vue.component('tooltip', {
 
   computed: {
     effectPostfix() {
-      if (this.type === 'production') return '/s'
-      if (this.type === 'task') return '/s'
+      if (this.type === 'production') return 'per second'
+      if (this.type === 'indefinite') return 'per second'
       return ''
+    }
+  },
+
+  methods: {
+    effectText(item) {
+      if (item.resource) return item.resource + ' ' + item.amount + ' ' + this.effectPostfix
+      if (item.unlock) return item.title
     }
   }
 })
@@ -72,7 +79,7 @@ export default Vue.component('tooltip', {
     color: #FFE082
 
   .cost
-    color: #F8BBD0
+    color: #B39DDB
 
 .tooltip-flavor
   font-style: italic
