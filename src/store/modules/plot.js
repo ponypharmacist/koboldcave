@@ -13,7 +13,7 @@ export default {
       self: {
         name: 'self',
         title: 'Self',
-        unlocked: false
+        unlocked: true
       },
       shelter: {
         name: 'shelter',
