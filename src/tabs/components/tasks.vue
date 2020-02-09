@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.tasks(:class="{ 'justify-center': tasksUnlocked.length <=3 }")
+.tasks
   v-tooltip(
     v-for="task in tasksUnlocked"
     :key="`task-${task.link}`"
@@ -69,6 +69,7 @@ export default Vue.component('tasks', {
 <style lang="sass">
 .tasks
   display: flex
+  flex-wrap: wrap
   justify-content: flex-start
   align-items: center
   margin-bottom: 6px

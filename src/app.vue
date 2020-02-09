@@ -3,7 +3,13 @@
 v-app
   .loader(v-if="isLoading" @click="isLoading = !isLoading") Is loading...
 
+
   .app-content(v-if="!isLoading")
+    .top-menu
+      a.new-game(@click="newGame") new game
+      a.save-game(@click="saveGame") save game
+      a.load-game(@click="loadSave") load save
+
     caveorama
 
     .interface(v-show="plotPoint >= 3")
@@ -33,10 +39,6 @@ export default {
   },
 
   mounted() {
-    // Uncomment this if you need to reset save
-    clearLocalStorage('koboldCave')
-
-    // On Launch
     // 1. Read local storage
     let saveData = readLocalStorage('koboldCave')
 
@@ -44,7 +46,7 @@ export default {
     if (saveData) this.loadSave(saveData)
 
     // 3. Or start a new cave
-    if (!saveData) this.newGame()
+    // if (!saveData) this.newGame()
 
     // 4. Set first tab as active
     if (this.$route.name != 'shenanigans') this.$router.replace({ name: 'shenanigans' })
@@ -77,6 +79,7 @@ export default {
 
     saveGame() {
       let saveData = {
+        actions: this.actions,
         resources: this.resources,
         tasks: this.tasks,
         activeTask: this.activeTask,
@@ -86,6 +89,7 @@ export default {
     },
 
     newGame() {
+      clearLocalStorage('koboldCave')
       this.advancePlot()
     }
   }
@@ -101,13 +105,24 @@ $cave-height: 240px
   margin: auto
 
 .app-content
-  margin: 1rem auto
+  margin: 0 auto
   font-size: 14px
 
-.interface
-  display: flex
-  justify-items: stretch
+  .interface
+    display: flex
+    justify-items: stretch
 
-.main
-  width: 800px
+  .main
+    width: 800px
+
+  // Top Menu
+  .top-menu
+    height: 16px
+    line-height: 16px
+    margin: 2px 0
+
+    a
+      margin-right: 12px
+      color: #777
+      text-decoration: underline
 </style>

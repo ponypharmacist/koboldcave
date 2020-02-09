@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.actions(:class="{ 'justify-center': actionsUnlocked.length <=3 }")
+.actions
   v-tooltip(
     v-for="action in actionsUnlocked"
     :key="`action-${action.link}`"
@@ -59,6 +59,7 @@ export default Vue.component('actions', {
 <style lang="sass">
 .actions
   display: flex
+  flex-wrap: wrap
   justify-content: flex-start
   align-items: center
   margin-bottom: 6px

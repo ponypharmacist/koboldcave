@@ -51,6 +51,9 @@
       v-card
         v-card-text
           | While setting up camp you find a fancy shiny stone. It talks to you in symbols that you understand.
+          br
+          br
+          | You accept it as normal.
         v-card-actions
           v-btn(
             depressed small

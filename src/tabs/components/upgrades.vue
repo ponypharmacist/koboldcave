@@ -1,6 +1,6 @@
 <template lang="pug">
 
-.upgrades(:class="{ 'justify-center': upgradesUnlocked.length <=3 }")
+.upgrades
   v-tooltip(
     v-for="upgrade in upgradesUnlocked"
     :key="`upgrade-${upgrade.link}`"
@@ -60,6 +60,7 @@ export default Vue.component('upgrades', {
 <style lang="sass">
 .upgrades
   display: flex
+  flex-wrap: wrap
   justify-content: flex-start
   align-items: center
   margin-bottom: 6px

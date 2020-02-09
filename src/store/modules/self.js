@@ -4,6 +4,8 @@ export default {
     statsProgressModifier: 1.33,
     statsProgressBase: 100,
 
+    rank: 'homeless kobold',
+
     stats: {
       power: {
         title: 'Power',
