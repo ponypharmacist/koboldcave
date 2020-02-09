@@ -19,7 +19,8 @@ export default {
         trigger: { resource: 'shrooms', amount: 100 },
         effect: [{ resource: 'batshit', amount: 1 }],
         cost: [{ resource: 'shrooms', amount: 0.1 }],
-        tooltipText: 'Gather that precious guano.'
+        tooltipText: 'Gather that precious guano.',
+        unlockMessage: 'Task available: Shovel Bat Shit.'
       },
 
       cultivateShrooms: {
@@ -27,9 +28,11 @@ export default {
         link: 'cultivateShrooms',
         type: 'indefinite',
         unlocked: false,
+        trigger: { resource: 'batshit', amount: 10 },
         effect: [{ resource: 'shrooms', amount: 2 }],
         cost: [{ resource: 'batshit', amount: 0.1 }],
-        tooltipText: "It's cave farming with fertilizers."
+        tooltipText: "It's cave farming with fertilizers.",
+        unlockMessage: 'Task available: Cultivate Shrooms.'
       },
 
       contemplateLife: {
@@ -54,7 +57,6 @@ export default {
         duration: 5,
         progress: 0,
         trigger: { resource: 'shrooms', amount: 10 },
-        // ToDo: place effect.title 'Know Self' in tooltip effects
         effect: [{ unlock: true, category: 'tabs', link: 'self', title: 'Know self' }],
         tooltipText: 'What are you? What is your purpose here?',
         unlockMessage: "Now that food is not a concern, there's time to self-reflect.",
@@ -110,13 +112,16 @@ export default {
 
     modify_tasks(state, item) {
       // item = {
-      //  link: String,
-      //  attrType: String,
-      //  attrIndex: String,
-      //  amount: Number
+      // link: String,
+      // attrType: String,
+      // attrIndex: attrIndex,
+      // amount: Number
       // }
-      const target = state.tasks[item.link][item.attrType][item.attrIndex]
-      target.amount = target.amount * item.amount
+      if (item.attrIndex >= 0) {
+        state.tasks[item.link][item.attrType][item.attrIndex].amount = item.amount
+      } else {
+        state.tasks[item.link][item.attrType] = item.amount
+      }
     },
 
     unlock_tasks(state, link) {
@@ -137,24 +142,6 @@ export default {
   },
 
   actions: {
-    toggleTask({ state, commit, rootGetters }, link) {
-      const task = state.tasks[link]
-
-      // Check if task effect is maxed
-      if (task.type === 'indefinite' && task.effect) {
-        for (let item in task.effect) {
-          if (task.effect[item].resource) {
-            let resourceName = task.effect[item].resource
-            let resource = rootGetters.resources[resourceName]
-
-            if (resource.countRound === resource.cap) return
-          }
-        }
-      }
-
-      commit('toggleTask', link)
-    },
-
     runActiveTask({ state, commit, dispatch, rootGetters }, link) {
       const task = state.tasks[link]
 
@@ -206,8 +193,12 @@ export default {
         // apply final task effect
         dispatch('applyEffectsOnce', { category: 'tasks', link: link })
 
-        // Push log if task effect was an unlock of something
-        if (task.effect[0].unlock) dispatch('pushLogs', { category: 'tasks', link: link, type: 'effect' })
+        // If task effect is an unlock of something
+        if (task.effect[0].unlock) {
+          commit('block_tasks', link) // lock source task
+          commit('toggleTask', 'snooze')
+          dispatch('pushLogs', { category: 'tasks', link: link, type: 'effect' })
+        }
       }
 
       // Commit new value for task progress

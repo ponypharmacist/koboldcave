@@ -2,11 +2,7 @@
 export default {
   state: {
     resources: {
-      // ToDo
-      // shekels
-      // shards,
-      // sharp stones,
-      // shinies
+      // ToDo: shekels, shards, sharp stones, shinies
 
       shrooms: {
         title: 'Shrooms',
@@ -66,6 +62,15 @@ export default {
 
     unlock_resources(state, resource) {
       state.resources[resource].unlocked = true
+    },
+
+    modify_resources(state, item) {
+      // item = {
+      // link: String,
+      // attrType: String,
+      // amount: Number
+      // }
+      state.resources[item.link][item.attrType] = item.amount
     }
   },
 

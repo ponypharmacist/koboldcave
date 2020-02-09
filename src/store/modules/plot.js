@@ -20,8 +20,7 @@ export default {
         title: 'Shelter',
         unlocked: false
       }
-      // ToDo
-      // Tabs: venture, scholars, shamans
+      // ToDo Tabs: venture, scholars, shamans
     }
   },
 

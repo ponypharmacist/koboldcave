@@ -41,7 +41,6 @@ export default {
 
             if (rootGetters.resources[resource].countRound >= amount) {
               commit('unlock_' + category, item)
-              // ToDo: make these logs more specific
               dispatch('pushLogs', { category: category, link: item, type: 'unlock' })
             }
           }
@@ -82,40 +81,65 @@ export default {
       }
     },
 
-    applyEffectsOnce({ state, commit, rootGetters }, event) {
-      // event = {
-      //   category: String,
-      //   link: String
-      // }
+    applyEffectsOnce({ state, commit, dispatch, rootGetters }, event) {
+      // event: { category: String, link: String }
       for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
         let effect = rootGetters[event.category][event.link].effect[i]
-        let effectType = null
-
-        // get type of effect
-        if (effect.resource) effectType = 'resource'
-        if (effect.unlock) effectType = 'unlock'
-        if (effect.modify) effectType = 'modify'
 
         // Apply effect based on effect type
-        // Unlocks
-        if (effectType === 'unlock') {
-          // unlock target
-          commit('unlock_' + effect.category, effect.link)
-          // lock source event
-          commit('block_' + event.category, event.link)
-          // Stop running if it's a task
-          if (event.category === 'tasks') commit('toggleTask', 'snooze')
-          // Resource effects
-        } else if (effectType === 'resource') {
+        // 1. Unlocks
+        if (effect.unlock) {
+          commit('unlock_' + effect.category, effect.link) // unlock target
+
+          // 2. Resource effects
+        } else if (effect.resource) {
           commit('addResource', { resource: effect.resource, amount: effect.amount })
-          // Modify
-        } else if (effectType === 'modify') {
-          console.log('ToDo: Modify effect type')
-          // Other
-        } else {
-          console.warn('applyEffectsOnce: unknown effect type!')
-        }
+
+          // 3. Multiply or add
+        } else if (effect.multiply || effect.add) {
+          dispatch('mathTargetAttribute', {
+            type: effect.multiply ? 'multiply' : 'add',
+            category: effect.category,
+            link: effect.link,
+            target: effect.target,
+            subtarget: effect.subtarget,
+            amount: effect.amount
+          })
+          // 0. Other
+        } else console.warn('applyEffectsOnce: unknown effect type!')
       }
+    },
+
+    // Calculate new attribute value and commit mutations
+    mathTargetAttribute({ state, commit, rootGetters }, item) {
+      let targetAmount = null
+      let resultAmount = null
+      let attrIndex = null
+
+      // Get target value
+      if (item.subtarget) {
+        let target = rootGetters[item.category][item.link][item.target]
+        // category: 'tasks', link: 'shovelBatshit', target: 'effect', subtarget: 'batshit'
+        for (let i = 0; i < target.length; i++) {
+          if (target[i].resource === item.subtarget) {
+            targetAmount = target[i].amount
+            attrIndex = i
+          }
+        }
+      } else {
+        targetAmount = rootGetters[item.category][item.link][item.target] // resources.shrooms.cap
+      }
+
+      // Get final number
+      if (item.type === 'multiply') resultAmount = targetAmount * item.amount
+      else if (item.type === 'add') resultAmount = targetAmount + item.amount
+
+      commit('modify_' + item.category, {
+        link: item.link,
+        attrType: item.target,
+        attrIndex: attrIndex,
+        amount: resultAmount
+      })
     },
 
     loadSave({ state, commit }, saveData) {

@@ -61,7 +61,7 @@ export default Vue.component('tooltip', {
   methods: {
     effectText(item) {
       if (item.resource) return item.resource + ' ' + item.amount + ' ' + this.effectPostfix
-      if (item.unlock) return item.title
+      if (item.unlock || item.multiply || item.add) return item.title
     }
   }
 })

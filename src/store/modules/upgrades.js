@@ -9,15 +9,24 @@ export default {
         bought: false,
         trigger: { resource: 'batshit', amount: 2 },
         cost: [{ resource: 'shrooms', amount: 10 }],
-        targets: [
+        effect: [
           {
-            upgrade: 'sturdyShovels',
+            multiply: true,
             category: 'tasks',
             link: 'shovelBatshit',
-            type: 'modifier',
-            modifierType: 'effect',
-            resource: 'batshit',
-            amount: 4
+            target: 'effect',
+            subtarget: 'batshit',
+            amount: 4,
+            title: '4x shovel power!'
+          },
+          {
+            add: true,
+            category: 'resources',
+            link: 'shrooms',
+            target: 'cap',
+            subtarget: null,
+            amount: 40,
+            title: 'More shroom storage'
           }
         ],
         tooltipText: '4 times more effective.',
@@ -31,17 +40,17 @@ export default {
         unlocked: false,
         bought: false,
         trigger: { resource: 'insight', amount: 5 },
-        cost: [{ resource: 'shrooms', amount: 10 }],
-        targets: [
+        cost: [{ resource: 'insight', amount: 10 }],
+        effect: [
           {
-            upgrade: 'shroomPlots',
+            unlock: true,
             category: 'producers',
             link: 'shroomPlot',
-            type: 'unlock'
+            title: 'Shroom farming plots'
           }
         ],
         tooltipText: 'A way to fertilize cave walls with moisture and guano.',
-        unlockMessage: 'Maybe shrooms will grow better that way...',
+        unlockMessage: 'Maybe shrooms 🍄 will grow better that way...',
         boughtMessage: 'Upgrade bought'
       }
     }
@@ -74,59 +83,21 @@ export default {
       state.upgrades[link].unlocked = true
     },
 
-    buy_upgrades(state, link) {
+    block_upgrades(state, link) {
       state.upgrades[link].bought = true
     }
   },
 
   actions: {
-    buy_upgrades({ state, commit }, link) {
-      commit('buy_upgrades', link)
+    runUpgrade({ state, commit, dispatch, rootGetters }, link) {
+      // Apply costs
+      dispatch('applyCosts', { category: 'upgrades', link: link })
+      // Apply effects
+      dispatch('applyEffectsOnce', { category: 'upgrades', link: link })
+      // Disable source upgrade
+      commit('block_upgrades', link)
+      // Push upgrade bought message
       commit('pushLog', state.upgrades[link].boughtMessage)
-    },
-
-    runUpgrade({ state, commit, dispatch, rootGetters }, targets) {
-      for (let i in targets) {
-        let target = targets[i]
-        switch (target.type) {
-          case 'unlock':
-            // target: {
-            //   upgrade: 'shroomPlots',
-            //   category: 'producers',
-            //   link: 'shroomPlot',
-            //   type: 'unlock'
-            // }
-            commit('unlock_' + target.category, target.link)
-            dispatch('buy_upgrades', target.upgrade)
-            break
-          case 'modifier':
-            // target: {
-            //   upgrade: 'sturdyShovels',
-            //   category: 'tasks',
-            //   link: 'shovelBatshit',
-            //   type: 'modifier',
-            //   modifierType: 'effect',
-            //   resource: 'batshit',
-            //   amount: 4
-            // }
-            for (let i = 0; i < rootGetters[target.category][target.link][target.modifierType].length; i++) {
-              if (rootGetters[target.category][target.link][target.modifierType][i].resource === target.resource) {
-                commit('modify_' + target.category, {
-                  link: target.link,
-                  attrType: target.modifierType,
-                  attrIndex: i,
-                  amount: target.amount
-                })
-              }
-            }
-            dispatch('buy_upgrades', target.upgrade)
-            break
-          default:
-            console.log('No applicable upgrade target in runUpgrade()')
-            break
-        }
-      }
-      dispatch('applyCosts', { category: 'upgrades', link: targets[0].upgrade })
     }
   }
 }

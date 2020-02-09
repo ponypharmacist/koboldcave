@@ -10,7 +10,7 @@
     template(#activator="tooltip")
       span(v-on="tooltip.on")
         v-btn.upgrade-button(
-          @click="runUpgrade(upgrade.targets)"
+          @click="runUpgrade(upgrade.link)"
           :disabled="upgradeCheckDisabled(upgrade.link)"
           color="#ECEFF1"
           retain-focus-on-click
@@ -23,6 +23,7 @@
       :text="upgrade.tooltipText"
 
       :cost="upgrade.cost ? upgrade.cost : null"
+      :effect="upgrade.effect ? upgrade.effect : null"
       :flavor="upgrade.tooltipFlavor ? upgrade.tooltipFlavor : null"
     )
 

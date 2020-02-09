@@ -17,7 +17,6 @@
 
     .scrollbox
       .message(v-for="(message, key) in logs" :key="'message_' + key") {{ message.text }}
-      .message ToDo: tooltip for upgrades, what unlocks (+ multiple unlocks)
 
 </template>
 

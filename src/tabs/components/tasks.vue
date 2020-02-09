@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default Vue.component('tasks', {
   name: 'tasks',
@@ -45,7 +45,7 @@ export default Vue.component('tasks', {
   },
 
   methods: {
-    ...mapActions(['toggleTask']),
+    ...mapMutations(['toggleTask']),
 
     checkTasksDisabled(link) {
       const task = this.tasks[link]

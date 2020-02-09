@@ -50,13 +50,16 @@ export default {
 
     modify_producers(state, item) {
       // item = {
-      //  link: String,
-      //  attrType: String,
-      //  attrIndex: String,
-      //  amount: Number
+      // link: String,
+      // attrType: String,
+      // attrIndex: attrIndex,
+      // amount: Number
       // }
-      let target = state.producers[item.link][item.attrType][item.attrIndex]
-      target.amount = target.amount * item.amount
+      if (item.attrIndex >= 0) {
+        state.producers[item.link][item.attrType][item.attrIndex].amount = item.amount
+      } else {
+        state.producers[item.link][item.attrType] = item.amount
+      }
     }
   },
 
