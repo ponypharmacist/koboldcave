@@ -11,7 +11,10 @@ export default {
   },
 
   mutations: {
-    // ToDo: make these logs more specific and diverse
+    remember_logs(state, savedLogs) {
+      state.logs = savedLogs
+    },
+
     pushLog(state, text) {
       state.logs.unshift({ text: text })
     }

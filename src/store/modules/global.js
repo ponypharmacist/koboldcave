@@ -7,6 +7,21 @@ export default {
   getters: {
     fps(state) {
       return state.fps
+    },
+
+    getSaveData(state, rootState) {
+      return {
+        plot: rootState.plot,
+        logs: rootState.logs,
+
+        resources: rootState.resources,
+        actions: rootState.actions,
+        tasks: rootState.tasks,
+        activeTask: rootState.activeTask,
+        upgrades: rootState.upgrades,
+
+        self: rootState.self
+      }
     }
   },
 
@@ -143,11 +158,11 @@ export default {
     },
 
     loadSave({ state, commit }, saveData) {
-      commit('remember_resources', saveData.resources)
-      commit('remember_actions', saveData.actions)
-      commit('remember_tasks', saveData.tasks)
-      // commit('toggleTask', saveData.activeTask) ToDo: do we need this?
-      commit('remember_upgrades', saveData.upgrades)
+      const thingsToRemember = ['plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'self']
+      // Remember stuff from the list above
+      thingsToRemember.forEach((i) => commit('remember_' + i, saveData[i]))
+      // Remember specific things
+      commit('toggleTask', saveData.activeTask)
     },
 
     round({ state }, value) {

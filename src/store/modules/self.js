@@ -47,6 +47,10 @@ export default {
   },
 
   getters: {
+    self(state) {
+      return state
+    },
+
     stats(state) {
       return state.stats
     },
@@ -57,6 +61,12 @@ export default {
 
     statsProgressBase(state) {
       return state.statsProgressBase
+    }
+  },
+
+  mutations: {
+    remember_self(state, savedSelf) {
+      state = savedSelf
     }
   }
 }

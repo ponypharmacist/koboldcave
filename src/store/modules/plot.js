@@ -15,16 +15,40 @@ export default {
         title: 'Self',
         unlocked: true
       },
+      skills: {
+        name: 'skills',
+        title: 'Skills',
+        unlocked: true
+      },
       shelter: {
         name: 'shelter',
         title: 'Shelter',
-        unlocked: false
+        unlocked: true
+      },
+      science: {
+        name: 'science',
+        title: 'Science',
+        unlocked: true
+      },
+      shamanism: {
+        name: 'shamanism',
+        title: 'Shamanism',
+        unlocked: true
+      },
+      venture: {
+        name: 'venture',
+        title: 'Venture',
+        unlocked: true
       }
       // ToDo Tabs: venture, scholars, shamans
     }
   },
 
   getters: {
+    plot(state) {
+      return state
+    },
+
     plotPoint(state) {
       return state.plotPoint
     },
@@ -45,6 +69,10 @@ export default {
   },
 
   mutations: {
+    remember_plot(state, savedPlot) {
+      state = savedPlot
+    },
+
     incrementPlotPoint(state) {
       state.plotPoint++
     },

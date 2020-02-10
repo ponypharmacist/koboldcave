@@ -18,9 +18,29 @@ let routes = [
         name: 'self'
       },
       {
+        path: 'skills',
+        component: require('~/tabs/skills').default,
+        name: 'skills'
+      },
+      {
         path: 'shelter',
         component: require('~/tabs/shelter').default,
         name: 'shelter'
+      },
+      {
+        path: 'science',
+        component: require('~/tabs/science').default,
+        name: 'science'
+      },
+      {
+        path: 'shamanism',
+        component: require('~/tabs/shamanism').default,
+        name: 'shamanism'
+      },
+      {
+        path: 'venture',
+        component: require('~/tabs/venture').default,
+        name: 'venture'
       }
     ]
   },

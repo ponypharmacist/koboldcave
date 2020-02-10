@@ -60,8 +60,8 @@ export default {
   },
 
   mutations: {
-    remember_actions(state, payload) {
-      state.actions = payload
+    remember_actions(state, savedActions) {
+      state.actions = savedActions
     },
 
     lock_actions(state, link) {

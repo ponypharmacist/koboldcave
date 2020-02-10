@@ -3,12 +3,10 @@
 v-app
   .loader(v-if="isLoading" @click="isLoading = !isLoading") Is loading...
 
-
   .app-content(v-if="!isLoading")
     .top-menu
       a.new-game(@click="newGame") new game
       a.save-game(@click="saveGame") save game
-      a.load-game(@click="loadSave") load save
 
     caveorama
 
@@ -27,7 +25,7 @@ v-app
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { readLocalStorage, updateLocalStorage, clearLocalStorage } from './plugins/helpers'
 import MainLoop from './plugins/mainloop'
 
@@ -46,7 +44,7 @@ export default {
     if (saveData) this.loadSave(saveData)
 
     // 3. Or start a new cave
-    // if (!saveData) this.newGame()
+    if (!saveData) this.advancePlot()
 
     // 4. Set first tab as active
     if (this.$route.name != 'shenanigans') this.$router.replace({ name: 'shenanigans' })
@@ -62,10 +60,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['plotPoint', 'resources', 'tasks', 'activeTask', 'upgrades'])
+    ...mapGetters(['getSaveData', 'plotPoint', 'resources', 'tasks', 'activeTask', 'upgrades'])
   },
 
   methods: {
+    ...mapMutations(['pushLog']),
     ...mapActions(['updateStuff', 'loadSave', 'advancePlot']),
 
     endLoop(fps, panic) {
@@ -77,20 +76,15 @@ export default {
       }
     },
 
-    saveGame() {
-      let saveData = {
-        actions: this.actions,
-        resources: this.resources,
-        tasks: this.tasks,
-        activeTask: this.activeTask,
-        upgrades: this.upgrades
-      }
-      updateLocalStorage(saveData, 'koboldCave')
+    newGame() {
+      this.isLoading = true
+      clearLocalStorage('koboldCave')
+      document.location.reload(true)
     },
 
-    newGame() {
-      clearLocalStorage('koboldCave')
-      this.advancePlot()
+    saveGame() {
+      updateLocalStorage(this.getSaveData, 'koboldCave')
+      this.pushLog('📀 Game saved 📀')
     }
   }
 }
