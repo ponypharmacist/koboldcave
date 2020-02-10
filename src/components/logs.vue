@@ -16,7 +16,7 @@
           span.percent(v-if="activeTaskType === 'timed'") {{ activeTaskProgress ? activeTaskProgress + '%' : '0%' }}
 
     .scrollbox
-      .message(v-for="(message, key) in logs" :key="'message_' + key") {{ message.text }}
+      .message(v-for="(message, key) in logs" :key="'message_' + key" v-html="message.text")
 
 </template>
 

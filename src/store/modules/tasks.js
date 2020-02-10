@@ -59,7 +59,7 @@ export default {
         trigger: { resource: 'shrooms', amount: 10 },
         effect: [{ unlock: true, category: 'tabs', link: 'self', title: 'Know self' }],
         tooltipText: 'What are you? What is your purpose here?',
-        unlockMessage: "Now that food is not a concern, there's time to self-reflect.",
+        unlockMessage: "Now that food is not a concern, there's time to <b class='highlight'>self-reflect</b>.",
         effectMessage: '⭐ You unlock Self ⭐'
       }
     }

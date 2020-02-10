@@ -125,4 +125,7 @@ $cave-height: 240px
       margin-right: 12px
       color: #777
       text-decoration: underline
+
+      &:hover
+        color: $highlight-color
 </style>
