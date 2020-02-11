@@ -1,23 +1,40 @@
 <template lang="pug">
 
 .self
+  .about
+    p 
+      b Name: 
+      | Shamson the kob 
+      v-icon(color="#ffe082" size="16px") mdi-pencil-outline
+      br
+
+      b Level: 
+      | 1
+      br
+ 
+      b Rank: 
+      | Homeless kobold pup
+
   .stats
-  .stats
-    .stat(v-for="stat in stats" :key="`stat-${stat.title}`") 
+    .stat(v-for="(stat, key) in stats" :key="`stat-${stat.title}`") 
       .stat-title {{ stat.title }}
-      b.stat-value {{ stat.value }}
+      b.stat-level {{ stat.level }}
         span.stat-cap / {{ stat.cap }}
 
       v-tooltip(content-class="button-tooltip" top transition="fade-transition")
         template(#activator="tooltip")
           .stat-progress(v-on="tooltip.on")
             .stat-progress-bar
-              .stat-progress-value(:style="'width: ' + progressFill(stat.progress, stat.value) + '%'")
+              .stat-progress-fill(:style="'width: ' + progressFill(stat.progress, key) + '%'")
 
         div.text-center
-          .tip-text Progress to 
-            b.highlight lvl.{{ stat.value }}:
-          .tip-value {{ stat.progress }} of {{ progressNeeded(stat.value) }}
+          .tooltip-text Progress to 
+            b.highlight lvl.{{ stat.level }}:
+          .tooltip-text {{ stat.progress }} of {{ statsProgressNeeded(key) }}
+          .tooltip-flavor {{ stat.description }}
+
+  .misc-stats
+    p Cave respect: 0
 
 </template>
 
@@ -28,16 +45,12 @@ export default {
   name: 'self',
 
   computed: {
-    ...mapGetters(['stats', 'statsProgressModifier', 'statsProgressBase'])
+    ...mapGetters(['stats', 'statsProgressModifier', 'statsProgressBase', 'statsProgressNeeded'])
   },
 
   methods: {
-    progressNeeded(value) {
-      return Number(Math.round(this.statsProgressModifier ** value * this.statsProgressBase + 'e0') + 'e0')
-    },
-
-    progressFill(progress, value) {
-      let needed = this.progressNeeded(value)
+    progressFill(progress, link) {
+      let needed = this.statsProgressNeeded(link)
       return Number(Math.round((progress / needed) * 100 + 'e0') + 'e0')
     }
   }
@@ -48,6 +61,9 @@ export default {
 .self
   padding: 8px 6px
 
+  .stats
+    margin-bottom: 16px
+
   .stat
     display: flex
     align-items: center
@@ -55,9 +71,8 @@ export default {
   .stat-title
     display: inline-block
     width: 100px
-    text-align: right
 
-  .stat-value
+  .stat-level
     margin-left: 12px
     color: rgba(255, 224, 130, 1)
 
@@ -80,7 +95,7 @@ export default {
     background-color: #554a60
     border-radius: 1.5px
 
-  .stat-progress-value
+  .stat-progress-fill
     width: 10%
     height: 3px
     background-color: rgba(255, 224, 130, 0.8)

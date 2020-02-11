@@ -1,6 +1,9 @@
 <template lang="pug">
 
-.resources  
+.resources
+  self-bars
+
+  // Resources
   v-tooltip(
     v-for="(res, key) in resources"
     :key="`tab-${key}`"
@@ -28,7 +31,6 @@
       .tooltip-text(v-if="res.rate")
         .effect {{ res.rate }}/s
 
-
 </template>
 
 <script>
@@ -52,7 +54,7 @@ export default Vue.component('resources', {
 <style lang="sass">
 .resources
   min-width: 200px
-  padding: 45px 8px 4px
+  padding: 0px 8px 4px
 
 .resource
   display: flex

@@ -37,6 +37,15 @@ export default {
         unlocked: false,
         effect: [{ resource: 'insight', amount: 1 }],
         tooltipText: 'Stare into darkness, thinking about better living and quality-of-life improvements.'
+      },
+
+      trainPower: {
+        title: 'Train Power',
+        link: 'trainPower',
+        type: 'progress',
+        unlocked: true,
+        effect: [{ stat: 'power', progress: 1 }],
+        tooltipText: 'Stare into darkness, thinking about better living and quality-of-life improvements.'
       }
     }
   },
@@ -85,14 +94,13 @@ export default {
       }
 
       // Apply action effects
-      if (action.effect) {
-        dispatch('applyEffects', { category: 'actions', link: link })
-      }
+      if (action.effect) dispatch('applyEffectsOnce', { category: 'actions', link: link })
 
       // Deduce action costs
       if (action.cost) dispatch('applyCosts', { category: 'actions', link: link })
     },
 
+    // List of plot-related unlocks triggered by (action.type: 'plot')
     actionUnlocks({ state, commit }, link) {
       switch (link) {
         // First actions unlocks

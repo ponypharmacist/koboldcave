@@ -89,10 +89,9 @@ export default {
       //   category: String,
       //   link: String
       // }
-      let divider = event.category === 'actions' ? 1 : state.fps
       for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
         let effect = rootGetters[event.category][event.link].effect[i]
-        commit('addResource', { resource: effect.resource, amount: effect.amount / divider })
+        commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
       }
     },
 
@@ -110,7 +109,11 @@ export default {
         } else if (effect.resource) {
           commit('addResource', { resource: effect.resource, amount: effect.amount })
 
-          // 3. Multiply or add
+          // 3. Progress effects
+        } else if (effect.progress) {
+          dispatch('progress_stats', { link: effect.stat, amount: effect.progress })
+
+          // 4. Multiply or add
         } else if (effect.multiply || effect.add) {
           dispatch('mathTargetAttribute', {
             type: effect.multiply ? 'multiply' : 'add',

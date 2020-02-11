@@ -60,7 +60,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['getSaveData', 'plotPoint', 'resources', 'tasks', 'activeTask', 'upgrades'])
+    ...mapGetters(['getSaveData', 'plotPoint'])
   },
 
   methods: {
