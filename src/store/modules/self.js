@@ -113,10 +113,10 @@ export default {
       //   link: String,
       //   amount: 1
       // }
+      const stat = state.stats[progress.link]
       // If stat and progress is maxed out -> Do nothing
       if (stat.level === stat.cap && stat.progress === getters.statsProgressNeeded(progress.link)) return
 
-      const stat = state.stats[progress.link]
       let progressNew = Number(Math.round(stat.progress + progress.amount * stat.progressRate + 'e0') + 'e-0')
 
       // Check if progress is above needed progress

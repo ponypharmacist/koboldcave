@@ -28,6 +28,11 @@ let routes = [
         name: 'shelter'
       },
       {
+        path: 'tribe',
+        component: require('~/tabs/tribe').default,
+        name: 'tribe'
+      },
+      {
         path: 'science',
         component: require('~/tabs/science').default,
         name: 'science'
@@ -36,6 +41,11 @@ let routes = [
         path: 'shamanism',
         component: require('~/tabs/shamanism').default,
         name: 'shamanism'
+      },
+      {
+        path: 'shrine',
+        component: require('~/tabs/shrine').default,
+        name: 'shrine'
       },
       {
         path: 'venture',

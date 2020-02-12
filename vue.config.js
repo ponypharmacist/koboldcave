@@ -14,7 +14,6 @@ module.exports = {
       new webpack.ProvidePlugin({
         Vue: 'vue',
         vuetify: 'vuetify',
-        _: 'lodash',
         Config: ['config', 'default'],
         API: ['api', 'default']
       })

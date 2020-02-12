@@ -117,11 +117,8 @@ export default {
       // attrIndex: attrIndex,
       // amount: Number
       // }
-      if (item.attrIndex >= 0) {
-        state.tasks[item.link][item.attrType][item.attrIndex].amount = item.amount
-      } else {
-        state.tasks[item.link][item.attrType] = item.amount
-      }
+      if (item.attrIndex >= 0) state.tasks[item.link][item.attrType][item.attrIndex].amount = item.amount
+      else state.tasks[item.link][item.attrType] = item.amount
     },
 
     unlock_tasks(state, link) {

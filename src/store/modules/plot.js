@@ -25,6 +25,11 @@ export default {
         title: 'Shelter',
         unlocked: true
       },
+      tribe: {
+        name: 'tribe',
+        title: 'Tribe',
+        unlocked: true
+      },
       science: {
         name: 'science',
         title: 'Science',
@@ -33,6 +38,11 @@ export default {
       shamanism: {
         name: 'shamanism',
         title: 'Shamanism',
+        unlocked: true
+      },
+      shrine: {
+        name: 'shrine',
+        title: 'Shrine',
         unlocked: true
       },
       venture: {
