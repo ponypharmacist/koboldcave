@@ -12,8 +12,9 @@ export default {
         description: 'Affects combat, labor productivity, motivation.',
         level: 1,
         cap: 4,
-        progress: 15,
-        progressRate: 1
+        progress: 130,
+        progressRate: 1,
+        levelupMessage: 'You feel <b class="highlight">stronger</b>.'
       },
       smoothness: {
         title: 'Smoothness',
@@ -21,7 +22,8 @@ export default {
         level: 2,
         cap: 7,
         progress: 24,
-        progressRate: 1
+        progressRate: 1,
+        levelupMessage: 'You feel <b class="highlight">quicker</b>.'
       },
       vigor: {
         title: 'Vigor',
@@ -29,7 +31,8 @@ export default {
         level: 1,
         cap: 4,
         progress: 30,
-        progressRate: 1
+        progressRate: 1,
+        levelupMessage: 'You feel <b class="highlight">sturdier</b>.'
       },
       smarts: {
         title: 'Smarts',
@@ -37,7 +40,8 @@ export default {
         level: 2,
         cap: 5,
         progress: 10,
-        progressRate: 1
+        progressRate: 1,
+        levelupMessage: 'You feel <b class="highlight">smarter</b>.'
       },
       shrewdness: {
         title: 'Shrewdness',
@@ -45,7 +49,8 @@ export default {
         level: 1,
         cap: 5,
         progress: 0,
-        progressRate: 1
+        progressRate: 1,
+        levelupMessage: 'You feel <b class="highlight">wiser</b>.'
       },
       charm: {
         title: 'Charm',
@@ -53,13 +58,28 @@ export default {
         level: 2,
         cap: 4,
         progress: 0,
-        progressRate: 1
+        progressRate: 1,
+        levelupMessage: 'You feel <b class="highlight">pretty, oh so pretty</b>.'
       }
     },
 
-    derived: {
-      motivation: 10,
-      flux: 10
+    bars: {
+      motivation: {
+        title: 'Motivation',
+        link: 'motivation',
+        value: 2,
+        cap: 15,
+        rate: 0.5,
+        tooltipFlavor: 'Your eagerness to do anything.'
+      },
+      flux: {
+        title: 'Flux',
+        link: 'flux',
+        value: 2,
+        cap: 15,
+        rate: 0.2,
+        tooltipFlavor: 'Your spiritual reserves.'
+      }
     }
   },
 
@@ -72,12 +92,8 @@ export default {
       return state.stats
     },
 
-    motivation(state) {
-      return state.derived.motivation
-    },
-
-    flux(state) {
-      return state.derived.flux
+    bars(state) {
+      return state.bars
     },
 
     statsProgressNeeded: (state) => (link) =>
@@ -104,11 +120,15 @@ export default {
       // amount: Number
       // }
       state.stats[item.link][item.attrType] = item.amount
+    },
+
+    bar_value(state, item) {
+      state.bars[item.link].value = item.value
     }
   },
 
   actions: {
-    progress_stats({ state, commit, getters }, progress) {
+    progress_stats({ state, commit, dispatch, getters }, progress) {
       // progress: {
       //   link: String,
       //   amount: 1
@@ -127,6 +147,7 @@ export default {
         if (stat.level != stat.cap) {
           // A. up stat one level
           commit('modify_stats', { link: progress.link, attrType: 'level', amount: stat.level + 1 })
+          dispatch('pushLogs', { category: 'stats', link: progress.link, type: 'levelup' })
           // B. and set progress to 0
           commit('modify_stats', { link: progress.link, attrType: 'progress', amount: 0 })
           return
@@ -138,6 +159,21 @@ export default {
       }
 
       commit('modify_stats', { link: progress.link, attrType: 'progress', amount: progressNew })
+    },
+
+    refillBars({ state, commit, rootGetters }) {
+      for (let item in state.bars) {
+        const bar = state.bars[item]
+
+        if (bar.value != bar.cap) {
+          let newValue = bar.value + bar.rate / rootGetters.fps
+
+          if (newValue >= bar.cap) newValue = bar.cap
+          if (newValue <= 0) newValue = 0
+
+          commit('bar_value', { link: bar.link, value: Number(Math.round(newValue + 'e1') + 'e-1') })
+        }
+      }
     }
   }
 }

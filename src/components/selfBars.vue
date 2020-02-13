@@ -1,29 +1,21 @@
 <template lang="pug">
 
 .self-bars
-  .motivation
+  div(
+    v-for="bar in bars"
+    :key="`bar-${bar.title}`"
+    :class="bar.link"
+  )
     v-tooltip(content-class="button-tooltip" top transition="fade-transition")
       template(#activator="tooltip")
         .self-bar-wrap(v-on="tooltip.on")
           .self-bar
-            .self-bar-fill(:style="'width: ' + '60' + '%'")
+            .self-bar-fill(:style="'width: ' + barFill(bar.value, bar.link) + '%'")
 
       div.text-center
-        .tooltip-text Motivation
-        .tooltip-text 10 of 15
-        .tooltip-flavor Your eagerness to do anything.
-
-  .flux
-    v-tooltip(content-class="button-tooltip" top transition="fade-transition")
-      template(#activator="tooltip")
-        .self-bar-wrap(v-on="tooltip.on")
-          .self-bar
-            .self-bar-fill(:style="'width: ' + '40' + '%'")
-
-      div.text-center
-        .tooltip-text FLux
-        .tooltip-text 10 of 15
-        .tooltip-flavor Your spiritual power reserves.
+        .tooltip-text {{ bar.title }}
+        .tooltip-text {{ bar.value }} of {{ bar.cap }}
+        .tooltip-flavor {{ bar.tooltipFlavor }}
 
 </template>
 
@@ -34,10 +26,15 @@ export default Vue.component('self-bars', {
   name: 'self-bars',
 
   computed: {
-    ...mapGetters(['motivation', 'flux'])
+    ...mapGetters(['bars'])
   },
 
-  methods: {}
+  methods: {
+    barFill(value, link) {
+      let max = this.bars[link].cap
+      return Number(Math.round((value / max) * 100 + 'e0') + 'e0')
+    }
+  }
 })
 </script>
 
@@ -68,6 +65,7 @@ export default Vue.component('self-bars', {
     width: 10%
     height: 6px
     border-radius: 3px
+    transition: all 0.5s linear !important
 
 .motivation .self-bar-fill
   background-color: #ffe082

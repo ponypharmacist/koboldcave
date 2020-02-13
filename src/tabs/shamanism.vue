@@ -3,6 +3,8 @@
 .shamanism
   p Shamanism
 
+  p Spatial magic
+
 </template>
 
 <script>

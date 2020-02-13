@@ -38,6 +38,9 @@ export default {
 
       // Check for unlocks
       dispatch('checkForUnlocks')
+
+      // ToDo: Refill bars
+      dispatch('refillBars')
     },
 
     checkForUnlocks({ state, commit, dispatch, rootGetters }) {
@@ -85,13 +88,17 @@ export default {
     },
 
     applyEffects({ state, commit, rootGetters }, event) {
-      // event = {
-      //   category: String,
-      //   link: String
-      // }
+      // event = { category: String, link: String }
       for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
         let effect = rootGetters[event.category][event.link].effect[i]
-        commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
+
+        // Apply effect based on effect type
+        // 1. Resource effects
+        if (effect.resource) {
+          commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
+        } else {
+          console.log('No handler for resource type provided in applyEffects()')
+        }
       }
     },
 
@@ -166,10 +173,6 @@ export default {
       thingsToRemember.forEach((i) => commit('remember_' + i, saveData[i]))
       // Remember specific things
       commit('toggleTask', saveData.activeTask)
-    },
-
-    round({ state }, value) {
-      return Number(Math.round(value + 'e4') + 'e-4')
     }
   }
 }
