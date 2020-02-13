@@ -143,16 +143,11 @@ export default {
 
       // Get target value
       if (item.subtarget) {
-        let target = rootGetters[item.category][item.link][item.target]
-        // category: 'tasks', link: 'shovelBatshit', target: 'effect', subtarget: 'batshit'
-        for (let i = 0; i < target.length; i++) {
-          if (target[i].resource === item.subtarget) {
-            targetAmount = target[i].amount
-            attrIndex = i
-          }
-        }
+        let target = rootGetters[item.category][item.link][item.target] // e.g. tasks.shovelBatshit.effect
+        attrIndex = target.findIndex((subtarget) => subtarget.resource === item.subtarget) // e.g. subtarget: 'batshit'
+        targetAmount = target[attrIndex].amount
       } else {
-        targetAmount = rootGetters[item.category][item.link][item.target] // resources.shrooms.cap
+        targetAmount = rootGetters[item.category][item.link][item.target] // e.g. resources.shrooms.cap
       }
 
       // Get final number

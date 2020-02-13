@@ -35,6 +35,7 @@
 
   .misc-stats
     p Cave respect: 0
+    p Stats affect: some tasks/actions in some tabs. Adventure, settlement, trade prices, waifus.
 
 </template>
 
