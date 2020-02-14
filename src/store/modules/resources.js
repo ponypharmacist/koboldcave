@@ -69,9 +69,6 @@ export default {
 
     addResource(state, payload) {
       let resource = state.resources[payload.resource]
-
-      if (resource.count >= resource.cap) return
-
       let newCount = Number(Math.round(resource.count + payload.amount + 'e4') + 'e-4')
 
       if (newCount >= resource.cap) newCount = resource.cap

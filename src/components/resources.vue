@@ -23,8 +23,7 @@
         )
         .resource-title {{ res.title }}
         .resource-amount
-          span.amount-current {{ res.count }} 
-          // span.amount-current / {{ res.countRound }} 
+          span.amount-current {{ res.countRound }} 
 
     div
       .tooltip-title {{ res.tooltipTitle ? res.tooltipTitle : res.title }}
@@ -56,7 +55,7 @@ export default Vue.component('resources', {
 <style lang="sass">
 .resources
   min-width: 200px
-  padding: 0px 8px 4px
+  padding: 0px 4px 4px
 
 .resource
   display: flex
@@ -65,13 +64,16 @@ export default Vue.component('resources', {
 
   .resource-fill
     position: absolute
-    height: calc(100% - 1px)
+    height: calc(100% - 2px)
     margin-top: 0
-    background-color: rgba(255, 224, 130, 0.07)
-    border-bottom: 1px solid rgba(255, 224, 130, 0.1)
+    background-color: rgba(255, 224, 130, 0.05)
+    border-bottom: 1px solid rgba(255, 224, 130, 0.08)
+    border-right: 1px solid rgba(255, 224, 130, 0.08)
+    border-radius: 0 4px 4px 0
 
 .resource-amount
   margin-left: auto
+  margin-right: 4px
 
   .amount-max
     color: #554a60
@@ -82,4 +84,5 @@ export default Vue.component('resources', {
   width: 12px
   height: 12px
   margin-right: 6px
+  margin-left: 4px
 </style>
