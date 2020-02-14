@@ -20,6 +20,33 @@ export default {
         tooltipFlavor: "'Juicy! Jummy!'"
       },
 
+      huntSkins: {
+        title: 'Hunt Skinny Critters',
+        link: 'huntSkins',
+        type: 'resource',
+        unlocked: true,
+        effect: [{ resource: 'skins', amount: 1 }],
+        tooltipText: 'Smack, skewer and skin.'
+      },
+
+      stackStones: {
+        title: 'Stack Stones',
+        link: 'stackStones',
+        type: 'resource',
+        unlocked: true,
+        effect: [{ resource: 'stones', amount: 1 }],
+        tooltipText: 'Smack, skewer and skin.'
+      },
+
+      chopShroomWood: {
+        title: 'Chop Shroom Wood',
+        link: 'chopShroomWood',
+        type: 'resource',
+        unlocked: true,
+        effect: [{ resource: 'shroomwood', amount: 1 }],
+        tooltipText: 'Smack, skewer and skin.'
+      },
+
       seekSticks: {
         title: 'Seek Sticks',
         link: 'seekSticks',

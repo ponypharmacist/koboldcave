@@ -10,7 +10,7 @@ export default {
         count: 0,
         countRound: 0,
         rate: 0,
-        cap: 1000
+        cap: 200
       },
       batshit: {
         title: 'Bat Shit',
@@ -18,7 +18,32 @@ export default {
         count: 0,
         countRound: 0,
         rate: 0,
-        cap: 1000
+        cap: 200
+      },
+      // ToDo: flesh
+      skins: {
+        title: 'Skins',
+        unlocked: true,
+        count: 0,
+        countRound: 0,
+        rate: 0,
+        cap: 100
+      },
+      stones: {
+        title: 'Stones',
+        unlocked: true,
+        count: 0,
+        countRound: 0,
+        rate: 0,
+        cap: 100
+      },
+      shroomwood: {
+        title: 'Shroom Wood',
+        unlocked: true,
+        count: 0,
+        countRound: 0,
+        rate: 0,
+        cap: 100
       },
       insight: {
         title: 'Insight',

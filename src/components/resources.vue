@@ -15,6 +15,7 @@
         v-show="res.unlocked"
         v-on="tooltip.on"
       )
+        .resource-fill(:style="'width: ' + res.count / res.cap * 100 + '%'")
         img.resource-image(
           :src="resourceImage(key)"
           width="12px"
@@ -24,10 +25,11 @@
         .resource-amount
           span.amount-current {{ res.count }} 
           // span.amount-current / {{ res.countRound }} 
-          span.amount-max /{{ res.cap }}
 
     div
       .tooltip-title {{ res.tooltipTitle ? res.tooltipTitle : res.title }}
+      .tooltip-text {{ res.count }} 
+        span.amount-max / {{ res.cap }}
       .tooltip-text(v-if="res.rate")
         .effect {{ res.rate }}/s
 
@@ -59,6 +61,14 @@ export default Vue.component('resources', {
 .resource
   display: flex
   align-items: center
+  position: relative
+
+  .resource-fill
+    position: absolute
+    height: calc(100% - 1px)
+    margin-top: 0
+    background-color: rgba(255, 224, 130, 0.07)
+    border-bottom: 1px solid rgba(255, 224, 130, 0.1)
 
 .resource-amount
   margin-left: auto

@@ -83,7 +83,14 @@ export default {
 
       for (let i = 0; i < rootGetters[event.category][event.link].cost.length; i++) {
         let cost = rootGetters[event.category][event.link].cost[i]
-        commit('addResource', { resource: cost.resource, amount: 0 - cost.amount / divider })
+
+        // 1. Resource costs
+        if (cost.resource) {
+          commit('addResource', { resource: cost.resource, amount: 0 - cost.amount / divider })
+        } else {
+          console.log('No handler for cost type provided in applyCosts()')
+        }
+        // ToDo: cost types: motivation/flux
       }
     },
 
@@ -97,7 +104,7 @@ export default {
         if (effect.resource) {
           commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
         } else {
-          console.log('No handler for resource type provided in applyEffects()')
+          console.log('No handler for effect type provided in applyEffects()')
         }
       }
     },

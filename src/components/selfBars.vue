@@ -45,7 +45,7 @@ export default Vue.component('self-bars', {
   width: 100%
   height: 40px
   padding: 4px 0
-  margin-bottom: 4px
+  margin-bottom: 8px
 
     // Stat Progress Bars
   .self-bar-wrap
