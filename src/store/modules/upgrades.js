@@ -44,7 +44,7 @@ export default {
         effect: [
           {
             unlock: true,
-            category: 'producers',
+            category: 'buildings',
             link: 'shroomPlot',
             title: 'Shroom farming plots'
           }

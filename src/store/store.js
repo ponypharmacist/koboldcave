@@ -15,7 +15,6 @@ import upgrades from './modules/upgrades'
 // Other tabs
 import self from './modules/self'
 import shelter from './modules/shelter'
-import producers from './modules/producers'
 
 Vue.use(Vuex)
 
@@ -32,7 +31,6 @@ export default new Vuex.Store({
     upgrades,
     // Other tabs
     self,
-    shelter,
-    producers
+    shelter
   }
 })

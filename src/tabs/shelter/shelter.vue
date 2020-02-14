@@ -1,9 +1,6 @@
 <template lang="pug">
 
 .shelter
-  // Producers and consumers
-  producers
-
   .building(
     v-for="building in buildingsUnlocked"
     :key="`building-${building.link}`"

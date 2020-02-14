@@ -90,7 +90,7 @@ export default {
         if (cost.resource) {
           commit('addResource', { resource: cost.resource, amount: 0 - cost.amount / divider })
         } else {
-          console.log('No handler for cost type provided in applyCosts()')
+          commit('pushLog', '🔔🔔🔔 No handler for cost type provided in applyCosts() 🔔🔔🔔')
         }
         // ToDo: cost types: motivation/flux
       }
@@ -106,7 +106,7 @@ export default {
         if (effect.resource) {
           commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
         } else {
-          console.log('No handler for effect type provided in applyEffects()')
+          commit('pushLog', '🔔🔔🔔 No handler for effect type provided in applyEffects() 🔔🔔🔔')
         }
       }
     },
@@ -140,7 +140,7 @@ export default {
             amount: effect.amount
           })
           // 0. Other
-        } else console.warn('applyEffectsOnce: unknown effect type!')
+        } else commit('pushLog', '🔔🔔🔔 applyEffectsOnce: unknown effect type! 🔔🔔🔔')
       }
     },
 

@@ -31,6 +31,7 @@
       .tooltip-text {{ res.count }} / {{ res.cap }}
       .tooltip-text(v-if="res.rate")
         .effect {{ res.rate }}/s
+      .tooltip-flavor(v-if="res.tooltipFlavor") {{ res.tooltipFlavor }}
 
 </template>
 
@@ -72,7 +73,7 @@ export default Vue.component('resources', {
     border-radius: 0 4px 4px 0
 
   &.insight
-    margin-top: 11px
+    margin-top: 12px
 
     &::before
       position: absolute

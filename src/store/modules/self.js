@@ -145,10 +145,10 @@ export default {
         progressNew = getters.statsProgressNeeded(progress.link)
         // Check if stat is at max
         if (stat.level != stat.cap) {
-          // A. up stat one level
+          // 1. up stat one level
           commit('modify_stats', { link: progress.link, attrType: 'level', amount: stat.level + 1 })
           dispatch('pushLogs', { category: 'stats', link: progress.link, type: 'levelup' })
-          // B. and set progress to 0
+          // 2. and set progress to 0
           commit('modify_stats', { link: progress.link, attrType: 'progress', amount: 0 })
           return
         } else {
