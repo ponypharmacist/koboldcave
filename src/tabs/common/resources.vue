@@ -14,6 +14,7 @@
       .resource(
         v-show="res.unlocked"
         v-on="tooltip.on"
+        :class="key"
       )
         .resource-fill(:style="'width: ' + res.count / res.cap * 100 + '%'")
         img.resource-image(
@@ -27,8 +28,7 @@
 
     div
       .tooltip-title {{ res.tooltipTitle ? res.tooltipTitle : res.title }}
-      .tooltip-text {{ res.count }} 
-        span.amount-max / {{ res.cap }}
+      .tooltip-text {{ res.count }} / {{ res.cap }}
       .tooltip-text(v-if="res.rate")
         .effect {{ res.rate }}/s
 
@@ -71,13 +71,21 @@ export default Vue.component('resources', {
     border-right: 1px solid rgba(255, 224, 130, 0.08)
     border-radius: 0 4px 4px 0
 
+  &.insight
+    margin-top: 11px
+
+    &::before
+      position: absolute
+      content: ''
+      width: 27px
+      height: 5px
+      top: -8px
+      left: 84px
+      background: transparent url('~@/assets/resources/divider.png') no-repeat 0 0 / 100% 100%
+
 .resource-amount
   margin-left: auto
   margin-right: 4px
-
-  .amount-max
-    color: #554a60
-    padding-left: 1px
 
 .resource-image
   position: relative

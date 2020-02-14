@@ -77,10 +77,10 @@ export default Vue.component('tooltip', {
   padding: 4px 0
 
   .effect
-    color: #FFE082
+    color: $highlight-color
 
   .cost
-    color: #B39DDB
+    color: $cost-color
 
 .tooltip-flavor
   font-style: italic

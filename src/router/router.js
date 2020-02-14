@@ -24,7 +24,7 @@ let routes = [
       },
       {
         path: 'shelter',
-        component: require('~/tabs/shelter').default,
+        component: require('~/tabs/shelter/shelter').default,
         name: 'shelter'
       },
       {

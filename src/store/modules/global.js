@@ -9,7 +9,7 @@ export default {
       return state.fps
     },
 
-    getSaveData(state, rootState) {
+    getSaveData(state, rootState, rootGetters) {
       return {
         plot: rootState.plot,
         logs: rootState.logs,
@@ -20,7 +20,9 @@ export default {
         activeTask: rootState.activeTask,
         upgrades: rootState.upgrades,
 
-        self: rootState.self
+        shelter: rootGetters.shelter, // ToDo: does it work correctly?
+
+        self: rootState.self // ToDo: does it work correctly?
       }
     }
   },
@@ -170,7 +172,7 @@ export default {
     },
 
     loadSave({ state, commit }, saveData) {
-      const thingsToRemember = ['plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'self']
+      const thingsToRemember = ['plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'self', 'shelter']
       // Remember stuff from the list above
       thingsToRemember.forEach((i) => commit('remember_' + i, saveData[i]))
       // Remember specific things

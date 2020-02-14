@@ -5,7 +5,7 @@ export default {
       shroomPlot: {
         title: 'Shroom Plot',
         link: 'shroomPlot',
-        unlocked: false,
+        unlocked: true,
         number: 0,
         numberMax: 4,
         // eslint-disable-next-line prettier/prettier

@@ -10,9 +10,6 @@
   // Upgrades
   upgrades
 
-  // Producers and consumers
-  producers
-
   p Traveling merchant here
 
 </template>
