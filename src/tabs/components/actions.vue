@@ -43,10 +43,18 @@ export default Vue.component('actions', {
 
     actionCheckDisabled(link) {
       const action = this.actions[link]
+      // Disabled by not enough resources
       if (action.cost) {
         for (let i = 0; i < action.cost.length; i++) {
           let price = action.cost[i]
           if (this.resources[price.resource].countRound < price.amount) return true
+        }
+      }
+      // Disabled by inability to gain more resource of this type
+      if (action.effect) {
+        for (let i = 0; i < action.effect.length; i++) {
+          let gain = action.effect[i]
+          if (gain.resource && this.resources[gain.resource].cap === this.resources[gain.resource].countRound) return true
         }
       }
 

@@ -30,7 +30,7 @@
           span(v-on="tooltip.on")            
             v-btn(    
               @click="upgradeBuilding({ link: building.link, level: lvlNext(building.level) })"
-              :disabled="upgradeCheckDisabled(building.link)"
+              :disabled="upgradeCheckDisabled({ link: building.link, level: lvlNext(building.level) })"
               retain-focus-on-click
               color="#FFE082"
               outlined
@@ -92,19 +92,18 @@ export default {
   name: 'shelter',
 
   computed: {
-    ...mapGetters(['buildings', 'buildingsUnlocked'])
+    ...mapGetters(['resources', 'buildings', 'buildingsUnlocked'])
   },
 
   methods: {
     ...mapActions(['upgradeBuilding']),
 
-    upgradeCheckDisabled(link) {
-      if (this.buildings[link].cost) {
-        for (let i = 0; i < this.buildings[link].cost.length; i++) {
-          let price = this.buildings[link].cost[i]
-          if (this.resources[price.resource].countRound < price.amount) {
-            return true
-          }
+    upgradeCheckDisabled(building) {
+      // building: { link: String, level: Number }
+      const cost = this.buildings[building.link].tiers[building.level].cost
+      if (cost) {
+        for (let i = 0; i < cost.length; i++) {
+          if (this.resources[cost[i].resource].countRound < cost[i].amount) return true
         }
       }
       return false
