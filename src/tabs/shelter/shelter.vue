@@ -6,6 +6,7 @@
     :key="`building-${building.link}`"
   )
     .building-info
+      img.building-thumb(src="~@/assets/buildings/tent-thumb.gif")
       .building-title
         | {{ building.tiers[lvlCurrent(building.level)].title }} 
         span.building-subtitle(v-if="building.level >= 1")
@@ -144,20 +145,31 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.1)
   border-radius: 3px
 
-  .building-title
-    font-size: 20px
-    line-height: 28px
-    font-weight: 700
+  .building-info
+    position: relative
+    padding-left: 40px
 
-    .building-subtitle
-      font-size: 14px
-      color: #554a60
-      font-weight: 400
+    .building-title
+      font-size: 20px
+      line-height: 28px
+      font-weight: 700
 
-  .building-description
-    & .provides:last-child
-      .comma
-        display: none
+      .building-subtitle
+        font-size: 14px
+        color: #554a60
+        font-weight: 400
+
+    .building-description
+      & .provides:last-child
+        .comma
+          display: none
+
+    .building-thumb
+      position: absolute
+      width: 32px
+      height: 32px
+      left: 0
+      top: -2px
 
   .cost
     color: $cost-color

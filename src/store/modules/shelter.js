@@ -12,6 +12,7 @@ export default {
             title: 'Tent',
             description: 'Primitive tent made out of shroom wood and bat skins.',
             unlocked: true,
+            image: 'tent',
             cost: [
               { resource: 'skins', amount: 1 },
               { resource: 'shroomwood', amount: 2 }
