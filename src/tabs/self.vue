@@ -29,7 +29,7 @@
 
         div.text-center
           .tooltip-text Progress to 
-            b.highlight lvl.{{ stat.level }}:
+            b.highlight lvl.{{ stat.level < stat.cap ? stat.level + 1 : stat.level }}:
           .tooltip-text {{ stat.progress }} of {{ statsProgressNeeded(key) }}
           .tooltip-flavor {{ stat.description }}
 

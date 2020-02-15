@@ -15,6 +15,8 @@
       div.text-center
         .tooltip-text {{ bar.title }}
         .tooltip-text {{ bar.value }} of {{ bar.cap }}
+        .tooltip-text
+          .highlight {{ bar.rate }} per second
         .tooltip-flavor {{ bar.tooltipFlavor }}
 
 </template>

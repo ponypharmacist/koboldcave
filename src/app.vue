@@ -100,7 +100,6 @@ $cave-height: 240px
 
 .app-content
   margin: 0 auto
-  font-size: 14px
 
   .interface
     display: flex

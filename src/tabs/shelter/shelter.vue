@@ -6,27 +6,29 @@
     :key="`building-${building.link}`"
   )
     .building-info
-      .building-title {{ building.tiers[lvlCurrent(building.level)].title }} 
-        span.building-subtitle(v-if="building.level >= 1") (tier {{ building.level }} {{ building.link }})
+      .building-title
+        | {{ building.tiers[lvlCurrent(building.level)].title }} 
+        span.building-subtitle(v-if="building.level >= 1")
+          | (tier {{ building.level }} {{ building.link }})
       
       .building-description(v-if="building.level >= 1")
         div {{ building.tiers[lvlCurrent(building.level)].description }}
         div(v-if="building.tiers[lvlCurrent(building.level)].provides") Provides: 
-        span(
-          v-for="(item, key) in building.tiers[lvlCurrent(building.level)].provides"
-          :key="`building-${building.link}-effect-${key}`"
-          )
-          span.highlight {{ providesTextByType(item) }}
-          span.comma , 
+          span.provides(
+            v-for="(item, key) in building.tiers[lvlCurrent(building.level)].provides"
+            :key="`building-${building.link}-effect-${key}`"
+            )
+            span.highlight {{ providesTextByType(item) }}
+            span.comma , 
 
 
     // Build/upgrade button
-    .buttons(v-if="building.level < building.tiers.length - 1")
+    .buttons(v-if="building.level < building.tiers.length - 1 && building.tiers[lvlNext(building.level)].unlocked")
       v-tooltip(content-class="button-tooltip" right)
         template(#activator="tooltip")
           span(v-on="tooltip.on")            
             v-btn(    
-              @click="upgradeBuilding({ link: building.link, level: building.level })"
+              @click="upgradeBuilding({ link: building.link, level: lvlNext(building.level) })"
               :disabled="upgradeCheckDisabled(building.link)"
               retain-focus-on-click
               color="#FFE082"
@@ -136,21 +138,24 @@ export default {
 
 .building
   display: flex
-  align-items: center
   margin: 0 4px 4px 0
-  padding: 6px 6px 6px 10px
+  padding: 6px 6px 6px 12px
+  background-color: rgba(0, 0, 0, 0.25)
   border: 1px solid rgba(255, 255, 255, 0.1)
   border-radius: 3px
 
   .building-title
-    font-size: 18px
+    font-size: 20px
+    line-height: 28px
+    font-weight: 700
 
-  .building-subtitle
-    font-size: 14px
-    color: #554a60
+    .building-subtitle
+      font-size: 14px
+      color: #554a60
+      font-weight: 400
 
   .building-description
-    & > span:last-child
+    & .provides:last-child
       .comma
         display: none
 

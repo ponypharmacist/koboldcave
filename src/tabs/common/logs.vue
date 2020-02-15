@@ -63,7 +63,8 @@ export default Vue.component('logs', {
       position: relative
       padding: 4px 10px
       margin-bottom: 10px
-      font-size: 12px
+      font-size: 14px
+      line-height: 18px
       background-color: #222
       border-radius: 5px 5px 5px 0
 

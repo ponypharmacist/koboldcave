@@ -114,8 +114,13 @@ export default {
 
     applyEffectsOnce({ state, commit, dispatch, rootGetters }, event) {
       // event: { category: String, link: String }
-      for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
-        let effect = rootGetters[event.category][event.link].effect[i]
+      // buildings: { category: String, link: String, tier: Number }
+      let effectsList = rootGetters[event.category][event.link].effect
+
+      if (event.tier) effectsList = rootGetters[event.category][event.link].tiers[event.tier].effect
+
+      for (let i = 0; i < effectsList.length; i++) {
+        let effect = effectsList[i]
 
         // Apply effect based on effect type
         // 1. Unlocks
