@@ -122,6 +122,15 @@ export default {
       state.stats[item.link][item.attrType] = item.amount
     },
 
+    modify_bars(state, item) {
+      // item = {
+      // link: String,
+      // attrType: String,
+      // amount: Number
+      // }
+      state.bars[item.link][item.attrType] = item.amount
+    },
+
     bar_value(state, item) {
       state.bars[item.link].value = item.value
     }
@@ -162,6 +171,7 @@ export default {
     },
 
     refillBars({ state, commit, rootGetters }) {
+      // ToDo: poll bonus refill rate providers (e.g. buildings)
       for (let item in state.bars) {
         const bar = state.bars[item]
 

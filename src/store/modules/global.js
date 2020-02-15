@@ -33,6 +33,7 @@ export default {
     // Main updater event that fires every frame
     updateStuff({ state, commit, dispatch, rootGetters }) {
       // Update resources that have rate
+      // ToDo: rework rates
       dispatch('updateResourcesWithRate')
 
       // Commit active task
@@ -41,7 +42,7 @@ export default {
       // Check for unlocks
       dispatch('checkForUnlocks')
 
-      // ToDo: Refill bars
+      // Refill bars
       dispatch('refillBars')
     },
 

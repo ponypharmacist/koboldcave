@@ -8,20 +8,20 @@
     right
   )
     template(#activator="tooltip")
-      v-btn.task-button(
-        @click="toggleTask(task.link)"
-        :disabled="checkTasksDisabled(task.link)"
-        v-on="tooltip.on"
-        color="#FFE082"
-        :class="{ 'task-active': task.link == activeTask }"
-        retain-focus-on-click
-        outlined
-        small
-      ) {{ task.title }}
-        v-icon.progress-icon(
-          v-if="task.link == activeTask"
-          size="14px"
-        ) mdi-yin-yang
+      span(v-on="tooltip.on")
+        v-btn.task-button(
+          @click="toggleTask(task.link)"
+          :disabled="checkTasksDisabled(task.link)"
+          color="#FFE082"
+          :class="{ 'task-active': task.link == activeTask }"
+          retain-focus-on-click
+          outlined
+          small
+        ) {{ task.title }}
+          v-icon.progress-icon(
+            v-if="task.link == activeTask"
+            size="14px"
+          ) mdi-yin-yang
 
     tooltip(
       :title="task.title"

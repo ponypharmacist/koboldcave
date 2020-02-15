@@ -4,7 +4,7 @@ export default {
     buildings: {
       dwelling: {
         link: 'dwelling',
-        level: 1,
+        level: 0,
         unlocked: true,
         blocked: false,
         tiers: [
@@ -13,28 +13,86 @@ export default {
             title: 'Tent',
             description: 'Primitive tent made out of shroom wood and bat skins.',
             cost: [
-              { resource: 'skins', amount: 4 },
-              { resource: 'shroomwood', amount: 6 }
+              { resource: 'skins', amount: 1 },
+              { resource: 'shroomwood', amount: 2 }
             ],
-            effect: [] // motivation +1, +0.1/s & some resources cap +10
+            effect: [
+              {
+                add: true,
+                category: 'resources',
+                link: 'shrooms',
+                target: 'cap',
+                subtarget: null,
+                amount: 10
+                // title: 'More shroom storage'
+              }
+            ],
+            provides: [
+              {
+                type: 'rate',
+                category: 'bars',
+                link: 'motivation',
+                subtarget: null,
+                amount: 0.1
+              }
+            ],
+            tooltipFlavor: '20000 steps journey starts with 10000 steps.'
           },
           /* 2 */ {
             title: 'Shack',
             description: 'Stone and wood shack that offers more space and protection.',
             cost: [
-              { resource: 'skins', amount: 4 },
-              { resource: 'shroomwood', amount: 6 }
+              { resource: 'skins', amount: 2 },
+              { resource: 'shroomwood', amount: 3 }
             ],
-            effect: []
+            effect: [
+              {
+                add: true,
+                category: 'resources',
+                link: 'shrooms',
+                target: 'cap',
+                subtarget: null,
+                amount: 20
+                // title: 'More shroom storage'
+              }
+            ],
+            provides: [
+              {
+                type: 'rate',
+                category: 'bars',
+                link: 'motivation',
+                subtarget: null,
+                amount: 0.2
+              }
+            ]
           },
           /* 3 */ {
             title: 'Villa',
-            description: 'Primitive tent made out of shroom wood and bat skins.',
+            description: 'Nice underground villa.',
             cost: [
-              { resource: 'skins', amount: 4 },
-              { resource: 'shroomwood', amount: 6 }
+              { resource: 'skins', amount: 3 },
+              { resource: 'shroomwood', amount: 4 }
             ],
-            effect: []
+            effect: [
+              {
+                add: true,
+                category: 'resources',
+                link: 'shrooms',
+                target: 'cap',
+                subtarget: null,
+                amount: 30
+                // title: 'More shroom storage'
+              }
+            ],
+            provides: [
+              {
+                type: 'rate',
+                category: 'bars',
+                link: 'motivation',
+                subtarget: null,
+                amount: 0.3
+              }
+            ]
           }
         ]
       },
@@ -50,8 +108,8 @@ export default {
             title: 'Tinkering Nook',
             description: 'Bla bla bla.',
             cost: [
-              { resource: 'skins', amount: 4 },
-              { resource: 'shroomwood', amount: 6 }
+              { resource: 'skins', amount: 1 },
+              { resource: 'shroomwood', amount: 1 }
             ], // 4 skins, 6 shroomwood
             effect: [] // motivation +1, +0.1/s & some resources cap +10
           },
@@ -59,8 +117,8 @@ export default {
             title: 'Workshop',
             description: 'Kobold garage of mechanical wonders.',
             cost: [
-              { resource: 'skins', amount: 4 },
-              { resource: 'shroomwood', amount: 6 }
+              { resource: 'skins', amount: 2 },
+              { resource: 'shroomwood', amount: 2 }
             ],
             effect: []
           },
@@ -68,8 +126,8 @@ export default {
             title: 'Das Craften Laboratorium',
             description: 'Lo and behold.',
             cost: [
-              { resource: 'skins', amount: 4 },
-              { resource: 'shroomwood', amount: 6 }
+              { resource: 'skins', amount: 3 },
+              { resource: 'shroomwood', amount: 3 }
             ],
             effect: []
           }

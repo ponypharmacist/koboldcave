@@ -5,22 +5,22 @@
     v-for="building in buildingsUnlocked"
     :key="`building-${building.link}`"
   )
-    .building-title {{ building.level ? building.tiers[building.level].title : building.tiers[1].title }} 
-      span.building-subtitle(v-if="building.level >= 1") (level {{ building.level }} {{ building.link }})
-    
-    .building-description {{ building.level ? building.tiers[building.level].description : building.tiers[1].description }} 
+    .building-info
+      .building-title {{ building.tiers[lvlCurrent(building.level)].title }} 
+        span.building-subtitle(v-if="building.level >= 1") (tier {{ building.level }} {{ building.link }})
+      
+      .building-description(v-if="building.level >= 1")
+        div {{ building.tiers[lvlCurrent(building.level)].description }}
+        div(v-if="building.tiers[lvlCurrent(building.level)].provides") Provides: 
+        span(
+          v-for="(item, key) in building.tiers[lvlCurrent(building.level)].provides"
+          :key="`building-${building.link}-effect-${key}`"
+          )
+          span.highlight {{ providesTextByType(item) }}
+          span.comma , 
 
-    .requires Requires: 
-      span.cost 4 skins
-      | , 
-      span.cost 6 shroomwood
 
-    // ToDo: Provides
-    .provides Provides: 
-      span.highlight +1 motivation
-      | , 
-      span.highlight +10 storage space
-
+    // Build/upgrade button
     .buttons(v-if="building.level < building.tiers.length - 1")
       v-tooltip(content-class="button-tooltip" right)
         template(#activator="tooltip")
@@ -35,13 +35,36 @@
             ) {{ building.level ? 'Upgrade' : 'Build' }}
 
         .tooltip
-          .tooltip-title {{ 'Upgrade to: "' + building.tiers[building.level].title + '"' }}
-          .tooltip-text {{ building.tiers[building.level].description }}
+          .tooltip-title
+            | {{ building.level === 0 ? 'Build "' : 'Upgrade to: "' }}
+            span.highlight {{ building.tiers[lvlNext(building.level)].title }}
+            | "
+
+          .tooltip-text {{ building.tiers[lvlNext(building.level)].description }}
+                  
+          .tooltip-text(v-if="building.tiers[lvlNext(building.level)].cost") Requires: 
+            .cost(
+              v-for="(item, key) in building.tiers[lvlNext(building.level)].cost"
+              :key="`building-cost-${key}`"
+              ) {{ item.resource }} {{ item.amount }}
+
+          .tooltip-text(v-if="building.tiers[building.level + 1].effect") Effect: 
+            .effect(
+              v-for="(item, key) in building.tiers[building.level + 1].effect"
+              :key="`building-${building.link}-effect-${key}`"
+              ) {{ effectTextByType(item) }}
+
+          .tooltip-text(v-if="building.tiers[building.level + 1].provides") Provides: 
+            .effect(
+              v-for="(item, key) in building.tiers[building.level + 1].provides"
+              :key="`building-${building.link}-effect-${key}`"
+              ) {{ providesTextByType(item) }}
+
+          .tooltip-flavor(v-if="building.tiers[building.level + 1].tooltipFlavor")
+            | {{ building.tiers[building.level + 1].tooltipFlavor }}
           
           //- ToDo: complete tooltip
-          //- :cost="upgrade.cost ? upgrade.cost : null"
           //- :effect="upgrade.effect ? upgrade.effect : null"
-          //- :flavor="upgrade.tooltipFlavor ? upgrade.tooltipFlavor : null"
 
   p
    b Types: <br>
@@ -82,6 +105,26 @@ export default {
         }
       }
       return false
+    },
+
+    lvlCurrent(level) {
+      return level === 0 ? 1 : level
+    },
+
+    lvlNext(level) {
+      return level === 0 ? 1 : level + 1
+    },
+
+    effectTextByType(effect) {
+      // 1. Math effect
+      if (effect.add)
+        if (effect.title) return effect.title
+        else return '+' + effect.amount + ' ' + effect.link + ' ' + effect.target
+      // ToDo: better wording: '+10 shrooms storage'
+    },
+
+    providesTextByType(provides) {
+      if (provides.type === 'rate') return '+' + provides.amount + ' ' + provides.link + ' per second'
     }
   }
 }
@@ -92,8 +135,10 @@ export default {
   padding: 8px 6px
 
 .building
-  margin: 4px 4px 4px 0
-  padding: 4px 8px
+  display: flex
+  align-items: center
+  margin: 0 4px 4px 0
+  padding: 6px 6px 6px 10px
   border: 1px solid rgba(255, 255, 255, 0.1)
   border-radius: 3px
 
@@ -105,11 +150,13 @@ export default {
     color: #554a60
 
   .building-description
+    & > span:last-child
+      .comma
+        display: none
 
   .cost
     color: $cost-color
 
   .buttons
-    margin-top: 4px
-    margin-bottom: 4px
+    margin: 0 0 0 auto
 </style>
