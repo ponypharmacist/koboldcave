@@ -129,6 +129,8 @@
 
           .tooltip-flavor(v-if="building.tooltipFlavor") {{ building.tooltipFlavor }}
 
+  p ToDo: [+/-] multiple buildings of one type
+
   p
    b Types: <br>
    | Rest, living, pets <br>

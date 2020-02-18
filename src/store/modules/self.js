@@ -153,6 +153,8 @@ export default {
           // 1. up stat one level
           commit('modify_stats', { link: progress.link, attrType: 'level', amount: stat.level + 1 })
           dispatch('pushLogs', { category: 'stats', link: progress.link, type: 'levelup' })
+          // ToDo: put level in levelup message
+
           // 2. and set progress to 0
           commit('modify_stats', { link: progress.link, attrType: 'progress', amount: 0 })
           return

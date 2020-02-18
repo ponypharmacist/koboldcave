@@ -13,7 +13,6 @@
           @click="runAction(action.link)"
           :disabled="actionCheckDisabled(action.link)"
           color="#ECEFF1"
-          retain-focus-on-click
           outlined
           small
         ) {{ action.title }}

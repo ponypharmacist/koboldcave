@@ -1,7 +1,9 @@
 <template lang="pug">
 
 .venture
-  p Venture
+  p
+    b Venture
+  p Types of adventure: combat, stealth, diplomatic, exploration?
 
 </template>
 

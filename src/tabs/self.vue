@@ -46,7 +46,7 @@ export default {
   name: 'self',
 
   computed: {
-    ...mapGetters(['stats', 'statsProgressModifier', 'statsProgressBase', 'statsProgressNeeded'])
+    ...mapGetters(['stats', 'statsProgressNeeded'])
   },
 
   methods: {
