@@ -16,7 +16,7 @@
         v-on="tooltip.on"
         :class="key"
       )
-        .resource-fill(:style="'width: ' + res.count / res.cap * 100 + '%'")
+        .resource-fill(:style="'width: ' + calcFill(res.count, res.cap) + '%'")
         img.resource-image(
           :src="resourceImage(key)"
           width="12px"
@@ -48,6 +48,11 @@ export default Vue.component('resources', {
   methods: {
     resourceImage(name) {
       return require('@/assets/resources/' + name + '.png')
+    },
+
+    calcFill(count, cap) {
+      let percent = (count / cap) * 100
+      return percent >= 100 ? 100 : percent
     }
   }
 })
@@ -81,6 +86,18 @@ export default Vue.component('resources', {
       width: 27px
       height: 5px
       top: -8px
+      left: 84px
+      background: transparent url('~@/assets/resources/divider.png') no-repeat 0 0 / 100% 100%
+
+  &.shekels
+    margin-bottom: 12px
+
+    &::after
+      position: absolute
+      content: ''
+      width: 27px
+      height: 5px
+      bottom: -9px
       left: 84px
       background: transparent url('~@/assets/resources/divider.png') no-repeat 0 0 / 100% 100%
 

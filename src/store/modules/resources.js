@@ -4,6 +4,14 @@ export default {
     resources: {
       // ToDo: shekels, shards, sharp stones, shinies
 
+      shekels: {
+        title: 'Shekels',
+        unlocked: true,
+        count: 8,
+        countRound: 8,
+        rate: 0,
+        cap: 10
+      },
       shrooms: {
         title: 'Shrooms',
         unlocked: false,
