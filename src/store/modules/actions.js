@@ -104,8 +104,8 @@ export default {
       state.actions[link].unlocked = false
     },
 
-    unlock_actions(state, link) {
-      state.actions[link].unlocked = true
+    unlock_actions(state, unlock) {
+      state.actions[unlock.link].unlocked = true
     }
   },
 
@@ -124,7 +124,7 @@ export default {
       if (action.effect) dispatch('applyEffectsOnce', { category: 'actions', link: link })
 
       // Deduce action costs
-      if (action.cost) dispatch('applyCosts', { category: 'actions', link: link })
+      if (action.cost) dispatch('applyCostsOnce', { category: 'actions', link: link })
     },
 
     // List of plot-related unlocks triggered by (action.type: 'plot')
@@ -132,7 +132,7 @@ export default {
       switch (link) {
         // First actions unlocks
         case 'makeCamp':
-          commit('unlock_actions', 'scavengeShrooms')
+          commit('unlock_actions', { link: 'scavengeShrooms' })
           break
         case 'two':
           console.log('two')

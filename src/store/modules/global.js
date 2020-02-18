@@ -9,7 +9,7 @@ export default {
       return state.fps
     },
 
-    getSaveData(state, rootState, rootGetters) {
+    getSaveData(state, rootState) {
       return {
         plot: rootState.plot,
         logs: rootState.logs,
@@ -19,10 +19,8 @@ export default {
         tasks: rootState.tasks,
         activeTask: rootState.activeTask,
         upgrades: rootState.upgrades,
-
-        shelter: rootGetters.shelter, // ToDo: does it work correctly?
-
-        self: rootState.self // ToDo: does it work correctly?
+        buildings: rootState.buildings,
+        stats: rootState.stats
       }
     }
   },
@@ -51,7 +49,7 @@ export default {
 
       for (let category of categories) {
         for (let item in rootGetters[category]) {
-          // Resource type trigger
+          // Resource trigger
           if (
             !rootGetters[category][item].unlocked &&
             rootGetters[category][item].trigger &&
@@ -61,38 +59,44 @@ export default {
             let amount = rootGetters[category][item].trigger.amount
 
             if (rootGetters.resources[resource].countRound >= amount) {
-              commit('unlock_' + category, item)
+              commit('unlock_' + category, { link: item })
               dispatch('pushLogs', { category: category, link: item, type: 'unlock' })
             }
           }
 
-          // ToDo: Link type trigger
+          // ToDo: Link trigger (unlocked by another unlock? can't remember)
         }
       }
 
       // Check for resource unlocks
       for (let item in rootGetters.resources) {
-        if (!rootGetters.resources[item].unlocked && rootGetters.resources[item].count) commit('unlock_resources', item)
+        if (!rootGetters.resources[item].unlocked && rootGetters.resources[item].count) commit('unlock_resources', { link: item })
       }
     },
 
-    // Cost is an array
     applyCosts({ state, commit, rootGetters }, event) {
-      // event = {
-      //   category: String,
-      //   link: String
-      // }
-      let divider = event.category === 'actions' || event.category === 'upgrades' ? 1 : state.fps
-
+      // event = { category: String, link: String }
       for (let i = 0; i < rootGetters[event.category][event.link].cost.length; i++) {
         let cost = rootGetters[event.category][event.link].cost[i]
-
         // 1. Resource costs
-        if (cost.resource) {
-          commit('addResource', { resource: cost.resource, amount: 0 - cost.amount / divider })
-        } else {
-          commit('pushLog', '🔔🔔🔔 No handler for cost type provided in applyCosts() 🔔🔔🔔')
-        }
+        if (cost.resource) commit('addResource', { resource: cost.resource, amount: 0 - cost.amount / state.fps })
+        else commit('pushLog', '🔔🔔🔔 No handler for cost type provided in applyCosts() 🔔🔔🔔')
+        // 2. Motivation/Flux
+        // ToDo: cost types: motivation/flux
+      }
+    },
+
+    applyCostsOnce({ state, commit, rootGetters }, event) {
+      // event = { category: String, link: String, tier: Number }
+      let costsList = rootGetters[event.category][event.link].cost
+
+      if (event.tier) costsList = rootGetters[event.category][event.link].tiers[event.tier].cost
+
+      for (let i = 0; i < costsList.length; i++) {
+        let cost = costsList[i]
+        // 1. Resource costs
+        if (cost.resource) commit('addResource', { resource: cost.resource, amount: 0 - cost.amount })
+        else commit('pushLog', '🔔🔔🔔 No handler for cost type provided in applyCosts() 🔔🔔🔔')
         // ToDo: cost types: motivation/flux
       }
     },
@@ -101,14 +105,10 @@ export default {
       // event = { category: String, link: String }
       for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
         let effect = rootGetters[event.category][event.link].effect[i]
-
         // Apply effect based on effect type
         // 1. Resource effects
-        if (effect.resource) {
-          commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
-        } else {
-          commit('pushLog', '🔔🔔🔔 No handler for effect type provided in applyEffects() 🔔🔔🔔')
-        }
+        if (effect.resource) commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
+        else commit('pushLog', '🔔🔔🔔 No handler for effect type provided in applyEffects() 🔔🔔🔔')
       }
     },
 
@@ -125,7 +125,7 @@ export default {
         // Apply effect based on effect type
         // 1. Unlocks
         if (effect.unlock) {
-          commit('unlock_' + effect.category, effect.link) // unlock target
+          commit('unlock_' + effect.category, { link: effect.link, tier: effect.tier ? effect.tier : null }) // unlock target
 
           // 2. Resource effects
         } else if (effect.resource) {
@@ -178,7 +178,7 @@ export default {
     },
 
     loadSave({ state, commit }, saveData) {
-      const thingsToRemember = ['plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'self', 'shelter']
+      const thingsToRemember = ['plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'stats', 'buildings']
       // Remember stuff from the list above
       thingsToRemember.forEach((i) => commit('remember_' + i, saveData[i]))
       // Remember specific things

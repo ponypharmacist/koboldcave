@@ -121,8 +121,8 @@ export default {
       else state.tasks[item.link][item.attrType] = item.amount
     },
 
-    unlock_tasks(state, link) {
-      state.tasks[link].unlocked = true
+    unlock_tasks(state, unlock) {
+      state.tasks[unlock.link].unlocked = true
     },
 
     block_tasks(state, link) {

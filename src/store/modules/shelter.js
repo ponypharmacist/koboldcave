@@ -5,7 +5,6 @@ export default {
       dwelling: {
         link: 'dwelling',
         level: 0,
-        unlocked: true,
         tiers: [
           /* 0 */ {},
           /* 1 */ {
@@ -18,15 +17,9 @@ export default {
               { resource: 'shroomwood', amount: 2 }
             ],
             effect: [
-              {
-                add: true,
-                category: 'resources',
-                link: 'shrooms',
-                target: 'cap',
-                subtarget: null,
-                amount: 10
-                // title: 'More shroom storage'
-              }
+              { add: true, category: 'resources', link: 'shrooms', target: 'cap', amount: 10 }
+              // subtarget: null
+              // title: 'More shroom storage'
             ],
             provides: [{ type: 'rate', category: 'bars', link: 'motivation', subtarget: null, amount: 0.1 }],
             tooltipFlavor: '20000 steps journey starts with 10000 steps.'
@@ -39,26 +32,8 @@ export default {
               { resource: 'skins', amount: 2 },
               { resource: 'shroomwood', amount: 3 }
             ],
-            effect: [
-              {
-                add: true,
-                category: 'resources',
-                link: 'shrooms',
-                target: 'cap',
-                subtarget: null,
-                amount: 20
-                // title: 'More shroom storage'
-              }
-            ],
-            provides: [
-              {
-                type: 'rate',
-                category: 'bars',
-                link: 'motivation',
-                subtarget: null,
-                amount: 0.2
-              }
-            ]
+            effect: [{ add: true, category: 'resources', link: 'shrooms', target: 'cap', amount: 20 }],
+            provides: [{ type: 'rate', category: 'bars', link: 'motivation', amount: 0.2 }]
           },
           /* 3 */ {
             title: 'Villa',
@@ -68,34 +43,15 @@ export default {
               { resource: 'skins', amount: 3 },
               { resource: 'shroomwood', amount: 4 }
             ],
-            effect: [
-              {
-                add: true,
-                category: 'resources',
-                link: 'shrooms',
-                target: 'cap',
-                subtarget: null,
-                amount: 30
-                // title: 'More shroom storage'
-              }
-            ],
-            provides: [
-              {
-                type: 'rate',
-                category: 'bars',
-                link: 'motivation',
-                subtarget: null,
-                amount: 0.3
-              }
-            ]
+            effect: [{ add: true, category: 'resources', link: 'shrooms', target: 'cap', amount: 30 }],
+            provides: [{ type: 'rate', category: 'bars', link: 'motivation', amount: 0.3 }]
           }
         ]
       },
 
       craftstation: {
         link: 'craftstation',
-        level: 1,
-        unlocked: true,
+        level: 0,
         tiers: [
           /* 0 */ {},
           /* 1 */ {
@@ -129,17 +85,22 @@ export default {
             effect: []
           }
         ]
-      }
+      },
 
-      // ToDo: shroomPlots, also upgrades refer here
+      well: {
+        title: 'Water Hole',
+        link: 'well',
+        description: 'Your source of fresh water.',
+        level: 0,
+        unlocked: true,
+        cost: [{ resource: 'shrooms', amount: 5 }],
+        effect: [{ add: true, category: 'resources', link: 'shrooms', target: 'cap', amount: 100 }],
+        provides: [{ type: 'rate', category: 'bars', link: 'motivation', amount: 0.3 }]
+      }
     }
   },
 
   getters: {
-    shelter(state) {
-      return state
-    },
-
     buildings(state) {
       return state.buildings
     },
@@ -147,10 +108,10 @@ export default {
     buildingsUnlocked(state) {
       let arr = []
 
-      for (const building in state.buildings) {
-        if (state.buildings[building].unlocked && !state.buildings[building].blocked) {
-          arr.push(state.buildings[building])
-        }
+      for (const item in state.buildings) {
+        let building = state.buildings[item]
+
+        if ((building.tiers && building.tiers[1].unlocked) || (building.unlocked && !building.blocked)) arr.push(building)
       }
 
       return arr
@@ -158,8 +119,8 @@ export default {
   },
 
   mutations: {
-    remember_shelter(state, savedShelter) {
-      state = savedShelter
+    remember_buildings(state, savedBuildings) {
+      state.buildings = savedBuildings
     },
 
     modify_buildings(state, item) {
@@ -169,18 +130,22 @@ export default {
       // amount: Number
       // }
       state.buildings[item.link][item.attrType] = item.amount
+    },
+
+    unlock_buildings(state, unlock) {
+      if (unlock.tier) state.buildings[unlock.link].tiers[unlock.tier].unlocked = true
+      else state.buildings[unlock.link].unlocked = true
     }
   },
 
   actions: {
     upgradeBuilding({ state, commit, dispatch }, building) {
       // building: { link: String, level: Number }
-      // ToDo: apply costs
-      // ToDo: apply effects
-      dispatch('applyEffectsOnce', { category: 'buildings', link: building.link, tier: building.level })
+      dispatch('applyCostsOnce', { category: 'buildings', link: building.link, tier: building.level ? building.level : null })
 
+      dispatch('applyEffectsOnce', { category: 'buildings', link: building.link, tier: building.level ? building.level : null })
       // Level Up
-      commit('modify_buildings', { link: building.link, attrType: 'level', amount: building.level })
+      commit('modify_buildings', { link: building.link, attrType: 'level', amount: building.level ? building.level : 1 })
     }
   }
 }

@@ -84,10 +84,6 @@ export default {
   },
 
   getters: {
-    self(state) {
-      return state
-    },
-
     stats(state) {
       return state.stats
     },
@@ -109,8 +105,8 @@ export default {
   },
 
   mutations: {
-    remember_self(state, savedSelf) {
-      state = savedSelf
+    remember_stats(state, savedStats) {
+      state.stats = savedStats
     },
 
     modify_stats(state, item) {
@@ -171,7 +167,7 @@ export default {
     },
 
     refillBars({ state, commit, rootGetters }) {
-      // ToDo: poll bonus refill rate providers (e.g. buildings)
+      // ToDo: poll refill rate bonus providers (e.g. buildings)
       for (let item in state.bars) {
         const bar = state.bars[item]
 

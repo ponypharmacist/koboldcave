@@ -52,6 +52,39 @@ export default {
         tooltipText: 'A way to fertilize cave walls with moisture and guano.',
         unlockMessage: 'Maybe shrooms 🍄 will grow better that way...',
         boughtMessage: 'Upgrade bought'
+      },
+
+      craftstation1: {
+        title: 'Unlock CStation I',
+        link: 'craftstation1',
+        unlocked: true,
+        bought: false,
+        cost: [{ resource: 'shrooms', amount: 5 }],
+        effect: [{ unlock: true, category: 'buildings', link: 'craftstation', tier: 1 }],
+        tooltipText: 'Unlock tier 1 craftstation.',
+        boughtMessage: 'Tier 1 <b class="highlight">Craftstation</b> unlocked.'
+      },
+
+      craftstation2: {
+        title: 'Unlock CStation II',
+        link: 'craftstation2',
+        unlocked: true,
+        bought: false,
+        cost: [{ resource: 'shrooms', amount: 5 }],
+        effect: [{ unlock: true, category: 'buildings', link: 'craftstation', tier: 2 }],
+        tooltipText: 'Unlock tier II craftstation.',
+        boughtMessage: '<b class="highlight">Craftstation II</b> unlocked.'
+      },
+
+      craftstation3: {
+        title: 'Unlock CStation III',
+        link: 'craftstation3',
+        unlocked: true,
+        bought: false,
+        cost: [{ resource: 'shrooms', amount: 5 }],
+        effect: [{ unlock: true, category: 'buildings', link: 'craftstation', tier: 3 }],
+        tooltipText: 'Unlock tier III craftstation.',
+        boughtMessage: '<b class="highlight">Craftstation III</b> unlocked.'
       }
     }
   },
@@ -79,8 +112,8 @@ export default {
       state.upgrades = payload
     },
 
-    unlock_upgrades(state, link) {
-      state.upgrades[link].unlocked = true
+    unlock_upgrades(state, unlock) {
+      state.upgrades[unlock.link].unlocked = true
     },
 
     block_upgrades(state, link) {
@@ -91,7 +124,7 @@ export default {
   actions: {
     runUpgrade({ state, commit, dispatch, rootGetters }, link) {
       // Apply costs
-      dispatch('applyCosts', { category: 'upgrades', link: link })
+      dispatch('applyCostsOnce', { category: 'upgrades', link: link })
       // Apply effects
       dispatch('applyEffectsOnce', { category: 'upgrades', link: link })
       // Disable source upgrade

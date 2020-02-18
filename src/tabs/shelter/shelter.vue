@@ -7,12 +7,13 @@
   )
     .building-info
       img.building-thumb(src="~@/assets/buildings/tent-thumb.gif")
-      .building-title
-        | {{ building.tiers[lvlCurrent(building.level)].title }} 
-        span.building-subtitle(v-if="building.level >= 1")
+      .building-title(:class="{ 'not-built': !building.level }")
+        | {{ building.tiers ? building.tiers[lvlCurrent(building.level)].title : building.title }} 
+        span.building-subtitle(v-if="building.tiers && building.level >= 1")
           | (tier {{ building.level }} {{ building.link }})
       
-      .building-description(v-if="building.level >= 1")
+      // If building is build and has tiers
+      .building-description(v-if="building.tiers && building.level >= 1")
         div {{ building.tiers[lvlCurrent(building.level)].description }}
         div(v-if="building.tiers[lvlCurrent(building.level)].provides") Provides: 
           span.provides(
@@ -22,10 +23,26 @@
             span.highlight {{ providesTextByType(item) }}
             span.comma , 
 
+      // No tiers building
+      .building-description(v-if="!building.tiers && building.level === 1")
+        div {{ building.description }}
+        div(v-if="building.provides") Provides: 
+          span.provides(
+            v-for="(item, key) in building.provides"
+            :key="`building-${building.link}-effect-${key}`"
+            )
+            span.highlight {{ providesTextByType(item) }}
+            span.comma , 
+
 
     // Build/upgrade button
-    .buttons(v-if="building.level < building.tiers.length - 1 && building.tiers[lvlNext(building.level)].unlocked")
-      v-tooltip(content-class="button-tooltip" right)
+    // If building has tiers
+    .buttons(v-if="building.tiers")
+      v-tooltip(
+        v-if="building.level < building.tiers.length - 1 && building.tiers[lvlNext(building.level)].unlocked"
+        content-class="button-tooltip"
+        right
+      )
         template(#activator="tooltip")
           span(v-on="tooltip.on")            
             v-btn(    
@@ -65,9 +82,52 @@
 
           .tooltip-flavor(v-if="building.tiers[building.level + 1].tooltipFlavor")
             | {{ building.tiers[building.level + 1].tooltipFlavor }}
-          
-          //- ToDo: complete tooltip
-          //- :effect="upgrade.effect ? upgrade.effect : null"
+
+    // No tiers building
+    .buttons(v-else)
+      v-tooltip(
+        v-if="building.unlocked && building.level < 1"
+        content-class="button-tooltip"
+        right
+      )
+        template(#activator="tooltip")
+          span(v-on="tooltip.on")            
+            v-btn(    
+              @click="upgradeBuilding({ link: building.link })"
+              :disabled="upgradeCheckDisabled({ link: building.link })"
+              retain-focus-on-click
+              color="#FFE082"
+              outlined
+              small
+            ) Build
+
+        .tooltip
+          .tooltip-title
+            | Build "
+            span.highlight {{ building.title }}
+            | "
+
+          .tooltip-text {{ building.description }}
+                  
+          .tooltip-text(v-if="building.cost") Requires: 
+            .cost(
+              v-for="(item, key) in building.cost"
+              :key="`building-cost-${key}`"
+              ) {{ item.resource }} {{ item.amount }}
+
+          .tooltip-text(v-if="building.effect") Effect: 
+            .effect(
+              v-for="(item, key) in building.effect"
+              :key="`building-${building.link}-effect-${key}`"
+              ) {{ effectTextByType(item) }}
+
+          .tooltip-text(v-if="building.provides") Provides: 
+            .effect(
+              v-for="(item, key) in building.provides"
+              :key="`building-${building.link}-effect-${key}`"
+              ) {{ providesTextByType(item) }}
+
+          .tooltip-flavor(v-if="building.tooltipFlavor") {{ building.tooltipFlavor }}
 
   p
    b Types: <br>
@@ -98,9 +158,10 @@ export default {
   methods: {
     ...mapActions(['upgradeBuilding']),
 
-    upgradeCheckDisabled(building) {
+    upgradeCheckDisabled(item) {
       // building: { link: String, level: Number }
-      const cost = this.buildings[building.link].tiers[building.level].cost
+      const building = this.buildings[item.link]
+      const cost = building.tiers ? [item.level].cost : building.cost
       if (cost) {
         for (let i = 0; i < cost.length; i++) {
           if (this.resources[cost[i].resource].countRound < cost[i].amount) return true
@@ -152,6 +213,9 @@ export default {
       font-size: 20px
       line-height: 28px
       font-weight: 700
+
+      &.not-built
+        color: #554a60
 
       .building-subtitle
         font-size: 14px

@@ -50,7 +50,6 @@ export default {
         title: 'Venture',
         unlocked: true
       }
-      // ToDo Tabs: venture, scholars, shamans
     }
   },
 
@@ -95,8 +94,8 @@ export default {
       state.disableControls = false
     },
 
-    unlock_tabs(state, link) {
-      state.tabs[link].unlocked = true
+    unlock_tabs(state, unlock) {
+      state.tabs[unlock.link].unlocked = true
     }
   },
 

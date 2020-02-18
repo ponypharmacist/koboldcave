@@ -2,7 +2,7 @@
 export default {
   state: {
     resources: {
-      // ToDo: shekels, shards, sharp stones, shinies
+      // ToDo: flesh ?, shards, sharp stones, shinies
 
       shekels: {
         title: 'Shekels',
@@ -28,28 +28,27 @@ export default {
         rate: 0,
         cap: 200
       },
-      // ToDo: flesh
       skins: {
         title: 'Skins',
         unlocked: true,
-        count: 0,
-        countRound: 0,
+        count: 10,
+        countRound: 10,
         rate: 0,
         cap: 20
       },
       stones: {
         title: 'Stones',
         unlocked: true,
-        count: 0,
-        countRound: 0,
+        count: 10,
+        countRound: 10,
         rate: 0,
         cap: 20
       },
       shroomwood: {
         title: 'Shroom Wood',
         unlocked: true,
-        count: 0,
-        countRound: 0,
+        count: 10,
+        countRound: 10,
         rate: 0,
         cap: 20,
         tooltipFlavor: 'There are no trees underground, though some shrooms grow mighty thick.'
@@ -87,8 +86,8 @@ export default {
       if (resource.countRound !== Math.floor(newCount)) resource.countRound = Math.floor(newCount)
     },
 
-    unlock_resources(state, resource) {
-      state.resources[resource].unlocked = true
+    unlock_resources(state, unlock) {
+      state.resources[unlock.link].unlocked = true
     },
 
     modify_resources(state, item) {
