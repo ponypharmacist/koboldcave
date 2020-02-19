@@ -69,7 +69,7 @@ export default {
         link: 'motivation',
         value: 2,
         cap: 15,
-        rate: 0.5,
+        rate: 0,
         tooltipFlavor: 'Your eagerness to do anything.'
       },
       flux: {
@@ -127,8 +127,19 @@ export default {
       state.bars[item.link][item.attrType] = item.amount
     },
 
-    bar_value(state, item) {
-      state.bars[item.link].value = item.value
+    addBar(state, item) {
+      // item: { link: String, amount: Number }
+      const bar = state.bars[item.link]
+      item.value
+
+      if (bar.value != bar.cap) {
+        let newValue = bar.value + item.amount
+
+        if (newValue >= bar.cap) newValue = bar.cap
+        if (newValue <= 0) newValue = 0
+
+        state.bars[item.link].value = Number(Math.round(newValue + 'e2') + 'e-2')
+      }
     }
   },
 
@@ -168,19 +179,10 @@ export default {
       commit('modify_stats', { link: progress.link, attrType: 'progress', amount: progressNew })
     },
 
-    refillBars({ state, commit, rootGetters }) {
+    refillBars({ state, commit, dispatch, rootGetters }) {
       // ToDo: poll refill rate bonus providers (e.g. buildings)
       for (let item in state.bars) {
-        const bar = state.bars[item]
-
-        if (bar.value != bar.cap) {
-          let newValue = bar.value + bar.rate / rootGetters.fps
-
-          if (newValue >= bar.cap) newValue = bar.cap
-          if (newValue <= 0) newValue = 0
-
-          commit('bar_value', { link: bar.link, value: Number(Math.round(newValue + 'e1') + 'e-1') })
-        }
+        commit('addBar', { link: item, amount: state.bars[item].rate / rootGetters.fps })
       }
     }
   }

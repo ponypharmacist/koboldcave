@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable no-unused-vars */
 export default {
   state: {
@@ -80,9 +81,10 @@ export default {
         let cost = rootGetters[event.category][event.link].cost[i]
         // 1. Resource costs
         if (cost.resource) commit('addResource', { resource: cost.resource, amount: 0 - cost.amount / state.fps })
+        // 2. Bars refill
+        else if (cost.bars) commit('addBar', { link: cost.bars, amount: 0 - cost.amount / state.fps })
+        // Other variants go here
         else commit('pushLog', '🔔🔔🔔 No handler for cost type provided in applyCosts() 🔔🔔🔔')
-        // 2. Motivation/Flux
-        // ToDo: cost types: motivation/flux
       }
     },
 
@@ -101,13 +103,16 @@ export default {
       }
     },
 
-    applyEffects({ state, commit, rootGetters }, event) {
+    applyEffects({ state, commit, dispatch, rootGetters }, event) {
       // event = { category: String, link: String }
       for (let i = 0; i < rootGetters[event.category][event.link].effect.length; i++) {
         let effect = rootGetters[event.category][event.link].effect[i]
         // Apply effect based on effect type
         // 1. Resource effects
         if (effect.resource) commit('addResource', { resource: effect.resource, amount: effect.amount / state.fps })
+        // 2. Bars refill
+        else if (effect.bars) commit('addBar', { link: effect.bars, amount: effect.amount / state.fps })
+        // Other variants go here
         else commit('pushLog', '🔔🔔🔔 No handler for effect type provided in applyEffects() 🔔🔔🔔')
       }
     },
@@ -145,6 +150,9 @@ export default {
             subtarget: effect.subtarget,
             amount: effect.amount
           })
+          // 5. Bars refill
+        } else if (effect.bars) {
+          commit('addBar', { link: effect.bars, amount: effect.amount })
           // 0. Other
         } else commit('pushLog', '🔔🔔🔔 applyEffectsOnce: unknown effect type! 🔔🔔🔔')
       }

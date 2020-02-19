@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable no-unused-vars */
 export default {
   state: {
@@ -8,6 +9,7 @@ export default {
         link: 'snooze',
         type: 'indefinite',
         unlocked: true,
+        effect: [{ bars: 'motivation', amount: 0.1 }],
         tooltipText: 'Just chill out and take a nap.'
       },
 
@@ -157,15 +159,15 @@ export default {
 
       // Check if the task costs can be paid
       if (task.cost) {
-        for (let i = 0; i < task.cost.length; i++) {
-          let price = task.cost[i]
-
-          if (rootGetters.resources[price.resource].countRound < price.amount) {
-            commit('toggleTask', link)
-            return
+        for (let item in task.cost) {
+          if (task.cost[item].resource) {
+            let price = task.cost[item]
+            if (rootGetters.resources[price.resource].countRound < price.amount) {
+              commit('toggleTask', link)
+              return
+            }
           }
         }
-
         dispatch('applyCosts', { category: 'tasks', link: link })
       }
 

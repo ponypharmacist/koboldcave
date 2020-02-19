@@ -63,6 +63,7 @@ export default Vue.component('tooltip', {
       if (item.resource) return item.resource + ' ' + item.amount + ' ' + this.effectPostfix
       if (item.unlock || item.multiply || item.add) return item.title
       if (item.progress) return item.stat + ' progress ' + item.progress
+      if (item.bars) return '+' + item.amount + ' ' + item.bars + ' ' + this.effectPostfix
     }
   }
 })
