@@ -53,6 +53,15 @@ export default {
         cap: 20,
         tooltipFlavor: 'There are no trees underground, though some shrooms grow mighty thick.'
       },
+      spiderstring: {
+        title: 'Spider String',
+        unlocked: true,
+        count: 16,
+        countRound: 16,
+        rate: 0,
+        cap: 20,
+        tooltipFlavor: "A slightest slip and you're stuck."
+      },
       insight: {
         title: 'Insight',
         unlocked: false,

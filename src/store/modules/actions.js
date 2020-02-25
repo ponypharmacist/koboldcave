@@ -47,14 +47,13 @@ export default {
         tooltipText: 'Smack, skewer and skin.'
       },
 
-      seekSticks: {
-        title: 'Seek Sticks',
-        link: 'seekSticks',
+      spinWebs: {
+        title: 'Spin Silky Webs',
+        link: 'spinWebs',
         type: 'resource',
-        unlocked: false,
-        effect: [{ resource: 'shrooms', amount: 1 }],
-        cost: [{ resource: 'batshit', amount: 1 }],
-        tooltipText: 'Prepare strong sticks.'
+        unlocked: true,
+        effect: [{ resource: 'spiderstring', amount: 1 }],
+        tooltipText: 'Make sure, there is no spider near.'
       },
 
       contemplate: {
