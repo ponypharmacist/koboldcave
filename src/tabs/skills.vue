@@ -12,6 +12,9 @@
   p Skills affect adventures / business / social / construction / magic / religion.
   p 5 skill levels (to keep things simple), it's better to have more meaningfull skills.
 
+  ul
+    li https://kumodesu.fandom.com/wiki/System/Skills
+
 </template>
 
 <script>
