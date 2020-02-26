@@ -7,6 +7,7 @@ v-app
     .top-menu
       a.new-game(@click="newGame") new game
       a.save-game(@click="saveGame") save game
+      span Ticks: {{ ticksPlayed }}
 
     caveorama
 
@@ -60,7 +61,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['getSaveData', 'plotPoint'])
+    ...mapGetters(['getSaveData', 'plotPoint', 'ticksPlayed'])
   },
 
   methods: {
@@ -121,4 +122,8 @@ $cave-height: 240px
 
       &:hover
         color: $highlight-color
+
+    span
+      color: #555
+      font-size: 11px
 </style>

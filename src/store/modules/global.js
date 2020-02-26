@@ -2,7 +2,11 @@
 /* eslint-disable no-unused-vars */
 export default {
   state: {
-    fps: 2
+    fps: 2,
+
+    gameState: {
+      ticksPlayed: 0
+    }
   },
 
   getters: {
@@ -10,8 +14,17 @@ export default {
       return state.fps
     },
 
+    gameState(state) {
+      return state.gameState
+    },
+
+    ticksPlayed(state) {
+      return state.gameState.ticksPlayed
+    },
+
     getSaveData(state, rootState) {
       return {
+        gameState: rootState.gameState,
         plot: rootState.plot,
         logs: rootState.logs,
 
@@ -26,7 +39,15 @@ export default {
     }
   },
 
-  mutations: {},
+  mutations: {
+    remember_gameState(state, payload) {
+      state.gameState = payload
+    },
+
+    tickPlayed(state) {
+      state.gameState.ticksPlayed++
+    }
+  },
 
   actions: {
     // Main updater event that fires every frame
@@ -43,6 +64,9 @@ export default {
 
       // Refill bars
       dispatch('refillBars')
+
+      // Timekeeping
+      commit('tickPlayed')
     },
 
     checkForUnlocks({ state, commit, dispatch, rootGetters }) {
@@ -228,7 +252,7 @@ export default {
     },
 
     loadSave({ state, commit }, saveData) {
-      const thingsToRemember = ['plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'stats', 'buildings']
+      const thingsToRemember = ['gameState', 'plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'stats', 'buildings']
       // Remember stuff from the list above
       thingsToRemember.forEach((i) => commit('remember_' + i, saveData[i]))
       // Remember specific things

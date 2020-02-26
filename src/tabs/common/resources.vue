@@ -76,6 +76,7 @@ export default Vue.component('resources', {
     border-bottom: 1px solid rgba(255, 224, 130, 0.08)
     border-right: 1px solid rgba(255, 224, 130, 0.08)
     border-radius: 0 4px 4px 0
+    transition: width 500ms linear
 
   &.insight
     margin-top: 12px
