@@ -30,7 +30,7 @@
       .tooltip-title {{ res.tooltipTitle ? res.tooltipTitle : res.title }}
       .tooltip-text {{ res.count }} / {{ res.cap }}
       .tooltip-text(v-if="res.rate")
-        .effect {{ res.rate }}/s
+        .effect {{ res.rate }} per second
       .tooltip-flavor(v-if="res.tooltipFlavor") {{ res.tooltipFlavor }}
 
 </template>

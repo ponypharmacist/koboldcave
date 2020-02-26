@@ -28,6 +28,19 @@ export default {
         progressRate: 1,
         levelupMessage: '<b class="highlight">Mining</b>.'
         // ToDo: put level in levelup message
+      },
+      discipline: {
+        title: 'Discipline',
+        link: 'discipline',
+        unlocked: true,
+        description: 'ToDo: description.',
+        level: 1,
+        cap: 5,
+        progress: 50,
+        progressRate: 1,
+        levelupMessage: '<b class="highlight">Discipline</b>.',
+        provides: [{ add: true, category: 'bars', link: 'flux', target: 'rate', amount: 0.2 }]
+        // ToDo: put level in levelup message
       }
     }
   },
@@ -51,5 +64,12 @@ export default {
     }
   },
 
-  actions: {}
+  actions: {
+    // ToDo: progress skills, like progress stats
+    progress_skills({ state, dispatch }, progress) {
+      console.log(progress)
+
+      dispatch('recalculateRates')
+    }
+  }
 }

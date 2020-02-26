@@ -189,7 +189,7 @@ export default {
     },
 
     providesTextByType(provides) {
-      if (provides.type === 'rate') return '+' + provides.amount + ' ' + provides.link + ' per second'
+      if (provides.target === 'rate') return provides.amount + ' ' + provides.link + ' per second'
     }
   }
 }

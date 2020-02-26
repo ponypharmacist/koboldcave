@@ -158,6 +158,48 @@ export default {
       }
     },
 
+    // Sums up all rate sources for every resource that has applicable rate, then rewrites rate value
+    recalculateRates({ state, rootGetters, commit }) {
+      // Items that have rates
+      const haveRates = ['resources', 'bars']
+
+      for (let item of haveRates) {
+        for (let resource in rootGetters[item]) {
+          let baseRate = rootGetters[item][resource].baseRate
+          let previousRate = rootGetters[item][resource].rate
+          let resultRate = baseRate
+
+          // Poll Rate Sources
+          const rateSources = ['buildings', 'skills']
+
+          for (let sourceCategory of rateSources) {
+            for (let source in rootGetters[sourceCategory]) {
+              let sourceItem = rootGetters[sourceCategory][source]
+              let providesList = []
+              // Get 'provides list' based on source having tiers
+              // Level 0 means that source is not polled
+              if (sourceItem.tiers && sourceItem.level && sourceItem.tiers[sourceItem.level].provides)
+                providesList = sourceItem.tiers[sourceItem.level].provides
+              else if (sourceItem.level && sourceItem.provides) providesList = sourceItem.provides
+
+              // Iterate list of provides for target resource rate
+              for (let providesItem of providesList) {
+                if (providesItem.link === resource && providesItem.target === 'rate') {
+                  if (providesItem.add) resultRate = resultRate + providesItem.amount
+                  else if (providesItem.multiply) resultRate = resultRate * providesItem.amount
+                }
+              }
+            }
+          }
+
+          if (resultRate !== previousRate) {
+            console.log('Rate update: ' + resource + ' -> ' + resultRate)
+            commit('modify_' + item, { link: resource, attrType: 'rate', amount: Number(Math.round(resultRate + 'e2') + 'e-2') })
+          }
+        }
+      }
+    },
+
     // Calculate new attribute value and commit mutations
     mathTargetAttribute({ state, commit, rootGetters }, item) {
       let targetAmount = null
@@ -181,7 +223,7 @@ export default {
         link: item.link,
         attrType: item.target,
         attrIndex: attrIndex,
-        amount: resultAmount
+        amount: Number(Math.round(resultAmount + 'e2') + 'e-2')
       })
     },
 

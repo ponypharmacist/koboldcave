@@ -9,6 +9,7 @@ export default {
         unlocked: true,
         count: 8,
         countRound: 8,
+        baseRate: 0,
         rate: 0,
         cap: 10
       },
@@ -17,6 +18,7 @@ export default {
         unlocked: false,
         count: 0,
         countRound: 0,
+        baseRate: 0,
         rate: 0,
         cap: 200
       },
@@ -25,6 +27,7 @@ export default {
         unlocked: false,
         count: 0,
         countRound: 0,
+        baseRate: 0,
         rate: 0,
         cap: 200
       },
@@ -33,6 +36,7 @@ export default {
         unlocked: true,
         count: 10,
         countRound: 10,
+        baseRate: 0,
         rate: 0,
         cap: 20
       },
@@ -41,6 +45,7 @@ export default {
         unlocked: true,
         count: 10,
         countRound: 10,
+        baseRate: 0,
         rate: 0,
         cap: 20
       },
@@ -49,6 +54,7 @@ export default {
         unlocked: true,
         count: 10,
         countRound: 10,
+        baseRate: 0,
         rate: 0,
         cap: 20,
         tooltipFlavor: 'There are no trees underground, though some shrooms grow mighty thick.'
@@ -58,6 +64,7 @@ export default {
         unlocked: true,
         count: 16,
         countRound: 16,
+        baseRate: 0,
         rate: 0,
         cap: 20,
         tooltipFlavor: "A slightest slip and you're stuck."
@@ -67,6 +74,7 @@ export default {
         unlocked: false,
         count: 0,
         countRound: 0,
+        baseRate: 0,
         rate: 0,
         cap: 10
       }

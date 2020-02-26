@@ -18,7 +18,7 @@ export default {
         link: 'shovelBatshit',
         type: 'indefinite',
         unlocked: false,
-        trigger: { resource: 'shrooms', amount: 100 },
+        trigger: { resource: 'shrooms', amount: 50 },
         effect: [{ resource: 'batshit', amount: 1 }],
         cost: [{ resource: 'shrooms', amount: 0.1 }],
         tooltipText: 'Gather that precious guano.',

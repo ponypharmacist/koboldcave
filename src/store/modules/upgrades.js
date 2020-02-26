@@ -54,6 +54,17 @@ export default {
         boughtMessage: 'Upgrade bought'
       },
 
+      positiveThinking: {
+        title: 'Positive Thinking',
+        link: 'positiveThinking',
+        unlocked: true,
+        bought: false,
+        cost: [{ resource: 'insight', amount: 10 }],
+        effect: [{ add: true, category: 'bars', link: 'motivation', target: 'baseRate', amount: 0.1, title: '+0.1 motivation per second' }],
+        tooltipText: "Be positive, don't be negative.",
+        boughtMessage: 'You discover wonders of <b class="highlight">positive thinking</b>.'
+      },
+
       craftstation1: {
         title: 'Unlock CStation I',
         link: 'craftstation1',

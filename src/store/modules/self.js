@@ -69,6 +69,7 @@ export default {
         link: 'motivation',
         value: 2,
         cap: 15,
+        baseRate: 0,
         rate: 0,
         tooltipFlavor: 'Your eagerness to do anything.'
       },
@@ -77,7 +78,8 @@ export default {
         link: 'flux',
         value: 2,
         cap: 15,
-        rate: 0.2,
+        baseRate: 0,
+        rate: 0,
         tooltipFlavor: 'Your spiritual reserves.'
       }
     }

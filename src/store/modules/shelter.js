@@ -21,7 +21,7 @@ export default {
               // subtarget: null
               // title: 'More shroom storage'
             ],
-            provides: [{ type: 'rate', category: 'bars', link: 'motivation', subtarget: null, amount: 0.1 }],
+            provides: [{ add: true, category: 'bars', link: 'motivation', target: 'rate', amount: 0.1 }],
             tooltipFlavor: '20000 steps journey starts with 10000 steps.'
           },
           /* 2 */ {
@@ -33,7 +33,7 @@ export default {
               { resource: 'shroomwood', amount: 3 }
             ],
             effect: [{ add: true, category: 'resources', link: 'shrooms', target: 'cap', amount: 20 }],
-            provides: [{ type: 'rate', category: 'bars', link: 'motivation', amount: 0.2 }]
+            provides: [{ add: true, category: 'bars', link: 'motivation', target: 'rate', amount: 0.2 }]
           },
           /* 3 */ {
             title: 'Villa',
@@ -44,7 +44,7 @@ export default {
               { resource: 'shroomwood', amount: 4 }
             ],
             effect: [{ add: true, category: 'resources', link: 'shrooms', target: 'cap', amount: 30 }],
-            provides: [{ type: 'rate', category: 'bars', link: 'motivation', amount: 0.3 }]
+            provides: [{ add: true, category: 'bars', link: 'motivation', target: 'rate', amount: 0.3 }]
           }
         ]
       },
@@ -95,7 +95,18 @@ export default {
         unlocked: true,
         cost: [{ resource: 'shrooms', amount: 5 }],
         effect: [{ add: true, category: 'resources', link: 'shrooms', target: 'cap', amount: 100 }],
-        provides: [{ type: 'rate', category: 'bars', link: 'motivation', amount: 0.3 }]
+        provides: [{ add: true, category: 'bars', link: 'motivation', target: 'rate', amount: 0.3 }]
+      },
+
+      spiderFarm: {
+        title: 'Spider Farm',
+        link: 'spiderFarm',
+        description: 'Your source of living nightmares.',
+        level: 0,
+        unlocked: true,
+        cost: [{ resource: 'shrooms', amount: 5 }],
+        effect: [{ add: true, category: 'resources', link: 'spiderstring', target: 'cap', amount: 10 }],
+        provides: [{ add: true, category: 'resources', link: 'spiderstring', target: 'rate', amount: 1 }]
       }
     }
   },
@@ -146,6 +157,8 @@ export default {
       dispatch('applyEffectsOnce', { category: 'buildings', link: building.link, tier: building.level ? building.level : null })
       // Level Up
       commit('modify_buildings', { link: building.link, attrType: 'level', amount: building.level ? building.level : 1 })
+
+      dispatch('recalculateRates')
     }
   }
 }
