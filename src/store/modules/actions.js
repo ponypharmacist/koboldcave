@@ -6,7 +6,7 @@ export default {
         title: 'Make a Camp',
         link: 'makeCamp',
         type: 'plot',
-        unlocked: true,
+        unlocked: false, // true?
         tooltipText: 'Clear a camping spot from stones and dust.'
       },
 
@@ -14,7 +14,7 @@ export default {
         title: 'Scavenge for Shrooms',
         link: 'scavengeShrooms',
         type: 'resource',
-        unlocked: false,
+        unlocked: true, // ToDo: false, unlocks by MakeCamp action
         effect: [{ resource: 'shrooms', amount: 10 }],
         tooltipText: 'Gather juicy bulbs and budges.',
         tooltipFlavor: "'Juicy! Jummy!'"
@@ -70,8 +70,17 @@ export default {
         link: 'trainPower',
         type: 'progress',
         unlocked: true,
-        effect: [{ stat: 'power', progress: 1 }],
+        effect: [{ stats: 'power', progress: 1 }],
         tooltipText: 'Stare into darkness, thinking about better living and quality-of-life improvements.'
+      },
+
+      trainFarming: {
+        title: 'Train Farming',
+        link: 'trainFarming',
+        type: 'progress',
+        unlocked: true,
+        effect: [{ skills: 'farming', progress: 1 }],
+        tooltipText: 'Push your shovel-jitsu to the limits.'
       }
     }
   },

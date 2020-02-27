@@ -4,8 +4,11 @@
   .skill(
     v-for="skill in skillsUnlocked"
     :key="`skill-${skill.link}`"
-  ) {{ skill.title }} {{ skill.level }}
-    .skill-progress(:style="'width: ' + progressFill(skill.progress, skill.link) + '%'")
+  ) 
+    .skill-title {{ skill.title }} 
+      span.highlight lvl.{{ skill.level }}
+    .skill-progress {{ skill.progress }}/{{ skillsProgressNeeded(skill.link) }}
+    .skill-progress-fill(:style="'width: ' + progressFill(skill.progress, skill.link) + '%'")
 
   p Skill levels trigger some unlocks.
   p Skills affect tasks and actions effectiveness/speed/productivity.
@@ -44,16 +47,25 @@ export default {
 
 .skill
   position: relative
+  display: flex
   width: 49%
   height: 40px
   line-height: 30px
   margin-right: 1%
+  margin-bottom: 6px
   padding: 4px 6px 4px 14px
-  font-size: 18px
   border: 1px solid rgba(255, 255, 255, 0.1)
   border-radius: 3px
 
+  .skill-title
+    font-size: 18px
+
   .skill-progress
+    margin-left: auto
+    font-size: 14px
+    color: #554a60
+
+  .skill-progress-fill
     position: absolute
     height: 100%
     top: 0

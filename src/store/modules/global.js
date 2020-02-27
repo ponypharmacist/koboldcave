@@ -162,7 +162,7 @@ export default {
 
           // 3. Progress effects
         } else if (effect.progress) {
-          dispatch('progress_stats', { link: effect.stat, amount: effect.progress })
+          dispatch('applyProgress', effect)
 
           // 4. Multiply or add
         } else if (effect.multiply || effect.add) {
@@ -180,6 +180,11 @@ export default {
           // 0. Other
         } else commit('pushLog', '🔔🔔🔔 applyEffectsOnce: unknown effect type! 🔔🔔🔔')
       }
+    },
+
+    applyProgress({ state, dispatch }, effect) {
+      if (effect.stats) dispatch('progress_stats', { link: effect.stats, amount: effect.progress })
+      else if (effect.skills) dispatch('progress_skills', { link: effect.skills, amount: effect.progress })
     },
 
     // Sums up all rate sources for every resource that has applicable rate, then rewrites rate value

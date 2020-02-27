@@ -12,7 +12,7 @@ export default {
         description: 'Your practical knowledge of growing plants.',
         level: 1,
         cap: 5,
-        progress: 90,
+        progress: 130,
         progressRate: 1,
         levelupMessage: '<b class="highlight">Farming</b>.'
         // ToDo: put level in levelup message
@@ -61,15 +61,53 @@ export default {
   mutations: {
     remember_skills(state, savedSkills) {
       state.skills = savedSkills
+    },
+
+    modify_skills(state, item) {
+      // item = {
+      // link: String,
+      // attrType: String,
+      // amount: Number
+      // }
+      state.skills[item.link][item.attrType] = item.amount
     }
   },
 
   actions: {
-    // ToDo: progress skills, like progress stats
-    progress_skills({ state, dispatch }, progress) {
-      console.log(progress)
+    progress_skills({ state, commit, dispatch, getters }, progress) {
+      // progress: { link: String, amount: 1 }
+      const skill = state.skills[progress.link]
+      // If stat and progress is maxed out -> Do nothing
+      if (skill.level === skill.cap && skill.progress === getters.skillsProgressNeeded(progress.link)) return
 
-      dispatch('recalculateRates')
+      let progressNew = Number(Math.round(skill.progress + progress.amount * skill.progressRate + 'e0') + 'e-0')
+
+      // Check if progress is above needed progress
+      if (progressNew >= getters.skillsProgressNeeded(progress.link)) {
+        // Set new progress value to max needed
+        progressNew = getters.skillsProgressNeeded(progress.link)
+        // Check if stat is at max
+        if (skill.level != skill.cap) {
+          // 1. up stat one level
+          commit('modify_skills', { link: progress.link, attrType: 'level', amount: skill.level + 1 })
+          commit(
+            'pushLog',
+            'Your <b class="highlight">' + skill.title + '</b> skill is now <b class="highlight">lvl.' + skill.level + '</b>.'
+          )
+          dispatch('recalculateRates')
+          // ToDo: put level in levelup message
+
+          // 2. and set progress to 0
+          commit('modify_skills', { link: progress.link, attrType: 'progress', amount: 0 })
+          return
+        } else {
+          // If stat is at cap, just keep progress at max
+          commit('modify_skills', { link: progress.link, attrType: 'progress', amount: progressNew })
+          return
+        }
+      }
+
+      commit('modify_skills', { link: progress.link, attrType: 'progress', amount: progressNew })
     }
   }
 }

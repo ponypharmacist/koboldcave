@@ -24,7 +24,7 @@ $cave-height: 240px
 
 .caveorama
   position: relative
-  width: 1200px
+  width: 1240px
   height: $cave-height
   line-height: $cave-height
   text-align: center

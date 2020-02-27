@@ -61,8 +61,8 @@ export default Vue.component('self-bars', {
   flex-direction: column
   width: 100%
   height: 40px
-  padding: 4px 4px
-  margin-bottom: 8px
+  padding: 2px 4px 3px
+  margin-bottom: 7px
 
     // Stat Progress Bars
   .self-bar-wrap
