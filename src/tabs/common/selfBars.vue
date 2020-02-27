@@ -45,7 +45,7 @@ export default Vue.component('self-bars', {
       if (activeTask.effect && activeTask.effect.find((eff) => eff.bars === link)) {
         rate = rate + activeTask.effect.find((eff) => eff.bars === link).amount
       }
-      if (activeTask.cost && activeTask.cost.find((price) => price.bars === link)) {
+      if (activeTask.cost && activeTask.cost.find((price) => price.bars === link && activeTask.type === 'indefinite')) {
         rate = rate - activeTask.cost.find((price) => price.bars === link).amount
       }
 

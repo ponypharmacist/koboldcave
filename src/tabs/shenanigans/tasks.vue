@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default Vue.component('tasks', {
   name: 'tasks',
@@ -45,20 +45,15 @@ export default Vue.component('tasks', {
   },
 
   methods: {
-    ...mapMutations(['toggleTask']),
+    ...mapActions(['toggleTask']),
 
     checkTasksDisabled(link) {
       const task = this.tasks[link]
 
       // Check if task effect is maxed
       if ((task.type === 'indefinite' || task.type === 'timed') && task.effect) {
-        for (let item in task.effect) {
-          if (task.effect[item].resource) {
-            let resourceName = task.effect[item].resource
-            let resource = this.resources[resourceName]
-
-            if (resource.countRound === resource.cap) return true
-          }
+        for (let item of task.effect) {
+          if (item.resource && this.resources[item.resource].countRound === this.resources[item.resource].cap) return true
         }
       }
     }

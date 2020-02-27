@@ -105,8 +105,8 @@ export default {
         level: 0,
         unlocked: true,
         cost: [{ resource: 'shrooms', amount: 5 }],
-        effect: [{ add: true, category: 'resources', link: 'spiderstring', target: 'cap', amount: 10 }],
-        provides: [{ add: true, category: 'resources', link: 'spiderstring', target: 'rate', amount: 1 }]
+        effect: [{ unlock: true, category: 'tasks', link: 'milkSpiders', title: 'Milk spiders for string directly.' }]
+        // provides: [{ add: true, category: 'resources', link: 'spiderstring', target: 'rate', amount: 1 }]
       }
     }
   },

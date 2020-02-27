@@ -105,7 +105,7 @@ export default {
         let cost = rootGetters[event.category][event.link].cost[i]
         // 1. Resource costs
         if (cost.resource) commit('addResource', { resource: cost.resource, amount: 0 - cost.amount / state.fps })
-        // 2. Bars refill
+        // 2. Bars deplete
         else if (cost.bars) commit('addBar', { link: cost.bars, amount: 0 - cost.amount / state.fps })
         // Other variants go here
         else commit('pushLog', '🔔🔔🔔 No handler for cost type provided in applyCosts() 🔔🔔🔔')
@@ -122,6 +122,8 @@ export default {
         let cost = costsList[i]
         // 1. Resource costs
         if (cost.resource) commit('addResource', { resource: cost.resource, amount: 0 - cost.amount })
+        // 2. Bars deplete
+        else if (cost.bars) commit('addBar', { link: cost.bars, amount: 0 - cost.amount })
         else commit('pushLog', '🔔🔔🔔 No handler for cost type provided in applyCosts() 🔔🔔🔔')
         // ToDo: cost types: motivation/flux
       }

@@ -37,6 +37,22 @@ export default {
         unlockMessage: 'Task available: Cultivate Shrooms.'
       },
 
+      milkSpiders: {
+        title: 'Milk Spiders',
+        link: 'milkSpiders',
+        type: 'timed',
+        unlocked: false,
+        duration: 5,
+        progress: 0,
+        effect: [
+          { resource: 'spiderstring', amount: 1 },
+          { skills: 'farming', progress: 1 }
+        ],
+        cost: [{ bars: 'motivation', amount: 3 }],
+        tooltipText: 'Be gentle, spiders love it.',
+        unlockMessage: 'Task available: <b class="highlight">Milk Spiders</b>.'
+      },
+
       contemplateLife: {
         title: 'Contemplate Life',
         link: 'contemplateLife',
@@ -73,15 +89,7 @@ export default {
     },
 
     tasksUnlocked(state) {
-      let arr = []
-
-      for (let task in state.tasks) {
-        if (state.tasks[task].unlocked && !state.tasks[task].blocked) {
-          arr.push(state.tasks[task])
-        }
-      }
-
-      return arr
+      return Object.values(state.tasks).filter((task) => task.unlocked && !task.blocked)
     },
 
     activeTask(state) {
@@ -105,7 +113,7 @@ export default {
 
   mutations: {
     toggleTask(state, payload) {
-      state.activeTask = state.activeTask === payload ? 'snooze' : payload
+      state.activeTask = payload
     },
 
     remember_tasks(state, payload) {
@@ -141,45 +149,50 @@ export default {
   },
 
   actions: {
-    runActiveTask({ state, commit, dispatch, rootGetters }, link) {
+    toggleTask({ state, commit, dispatch }, link) {
+      if (state.activeTask === link || link === 'snooze') {
+        commit('toggleTask', 'snooze')
+      } else {
+        const task = state.tasks[link]
+        // check if new task has progress
+        if (!task.progress && task.cost) {
+          // pay costs once
+          dispatch('applyCostsOnce', { category: 'tasks', link: link })
+        }
+        commit('toggleTask', link)
+      }
+    },
+
+    runActiveTask({ state, dispatch, rootGetters }, link) {
       const task = state.tasks[link]
 
       // Check if task effect is maxed
-      for (let item in task.effect) {
-        if (task.effect[item].resource) {
-          let resourceName = task.effect[item].resource
-          let resource = rootGetters.resources[resourceName]
-
-          if (resource.countRound === resource.cap) {
-            commit('toggleTask', link)
-            return
-          }
+      for (let item of task.effect) {
+        if (item.resource && rootGetters.resources[item.resource].countRound === rootGetters.resources[item.resource].cap) {
+          dispatch('toggleTask', link)
+          return
         }
       }
 
       // Check if the task costs can be paid
-      if (task.cost) {
-        for (let item in task.cost) {
-          if (task.cost[item].resource) {
-            let price = task.cost[item]
-            if (rootGetters.resources[price.resource].countRound < price.amount) {
-              commit('toggleTask', link)
-              return
-            }
+      if (task.type === 'indefinite' && task.cost) {
+        for (let item of task.cost) {
+          if (
+            (item.resource && rootGetters.resources[item.resource].countRound < item.amount) ||
+            (item.bars && rootGetters.bars[item.bars].value < item.amount)
+          ) {
+            dispatch('toggleTask', link)
+            return
           }
         }
         dispatch('applyCosts', { category: 'tasks', link: link })
       }
 
       // Apply task effects
-      if (task.type === 'indefinite' && task.effect) {
-        dispatch('applyEffects', { category: 'tasks', link: link })
-      }
+      if (task.type === 'indefinite' && task.effect) dispatch('applyEffects', { category: 'tasks', link: link })
 
       // Increment progress count
-      if (task.type === 'timed') {
-        dispatch('incrementTaskProgress', link)
-      }
+      if (task.type === 'timed') dispatch('incrementTaskProgress', link)
     },
 
     incrementTaskProgress({ state, commit, dispatch, rootGetters }, link) {
