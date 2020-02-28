@@ -2,10 +2,11 @@
 
 .navigation-tabs
   .tab(
-    v-for="item in tabs"
-    :key="`tab-${item.name}`"
-    @click="switchTab(item.name)"
-    :class="{ current: tab === item.name }"
+    v-for="(item, key) in tabs"
+    :key="`tab-${key}`"
+    v-show="item.unlocked"
+    @click="switchTab(key)"
+    :class="{ current: tab === key }"
   ) {{ item.title }}
 
 </template>
@@ -27,10 +28,10 @@ export default Vue.component('navigation', {
   },
 
   methods: {
-    switchTab(name) {
-      if (this.tab !== name) {
-        this.tab = name
-        this.$router.push({ name: name })
+    switchTab(key) {
+      if (this.tab !== key) {
+        this.tab = key
+        this.$router.push({ name: key })
       }
     }
   }

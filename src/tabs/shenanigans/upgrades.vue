@@ -12,7 +12,7 @@
         v-btn.upgrade-button(
           @click="runUpgrade(upgrade.link)"
           :disabled="upgradeCheckDisabled(upgrade.link)"
-          color="#ECEFF1"
+          color="#a7e9af"
           retain-focus-on-click
           outlined
           small

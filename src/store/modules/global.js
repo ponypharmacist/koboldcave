@@ -5,7 +5,22 @@ export default {
     fps: 2,
 
     gameState: {
-      ticksPlayed: 0
+      ticksPlayed: 0,
+      plotPoint: 5,
+      disableControls: false,
+      logs: []
+    },
+
+    tabs: {
+      shenanigans: { title: 'Shenanigans', unlocked: true },
+      self: { title: 'Self', unlocked: true },
+      skills: { title: 'Skills', unlocked: true },
+      shelter: { title: 'Shelter', unlocked: true },
+      tribe: { title: 'Tribe', unlocked: true },
+      science: { title: 'Science', unlocked: true },
+      shamanism: { title: 'Shamanism', unlocked: true },
+      shrine: { title: 'Shrine', unlocked: true },
+      venture: { title: 'Venture', unlocked: true }
     }
   },
 
@@ -22,11 +37,25 @@ export default {
       return state.gameState.ticksPlayed
     },
 
+    plotPoint(state) {
+      return state.gameState.plotPoint
+    },
+
+    disableControls(state) {
+      return state.gameState.disableControls
+    },
+
+    logs(state) {
+      return state.gameState.logs
+    },
+
+    tabs(state) {
+      return state.tabs
+    },
+
     getSaveData(state, rootState) {
       return {
         gameState: rootState.gameState,
-        plot: rootState.plot,
-        logs: rootState.logs,
 
         resources: rootState.resources,
         actions: rootState.actions,
@@ -44,8 +73,28 @@ export default {
       state.gameState = payload
     },
 
-    tickPlayed(state) {
+    incrementTick(state) {
       state.gameState.ticksPlayed++
+    },
+
+    incrementPlotPoint(state) {
+      state.plotPoint++
+    },
+
+    disableControls(state) {
+      state.gameState.disableControls = true
+    },
+
+    enableControls(state) {
+      state.gameState.disableControls = false
+    },
+
+    pushLog(state, text) {
+      state.gameState.logs.unshift({ text: text })
+    },
+
+    unlock_tabs(state, unlock) {
+      state.tabs[unlock.link].unlocked = true
     }
   },
 
@@ -66,7 +115,7 @@ export default {
       dispatch('refillBars')
 
       // Timekeeping
-      commit('tickPlayed')
+      commit('incrementTick')
     },
 
     checkForUnlocks({ state, commit, dispatch, rootGetters }) {
@@ -97,6 +146,18 @@ export default {
       for (let item in rootGetters.resources) {
         if (!rootGetters.resources[item].unlocked && rootGetters.resources[item].count) commit('unlock_resources', { link: item })
       }
+    },
+
+    advancePlot({ commit }) {
+      commit('disableControls')
+      commit('incrementPlotPoint')
+      commit('enableControls')
+    },
+
+    pushLogs({ state, commit, rootGetters }, item) {
+      // item: { category: String, link: String, type: String }
+      const text = rootGetters[item.category][item.link][item.type + 'Message']
+      commit('pushLog', text)
     },
 
     applyCosts({ state, commit, rootGetters }, event) {
@@ -259,7 +320,7 @@ export default {
     },
 
     loadSave({ state, commit }, saveData) {
-      const thingsToRemember = ['gameState', 'plot', 'logs', 'resources', 'actions', 'tasks', 'upgrades', 'stats', 'buildings']
+      const thingsToRemember = ['gameState', 'resources', 'actions', 'tasks', 'upgrades', 'stats', 'buildings']
       // Remember stuff from the list above
       thingsToRemember.forEach((i) => commit('remember_' + i, saveData[i]))
       // Remember specific things

@@ -9,7 +9,7 @@ let routes = [
     children: [
       {
         path: 'shenanigans',
-        component: require('~/tabs/shenanigans').default,
+        component: require('~/tabs/shenanigans/shenanigans').default,
         name: 'shenanigans'
       },
       {

@@ -3,8 +3,6 @@ import Vuex from 'vuex'
 
 // General stuff
 import global from './modules/global'
-import logs from './modules/logs'
-import plot from './modules/plot'
 
 // Main tab stuff
 import resources from './modules/resources'
@@ -23,8 +21,6 @@ export default new Vuex.Store({
   modules: {
     // General stuff
     global,
-    logs,
-    plot,
     // Main tab stuff
     resources,
     actions,

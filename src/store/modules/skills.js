@@ -90,10 +90,7 @@ export default {
         if (skill.level != skill.cap) {
           // 1. up stat one level
           commit('modify_skills', { link: progress.link, attrType: 'level', amount: skill.level + 1 })
-          commit(
-            'pushLog',
-            'Your <b class="highlight">' + skill.title + '</b> skill is now <b class="highlight">lvl.' + skill.level + '</b>.'
-          )
+          commit('pushLog', '<b class="highlight">' + skill.title + '</b> skill -> <b class="highlight">lvl.' + skill.level + '</b>')
           dispatch('recalculateRates')
           // ToDo: put level in levelup message
 

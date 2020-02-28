@@ -66,14 +66,14 @@ export default {
       },
 
       craftstation1: {
-        title: 'Unlock CStation I',
+        title: 'Unlock CStation',
         link: 'craftstation1',
         unlocked: true,
         bought: false,
         cost: [{ resource: 'shrooms', amount: 5 }],
         effect: [{ unlock: true, category: 'buildings', link: 'craftstation', tier: 1 }],
-        tooltipText: 'Unlock tier 1 craftstation.',
-        boughtMessage: 'Tier 1 <b class="highlight">Craftstation</b> unlocked.'
+        tooltipText: 'Unlock craftstation.',
+        boughtMessage: '<b class="highlight">Craftstation</b> unlocked.'
       },
 
       craftstation2: {

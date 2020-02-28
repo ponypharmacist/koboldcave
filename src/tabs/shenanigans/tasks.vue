@@ -67,5 +67,5 @@ export default Vue.component('tasks', {
   flex-wrap: wrap
   justify-content: flex-start
   align-items: center
-  margin-bottom: 6px
+  margin-bottom: 10px
 </style>

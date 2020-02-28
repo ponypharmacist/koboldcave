@@ -6,7 +6,7 @@ export default {
         title: 'Make a Camp',
         link: 'makeCamp',
         type: 'plot',
-        unlocked: false, // true?
+        unlocked: true,
         tooltipText: 'Clear a camping spot from stones and dust.'
       },
 
@@ -14,7 +14,7 @@ export default {
         title: 'Scavenge for Shrooms',
         link: 'scavengeShrooms',
         type: 'resource',
-        unlocked: true, // ToDo: false, unlocks by MakeCamp action
+        unlocked: false,
         effect: [{ resource: 'shrooms', amount: 10 }],
         tooltipText: 'Gather juicy bulbs and budges.',
         tooltipFlavor: "'Juicy! Jummy!'"
