@@ -40,7 +40,6 @@
     .buttons(v-if="building.tiers")
       v-tooltip(
         v-if="building.level < building.tiers.length - 1 && building.tiers[lvlNext(building.level)].unlocked"
-        content-class="button-tooltip"
         right
       )
         template(#activator="tooltip")
@@ -87,7 +86,6 @@
     .buttons(v-else)
       v-tooltip(
         v-if="building.unlocked && building.level < 1"
-        content-class="button-tooltip"
         right
       )
         template(#activator="tooltip")

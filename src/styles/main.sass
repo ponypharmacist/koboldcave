@@ -90,6 +90,7 @@ a
   color: $text-color !important
   caret-color: $text-color !important
 
+// Vuetify buttons
 .v-application .theme--light.v-btn.v-btn--disabled
   color: #666 !important
 
@@ -109,3 +110,26 @@ a
 
 .v-application .v-btn.v-size--small
   font-size: 14px
+
+// Vuetify tooltips
+.v-application .v-tooltip__content
+  max-width: 300px
+  background-color: rgba(0, 0, 0, 1)
+
+.tooltip-title
+  font-weight: 700
+
+.tooltip-text
+  line-height: 100%
+  padding: 4px 0
+
+  .effect
+    color: $highlight-color
+
+  .cost
+    color: $cost-color
+
+.tooltip-flavor
+  line-height: 100%
+  font-style: italic
+  opacity: 0.5

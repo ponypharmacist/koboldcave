@@ -10,6 +10,8 @@
     .skill-progress {{ skill.progress }}/{{ skillsProgressNeeded(skill.link) }}
     .skill-progress-fill(:style="'width: ' + progressFill(skill.progress, skill.link) + '%'")
 
+  // ToDo: skill tooltips!
+
   p Skill levels trigger some unlocks.
   p Skills affect tasks and actions effectiveness/speed/productivity.
   p Skills affect adventures / business / social / construction / magic / religion.

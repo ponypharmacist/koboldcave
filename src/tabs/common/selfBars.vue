@@ -6,7 +6,7 @@
     :key="`bar-${bar.link}`"
     :class="bar.link"
   )
-    v-tooltip(content-class="button-tooltip" top transition="fade-transition")
+    v-tooltip(top transition="fade-transition")
       template(#activator="tooltip")
         .self-bar-wrap(v-on="tooltip.on")
           .self-bar

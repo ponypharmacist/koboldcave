@@ -15,7 +15,7 @@ export default {
       },
       shrooms: {
         title: 'Shrooms',
-        unlocked: false,
+        unlocked: false, // false - for game start
         count: 0,
         countRound: 0,
         baseRate: 0,
@@ -62,8 +62,8 @@ export default {
       spiderstring: {
         title: 'Spider String',
         unlocked: true,
-        count: 16,
-        countRound: 16,
+        count: 6,
+        countRound: 6,
         baseRate: 0,
         rate: 0,
         cap: 20,

@@ -108,11 +108,11 @@ export default {
       // Commit active task
       if (rootGetters.activeTask) dispatch('runActiveTask', rootGetters.activeTask)
 
-      // Check for unlocks
-      dispatch('checkForUnlocks')
-
       // Refill bars
       dispatch('refillBars')
+
+      // Check for unlocks
+      if (state.gameState.ticksPlayed % state.fps === 0) dispatch('checkForUnlocks')
 
       // Timekeeping
       commit('incrementTick')
@@ -122,23 +122,18 @@ export default {
       const categories = ['tasks', 'upgrades']
 
       for (let category of categories) {
-        for (let item in rootGetters[category]) {
-          // Resource trigger
+        for (let item of Object.values(rootGetters[category])) {
           if (
-            !rootGetters[category][item].unlocked &&
-            rootGetters[category][item].trigger &&
-            rootGetters[category][item].trigger.resource
+            !item.unlocked &&
+            item.trigger &&
+            // Resource trigger
+            ((item.trigger.resource && rootGetters.resources[item.trigger.resource].countRound >= item.trigger.amount) ||
+              // Skill level trigger
+              (item.trigger.skill && rootGetters.skills[item.trigger.skill].level >= item.trigger.level))
           ) {
-            let resource = rootGetters[category][item].trigger.resource
-            let amount = rootGetters[category][item].trigger.amount
-
-            if (rootGetters.resources[resource].countRound >= amount) {
-              commit('unlock_' + category, { link: item })
-              dispatch('pushLogs', { category: category, link: item, type: 'unlock' })
-            }
+            commit('unlock_' + category, { link: item.link })
+            dispatch('pushLogs', { category: category, link: item.link, type: 'unlock' })
           }
-
-          // ToDo: Link trigger (unlocked by another unlock? can't remember)
         }
       }
 
@@ -211,9 +206,7 @@ export default {
 
       if (event.tier) effectsList = rootGetters[event.category][event.link].tiers[event.tier].effect
 
-      for (let i = 0; i < effectsList.length; i++) {
-        let effect = effectsList[i]
-
+      for (const effect of effectsList) {
         // Apply effect based on effect type
         // 1. Unlocks
         if (effect.unlock) {
@@ -284,9 +277,11 @@ export default {
             }
           }
 
+          resultRate = Number(Math.round(resultRate + 'e2') + 'e-2')
+
           if (resultRate !== previousRate) {
             console.log('Rate update: ' + resource + ' -> ' + resultRate)
-            commit('modify_' + item, { link: resource, attrType: 'rate', amount: Number(Math.round(resultRate + 'e2') + 'e-2') })
+            commit('modify_' + item, { link: resource, attrType: 'rate', amount: resultRate })
           }
         }
       }
@@ -306,7 +301,6 @@ export default {
       } else {
         targetAmount = rootGetters[item.category][item.link][item.target] // e.g. resources.shrooms.cap
       }
-
       // Get final number
       if (item.type === 'multiply') resultAmount = targetAmount * item.amount
       else if (item.type === 'add') resultAmount = targetAmount + item.amount

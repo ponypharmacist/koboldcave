@@ -4,7 +4,6 @@
   v-tooltip(
     v-for="upgrade in upgradesUnlocked"
     :key="`upgrade-${upgrade.link}`"
-    content-class="button-tooltip"
     right
   )
     template(#activator="tooltip")

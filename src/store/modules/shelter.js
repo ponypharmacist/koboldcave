@@ -107,6 +107,17 @@ export default {
         cost: [{ resource: 'shrooms', amount: 5 }],
         effect: [{ unlock: true, category: 'tasks', link: 'milkSpiders', title: 'Milk spiders for string directly.' }]
         // provides: [{ add: true, category: 'resources', link: 'spiderstring', target: 'rate', amount: 1 }]
+      },
+
+      shroomPlot: {
+        title: 'Shroom Plot',
+        link: 'shroomPlot',
+        description: 'Shroom farming plot.',
+        level: 0,
+        unlocked: false,
+        cost: [{ resource: 'shrooms', amount: 50 }],
+        effect: [{ unlock: true, category: 'tasks', link: 'cultivateShrooms', title: 'Sustainable cave agriculture.' }]
+        // provides: [{ add: true, category: 'resources', link: 'spiderstring', target: 'rate', amount: 1 }]
       }
     }
   },
@@ -117,15 +128,9 @@ export default {
     },
 
     buildingsUnlocked(state) {
-      let arr = []
-
-      for (const item in state.buildings) {
-        let building = state.buildings[item]
-
-        if ((building.tiers && building.tiers[1].unlocked) || (building.unlocked && !building.blocked)) arr.push(building)
-      }
-
-      return arr
+      return Object.values(state.buildings).filter(
+        (building) => (building.tiers && building.tiers[1].unlocked) || (building.unlocked && !building.blocked)
+      )
     }
   },
 

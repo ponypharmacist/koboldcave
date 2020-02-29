@@ -51,11 +51,6 @@ export default {
 .task-active
   border-width: 2px
 
-// Button Tooltip
-.button-tooltip
-  max-width: 300px
-  background-color: rgba(0, 0, 0, 1)
-
 // Stuff
 @keyframes rotating
   from

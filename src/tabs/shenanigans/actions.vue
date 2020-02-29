@@ -4,7 +4,6 @@
   v-tooltip(
     v-for="action in actionsUnlocked"
     :key="`action-${action.link}`"
-    content-class="button-tooltip"
     right
   )
     template(#activator="tooltip")

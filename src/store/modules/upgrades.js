@@ -96,6 +96,29 @@ export default {
         effect: [{ unlock: true, category: 'buildings', link: 'craftstation', tier: 3 }],
         tooltipText: 'Unlock tier III craftstation.',
         boughtMessage: '<b class="highlight">Craftstation III</b> unlocked.'
+      },
+
+      selectiveBreeding: {
+        title: 'Selective Breeding',
+        link: 'selectiveBreeding',
+        unlocked: false,
+        bought: false,
+        trigger: { skill: 'farming', level: 2 },
+        cost: [{ resource: 'shrooms', amount: 10 }],
+        effect: [
+          {
+            multiply: true,
+            category: 'tasks',
+            link: 'milkSpiders',
+            target: 'effect',
+            subtarget: 'spiderstring',
+            amount: 2,
+            title: 'More string from spiders'
+          }
+        ],
+        tooltipText: 'ToDo: Selective Breeding tooltip text.',
+        unlockMessage: 'ToDo: Selective Breeding unlockMessage.',
+        boughtMessage: 'ToDo: Selective Breeding boughtMessage.'
       }
     }
   },
@@ -106,15 +129,7 @@ export default {
     },
 
     upgradesUnlocked(state) {
-      let arr = []
-
-      for (let upgrade in state.upgrades) {
-        if (!state.upgrades[upgrade].bought && state.upgrades[upgrade].unlocked) {
-          arr.push(state.upgrades[upgrade])
-        }
-      }
-
-      return arr
+      return Object.values(state.upgrades).filter((upgrade) => upgrade.unlocked && !upgrade.bought)
     }
   },
 
@@ -140,6 +155,8 @@ export default {
       dispatch('applyEffectsOnce', { category: 'upgrades', link: link })
       // Disable source upgrade
       commit('block_upgrades', link)
+      // Recalculate rates
+      dispatch('recalculateRates')
       // Push upgrade bought message
       commit('pushLog', state.upgrades[link].boughtMessage)
     }

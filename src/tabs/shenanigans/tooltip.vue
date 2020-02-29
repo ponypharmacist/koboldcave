@@ -74,22 +74,3 @@ export default Vue.component('tooltip', {
   }
 })
 </script>
-
-<style lang="sass">
-.tooltip-title
-  font-weight: 700
-
-.tooltip-text
-  line-height: 100%
-  padding: 4px 0
-
-  .effect
-    color: $highlight-color
-
-  .cost
-    color: $cost-color
-
-.tooltip-flavor
-  font-style: italic
-  opacity: 0.5
-</style>

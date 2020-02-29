@@ -7,7 +7,6 @@
   v-tooltip(
     v-for="(res, key) in resources"
     :key="`tab-${key}`"
-    content-class="button-tooltip"
     right
   )
     template(#activator="tooltip")

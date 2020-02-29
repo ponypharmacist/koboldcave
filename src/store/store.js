@@ -14,6 +14,7 @@ import upgrades from './modules/upgrades'
 import self from './modules/self'
 import skills from './modules/skills'
 import shelter from './modules/shelter'
+import science from './modules/science'
 
 Vue.use(Vuex)
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     // Other tabs
     self,
     skills,
-    shelter
+    shelter,
+    science
   }
 })

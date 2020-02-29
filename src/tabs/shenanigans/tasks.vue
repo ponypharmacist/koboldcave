@@ -4,7 +4,6 @@
   v-tooltip(
     v-for="task in tasksUnlocked"
     :key="`task-${task.link}`"
-    content-class="button-tooltip"
     right
   )
     template(#activator="tooltip")

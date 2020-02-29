@@ -1,42 +1,57 @@
 <template lang="pug">
 
 .science
-  h4.text-center Active research project: 
   .current-research
-    .cr-left
-      .cr-title Spider Milking Equipment
-        v-icon(
-          color="purple lighten-2"
-          size="16px"
-        ) mdi-sleep
+    .cr-caption.font-bold Active research project: 
+    .cr-title Spider Milking Equipment
+      v-icon(
+        color="purple lighten-2"
+        size="16px"
+      ) mdi-sleep
 
-      .cr-description Elastic leather harness to faciliate string extraction from livestock spiders.
+    .cr-description Elastic leather harness to faciliate string extraction from livestock spiders.
 
-      .cr-bars
-        .cr-bar
-          img(src="~@/assets/resources/insight.png")
-          .cr-bar-bg
-            .cr-bar-fill(style="width: 66%;")
-            .cr-bar-progress 120/200
-        .cr-bar
-          img(src="~@/assets/resources/shrooms.png")
-          .cr-bar-bg
-            .cr-bar-fill(style="width: 66%;")
-            .cr-bar-progress 120/200
-        .cr-bar
-          img(src="~@/assets/resources/shekels.png")
-          .cr-bar-bg
-            .cr-bar-fill(style="width: 66%;")
-            .cr-bar-progress 120/200
+    .cr-bars
+      .cr-bar
+        img(src="~@/assets/resources/insight.png")
+        .cr-bar-bg
+          .cr-bar-fill(style="width: 66%;")
+          .cr-bar-progress 120/200
+      .cr-bar
+        img(src="~@/assets/resources/shrooms.png")
+        .cr-bar-bg
+          .cr-bar-fill(style="width: 66%;")
+          .cr-bar-progress 120/200
+      .cr-bar
+        img(src="~@/assets/resources/shekels.png")
+        .cr-bar-bg
+          .cr-bar-fill(style="width: 66%;")
+          .cr-bar-progress 120/200
 
-    .cr-right
-      v-btn(
-        outlined
-        color="green lighten-1"
-      )
-        span Continue >
+  .research-list
+    .tech(
+      v-for="tech in researchUnlocked"
+      :key="`tech-${tech.link}`"
+    )
+      .tech-left
+        .tech-title {{ tech.title }}
 
-  p Science
+      .tech-right
+        v-tooltip(transition="fade-transition" right)
+          template(#activator="tooltip")
+            span(v-on="tooltip.on")
+              v-btn(
+                color="#FFE082"
+                outlined
+                small
+              ) Research
+
+          .tooltip
+            .tooltip-title {{ tech.title }}
+            .tooltip-text {{ tech.tooltipText }}
+            // ToDo: costs/effects in tech tooltip
+            .tooltip-flavor(v-if="tech.tooltipFlavor") {{ tech.tooltipFlavor }}
+
   p Research comes from personal, tribe, buildings, adventure lore events.
   p Techs just like skills can affect anything.
   p Can unlock upgrades or new types of buildings etc.
@@ -67,8 +82,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'science'
+  name: 'science',
+
+  computed: {
+    ...mapGetters(['resources', 'researchUnlocked'])
+  }
 }
 </script>
 
@@ -76,8 +97,10 @@ export default {
 .science
   padding: 8px 6px
 
+  // Current research
   .current-research
     display: flex
+    flex-direction: column
     align-items: center
     margin: 0 4px 4px 0
     padding: 6px 6px 16px 12px
@@ -85,54 +108,69 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.1)
     border-radius: 3px
 
-    .cr-left
-      margin-right: 16px
+    .cr-caption
+      font-size: 14px
 
-      .cr-title
+    .cr-title
+      display: flex
+      font-size: 20px
+
+      .v-icon
+        align-self: top
+        height: 16px
+        margin-left: 4px
+
+    .cr-description
+      margin-bottom: 6px
+
+    .cr-bars
+      display: flex
+
+      .cr-bar
         display: flex
-        font-size: 20px
+        align-items: center
+        height: 16px
+        margin-right: 18px
 
-        .v-icon
-          align-self: top
-          height: 16px
-          margin-left: 4px
+        img
+          margin-right: 6px
 
-      .cr-description
-        margin-bottom: 6px
+        .cr-bar-bg
+          position: relative
+          width: 150px
+          height: 3px
+          background-color: #554a60
+          border-radius: 1.5px
 
-      .cr-bars
-        display: flex
-
-        .cr-bar
-          display: flex
-          align-items: center
-          height: 16px
-          margin-right: 18px
-
-          img
-            margin-right: 6px
-
-          .cr-bar-bg
-            position: relative
-            width: 100px
+          .cr-bar-fill
+            width: 10%
             height: 3px
-            background-color: #554a60
+            background-color: rgba(255, 224, 130, 0.8)
             border-radius: 1.5px
 
-            .cr-bar-fill
-              width: 10%
-              height: 3px
-              background-color: rgba(255, 224, 130, 0.8)
-              border-radius: 1.5px
+          .cr-bar-progress
+            position: absolute
+            width: 100%
+            bottom: -18px
+            font-size: 12px
+            text-align: center
+            color: #554a60
 
-            .cr-bar-progress
-              position: absolute
-              width: 100%
-              bottom: -18px
-              font-size: 12px
-              text-align: center
-              color: #554a60
+  // Tech list
+  .research-list
+    display: flex
+    flex-wrap: wrap
 
-    .cr-right
-      margin-left: auto
+    .tech
+      display: flex
+      width: calc(50% - 4px)
+      margin: 0 4px 4px 0
+      padding: 6px 6px 6px 12px
+      background-color: rgba(0, 0, 0, 0.25)
+      border: 1px solid rgba(255, 255, 255, 0.1)
+
+    .tech-left
+      display: inline-block
+      margin-right: auto
+      font-size: 18px
 </style>

@@ -21,7 +21,7 @@
       b.stat-level {{ stat.level }}
         span.stat-cap / {{ stat.cap }}
 
-      v-tooltip(content-class="button-tooltip" top transition="fade-transition")
+      v-tooltip(top transition="fade-transition")
         template(#activator="tooltip")
           .stat-progress(v-on="tooltip.on")
             .stat-progress-bar

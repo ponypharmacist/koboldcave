@@ -149,16 +149,11 @@ export default {
   },
 
   actions: {
-    toggleTask({ state, commit, dispatch }, link) {
+    toggleTask({ state, commit, dispatch, rootGetters }, link) {
       if (state.activeTask === link || link === 'snooze') {
         commit('toggleTask', 'snooze')
       } else {
         const task = state.tasks[link]
-        // check if new task has progress
-        if (!task.progress && task.cost) {
-          // pay costs once
-          dispatch('applyCostsOnce', { category: 'tasks', link: link })
-        }
         commit('toggleTask', link)
       }
     },
@@ -173,7 +168,6 @@ export default {
           return
         }
       }
-
       // Check if the task costs can be paid
       if (task.type === 'indefinite' && task.cost) {
         for (let item of task.cost) {
@@ -187,17 +181,28 @@ export default {
         }
         dispatch('applyCosts', { category: 'tasks', link: link })
       }
-
-      // Apply task effects
-      if (task.type === 'indefinite' && task.effect) dispatch('applyEffects', { category: 'tasks', link: link })
-
-      // Increment progress count
+      // 1. Indefinite tasks
+      if (task.type === 'indefinite') dispatch('applyEffects', { category: 'tasks', link: link })
+      // 2. Timed tasks
       if (task.type === 'timed') dispatch('incrementTaskProgress', link)
     },
 
     incrementTaskProgress({ state, commit, dispatch, rootGetters }, link) {
       const task = state.tasks[link]
       let newProgress = Number(Math.round(task.progress + (1 / task.duration / rootGetters.fps) * 100 + 'e2') + 'e-2')
+      // Check if the task costs can be paid
+      if (task.progress === 0 && task.cost) {
+        for (let item of task.cost) {
+          if (
+            (item.resource && rootGetters.resources[item.resource].countRound < item.amount) ||
+            (item.bars && rootGetters.bars[item.bars].value < item.amount)
+          ) {
+            dispatch('toggleTask', link)
+            return
+          }
+        }
+        dispatch('applyCostsOnce', { category: 'tasks', link: link })
+      }
 
       // Task complete
       if (newProgress >= 100) {
