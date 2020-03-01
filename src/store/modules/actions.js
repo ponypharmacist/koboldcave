@@ -91,15 +91,7 @@ export default {
     },
 
     actionsUnlocked(state) {
-      let arr = []
-
-      for (let action in state.actions) {
-        if (state.actions[action].unlocked) {
-          arr.push(state.actions[action])
-        }
-      }
-
-      return arr
+      return Object.values(state.actions).filter((action) => action.unlocked)
     }
   },
 
