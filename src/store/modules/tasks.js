@@ -9,7 +9,10 @@ export default {
         link: 'snooze',
         type: 'indefinite',
         unlocked: true,
-        effect: [{ bars: 'motivation', amount: 0.1 }],
+        effect: [
+          { bars: 'motivation', amount: 0.05 },
+          { bars: 'flux', amount: 0.05 }
+        ],
         tooltipText: 'Just chill out and take a nap.'
       },
 

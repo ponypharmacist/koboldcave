@@ -1,33 +1,21 @@
 <template lang="pug">
 
 .science
+  // Active research project
   .current-research
     .cr-caption.font-bold Active research project: 
-    .cr-title Spider Milking Equipment
-      v-icon(
-        color="purple lighten-2"
-        size="16px"
-      ) mdi-sleep
+    .cr-title {{ researchActive ? researchActive.title : 'none' }}
 
-    .cr-description Elastic leather harness to faciliate string extraction from livestock spiders.
+    .cr-description {{ researchActive ? researchActive.tooltipText : '...' }}
 
-    .cr-bars
-      .cr-bar
-        img(src="~@/assets/resources/insight.png")
+    .cr-bars(v-if="researchActive")
+      .cr-bar(v-for="cost in researchActive.cost")
+        img(:src="resourceImage(cost.resource)")
         .cr-bar-bg
-          .cr-bar-fill(style="width: 66%;")
-          .cr-bar-progress 120/200
-      .cr-bar
-        img(src="~@/assets/resources/shrooms.png")
-        .cr-bar-bg
-          .cr-bar-fill(style="width: 66%;")
-          .cr-bar-progress 120/200
-      .cr-bar
-        img(src="~@/assets/resources/shekels.png")
-        .cr-bar-bg
-          .cr-bar-fill(style="width: 66%;")
-          .cr-bar-progress 120/200
-
+          .cr-bar-fill(:style="'width: ' + cost.progress / cost.amount * 100 + '%;'")
+          .cr-bar-progress {{ cost.progress }} of {{ cost.amount }}
+  
+  // Research list
   .research-list
     .tech(
       v-for="tech in researchUnlocked"
@@ -41,10 +29,16 @@
           template(#activator="tooltip")
             span(v-on="tooltip.on")
               v-btn(
-                color="#FFE082"
+                @click="startResearch(tech.link)"
+                :color="tech.active ? '#a7e9af' : '#FFE082'"
+                :class="{ 'research-active': tech.active }"
                 outlined
                 small
-              ) Research
+              ) {{ tech.active ? 'Pause' : 'Research' }}
+                v-icon.progress-icon(
+                  v-if="tech.active"
+                  size="14px"
+                ) mdi-yin-yang
 
           .tooltip
             .tooltip-title {{ tech.title }}
@@ -82,13 +76,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'science',
 
   computed: {
-    ...mapGetters(['resources', 'researchUnlocked'])
+    ...mapGetters(['resources', 'researchUnlocked', 'researchActive'])
+  },
+
+  methods: {
+    ...mapActions(['startResearch']),
+
+    resourceImage(name) {
+      return require('@/assets/resources/' + name + '.png')
+    }
   }
 }
 </script>
@@ -102,6 +104,7 @@ export default {
     display: flex
     flex-direction: column
     align-items: center
+    height: 120px
     margin: 0 4px 4px 0
     padding: 6px 6px 16px 12px
     background-color: rgba(0, 0, 0, 0.25)
@@ -147,6 +150,7 @@ export default {
             height: 3px
             background-color: rgba(255, 224, 130, 0.8)
             border-radius: 1.5px
+            transition: width 500ms linear
 
           .cr-bar-progress
             position: absolute
@@ -173,4 +177,8 @@ export default {
       display: inline-block
       margin-right: auto
       font-size: 18px
+
+    .tech-right
+      .research-active
+        border-width: 2px
 </style>

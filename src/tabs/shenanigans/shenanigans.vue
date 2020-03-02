@@ -50,15 +50,4 @@ export default {
 .task-button:hover,
 .task-active
   border-width: 2px
-
-// Stuff
-@keyframes rotating
-  from
-    transform: rotate(0deg)
-  to
-    transform: rotate(360deg)
-
-.progress-icon
-  margin-left: 4px
-  animation: rotating 2s linear infinite
 </style>

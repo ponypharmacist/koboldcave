@@ -105,11 +105,14 @@ export default {
       // ToDo: rework rates
       dispatch('updateResourcesWithRate')
 
+      // Refill bars
+      dispatch('refillBars')
+
       // Commit active task
       if (rootGetters.activeTask) dispatch('runActiveTask', rootGetters.activeTask)
 
-      // Refill bars
-      dispatch('refillBars')
+      // Run active research
+      if (rootGetters.researchActive) dispatch('runActiveResearch')
 
       // Check for unlocks
       if (state.gameState.ticksPlayed % state.fps === 0) dispatch('checkForUnlocks')

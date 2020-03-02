@@ -8,8 +8,11 @@ v-app
       a.new-game(@click="newGame") new game
       a.save-game(@click="saveGame") save game
       span Ticks: {{ ticksPlayed }}
+      .show-cave
+        a(@click="showCave = !showCave" ) {{ showCave ? 'hide cave' : 'show cave' }}
+        v-icon(color="#777" size="16px") {{ showCave ? 'mdi-eye-off-outline' : 'mdi-eye-outline' }}
 
-    caveorama
+    caveorama(v-show="showCave")
 
     .interface(v-show="plotPoint >= 3")
       resources
@@ -33,7 +36,8 @@ import MainLoop from './plugins/mainloop'
 export default {
   data: () => {
     return {
-      isLoading: true
+      isLoading: true,
+      showCave: false
     }
   },
 
@@ -100,6 +104,7 @@ $cave-height: 240px
   margin: auto
 
 .app-content
+  width: 1240px
   margin: 0 auto
 
   .interface
@@ -111,6 +116,8 @@ $cave-height: 240px
 
   // Top Menu
   .top-menu
+    display: flex
+    align-items: baseline
     height: 16px
     line-height: 16px
     margin: 2px 0
@@ -126,4 +133,14 @@ $cave-height: 240px
     span
       color: #555
       font-size: 11px
+      line-height: 16px
+
+    .show-cave
+      margin-left: auto
+
+      a
+        margin-right: 6px
+
+      .v-icon
+        text-decoration: none
 </style>
