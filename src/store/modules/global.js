@@ -122,7 +122,7 @@ export default {
     },
 
     checkForUnlocks({ state, commit, dispatch, rootGetters }) {
-      const categories = ['tasks', 'upgrades']
+      const categories = ['tasks', 'upgrades', 'research']
 
       for (let category of categories) {
         for (let item of Object.values(rootGetters[category])) {

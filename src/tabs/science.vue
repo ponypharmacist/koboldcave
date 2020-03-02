@@ -2,7 +2,7 @@
 
 .science
   // Active research project
-  .current-research
+  .current-research.border-gold
     .cr-caption.font-bold Active research project: 
     .cr-title {{ researchActive ? researchActive.title : 'none' }}
 
@@ -108,7 +108,6 @@ export default {
     margin: 0 4px 4px 0
     padding: 6px 6px 16px 12px
     background-color: rgba(0, 0, 0, 0.25)
-    border: 1px solid rgba(255, 255, 255, 0.1)
     border-radius: 3px
 
     .cr-caption

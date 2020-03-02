@@ -43,9 +43,9 @@ export default {
 .action-button,
 .task-button,
 .upgrade-button
-  width: 184px
-  max-width: 184px
-  margin: 4px 6px
+  width: 189px
+  max-width: 189px
+  margin: 4px 4px
 
 .task-button:hover,
 .task-active
