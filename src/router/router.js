@@ -14,7 +14,7 @@ let routes = [
       },
       {
         path: 'self',
-        component: require('~/tabs/self').default,
+        component: require('~/tabs/self/self').default,
         name: 'self'
       },
       {

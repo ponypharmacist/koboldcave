@@ -15,6 +15,7 @@ import self from './modules/self'
 import skills from './modules/skills'
 import shelter from './modules/shelter'
 import science from './modules/science'
+import items from './modules/items'
 
 Vue.use(Vuex)
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
     self,
     skills,
     shelter,
-    science
+    science,
+    items
   }
 })

@@ -41,9 +41,9 @@ export default Vue.component('logs', {
 
 .istone
   position: absolute
-  width: 291px
+  width: 271px
   height: 538px
-  padding: 56px 36px 72px 12px
+  padding: 56px 16px 72px 12px
   background: transparent url('~@/assets/istone.png') no-repeat 0 0 / 100% 100%
 
   .scrollbox
