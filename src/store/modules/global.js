@@ -213,7 +213,7 @@ export default {
         // Apply effect based on effect type
         // 1. Unlocks
         if (effect.unlock) {
-          commit('unlock_' + effect.category, { link: effect.link, tier: effect.tier ? effect.tier : null }) // unlock target
+          commit('unlock_' + effect.category, { link: effect.link, tier: effect.tier || null }) // unlock target
 
           // 2. Resource effects
         } else if (effect.resource) {

@@ -157,11 +157,11 @@ export default {
   actions: {
     upgradeBuilding({ state, commit, dispatch }, building) {
       // building: { link: String, level: Number }
-      dispatch('applyCostsOnce', { category: 'buildings', link: building.link, tier: building.level ? building.level : null })
+      dispatch('applyCostsOnce', { category: 'buildings', link: building.link, tier: building.level || null })
 
-      dispatch('applyEffectsOnce', { category: 'buildings', link: building.link, tier: building.level ? building.level : null })
+      dispatch('applyEffectsOnce', { category: 'buildings', link: building.link, tier: building.level || null })
       // Level Up
-      commit('modify_buildings', { link: building.link, attrType: 'level', amount: building.level ? building.level : 1 })
+      commit('modify_buildings', { link: building.link, attrType: 'level', amount: building.level || 1 })
 
       dispatch('recalculateRates')
     }

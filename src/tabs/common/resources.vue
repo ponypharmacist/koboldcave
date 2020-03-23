@@ -26,7 +26,7 @@
           span.amount-current {{ res.countRound }} 
 
     div
-      .tooltip-title {{ res.tooltipTitle ? res.tooltipTitle : res.title }}
+      .tooltip-title {{ res.tooltipTitle || res.title }}
       .tooltip-text {{ res.count }} / {{ res.cap }}
       .tooltip-text(v-if="res.rate")
         .effect {{ res.rate }} per second

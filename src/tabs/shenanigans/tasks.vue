@@ -27,8 +27,8 @@
       :text="task.tooltipText"
       :type="task.type"
       :effect="task.effect"
-      :cost="task.cost ? task.cost : null"
-      :flavor="task.tooltipFlavor ? task.tooltipFlavor : null"
+      :cost="task.cost || null"
+      :flavor="task.tooltipFlavor || null"
     )
 
 </template>

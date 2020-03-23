@@ -21,9 +21,9 @@
       :title="upgrade.title"
       :text="upgrade.tooltipText"
 
-      :cost="upgrade.cost ? upgrade.cost : null"
-      :effect="upgrade.effect ? upgrade.effect : null"
-      :flavor="upgrade.tooltipFlavor ? upgrade.tooltipFlavor : null"
+      :cost="upgrade.cost || null"
+      :effect="upgrade.effect || null"
+      :flavor="upgrade.tooltipFlavor || null"
     )
 
 </template>

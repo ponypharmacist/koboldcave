@@ -20,8 +20,8 @@
       :title="action.title"
       :text="action.tooltipText"
       :effect="action.effect"
-      :cost="action.cost ? action.cost : null"
-      :flavor="action.tooltipFlavor ? action.tooltipFlavor : null"
+      :cost="action.cost || null"
+      :flavor="action.tooltipFlavor || null"
     )
 
 </template>
